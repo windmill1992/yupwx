@@ -1,40 +1,40 @@
 //index.js
-//获取应用实例
 const app = getApp().globalData;
-const dataUrl = {
+const api = {
 	proList: app.baseUrl + '/yup/yup-rest/pro-index',		//产品列表
 }
 Page({
-  data: {
-    state: 1
-  },
-  onLoad: function () {
+	data: {
+		state: 1
+	},
+	onLoad: function () {
 		this.getProList(1, 10);
-  },
-  getProList: function(pn,ps){
+	},
+	getProList: function (pn, ps) {
+		const that = this;
 		wx.showLoading({
 			title: '加载中...'
-		})
-    wx.request({
-      url: dataUrl.proList,
+		});
+		wx.request({
+			url: api.proList,
 			method: 'GET',
 			header: app.header,
-			data: {pageIndex: pn, pageSize: ps},
+			data: { pageIndex: pn, pageSize: ps },
 			success: res => {
-				if (res.data.resultCode == 200){
+				if (res.data.resultCode == 200) {
 					let r = res.data.resultData;
-					this.setData({ inProcessProList: r.inProcessProList, endProList: r.endProList, todayNewProCount: r.todayNewProCount, allProCount: r.allProCount});
-				}else{
-					this.showToast(res.data.resultMsg);
+					that.setData({ inProcessProList: r.inProcessProList, endProList: r.endProList, todayNewProCount: r.todayNewProCount, allProCount: r.allProCount });
+				} else {
+					that.showToast(res.data.resultMsg);
 				}
 			},
 			fail: () => {
-				this.showToast('未知错误！');
+				that.showToast('未知错误！');
 			},
 			complete: () => {
 				wx.hideLoading()
 			}
-    })
+		})
 	},
 	showToast: function (txt) {
 		const that = this;

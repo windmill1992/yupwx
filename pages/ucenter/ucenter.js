@@ -49,10 +49,7 @@ Page({
         hasUserInfo: true
       })
     } else {
-      wx.showToast({
-        title: '拒绝授权！',
-        icon: 'none'
-      })
+      this.showToast('拒绝授权！')
     }
   },
   onShareAppMessage: function () {
@@ -61,5 +58,17 @@ Page({
       path: '/pages/index/index',
       imageUrl: '../../img/logo.jpg'
     }
-  }
+  },
+	showToast: function (txt) {
+		const that = this;
+		let obj = {};
+		obj.show = true;
+		obj.title = txt;
+		this.setData({ toast: obj });
+		setTimeout(function () {
+			obj.show = false;
+			obj.title = '';
+			that.setData({ toast: obj });
+		}, 2000);
+	}
 })

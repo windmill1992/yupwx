@@ -28,3 +28,4 @@
     <image src='../../img/liwu.png'></image>
   </view>
 </view>
+<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
