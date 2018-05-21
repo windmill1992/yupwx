@@ -1,0 +1,25 @@
+<!--pages/testDetail/testDetail.wxml-->
+<view class='container'>
+  <view class='head'>
+    <view class='icon flex fcen spc'>
+      <image src='../../img/success.png'></image>
+    </view>
+    <view class='txt'>申请成功，分享到朋友圈可提高获奖概率哦！</view>
+    <view class='btn' bindtap='savePhoto'>保存图片</view>
+  </view>
+  <view class='pic-wrapper'>
+    <view class='pic'>
+      <image src='../../img/bao2.png'></image>
+    </view>
+    <view class='foot flex spb fcen'>
+      <view class='adv'>
+        <view class='txt'>我正在YUP新潮申请试用「阿迪达斯限量版男士手提包」你也来一起参与领取吧</view>
+        <view class='tip'>扫描小程序码免费领取！</view>
+      </view>
+      <view class='qrcode'>
+        <image src='../../img/qrcode1.png'></image>
+      </view>
+    </view>
+  </view>
+  <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
+</view>

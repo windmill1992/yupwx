@@ -1,0 +1,144 @@
+/* pages/productDetail/productDetail.wxss */
+
+.container {
+  padding-bottom: 110rpx;
+}
+
+.hd image {
+  width: 100%;
+}
+
+.hd .banner{
+  height: auto;
+}
+
+.cloth-info {
+  padding: 30rpx;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.cloth-info .name {
+  font-size: 36rpx;
+  font-family: 'PingFangSC-Medium';
+  color: #262628;
+  font-weight: 600;
+}
+
+.cloth-info .infos {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 24rpx;
+  margin-top: 20rpx;
+}
+
+.cloth-info .infos text {
+  margin-right: 30rpx;
+}
+
+.wrapper {
+  padding: 30rpx;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.wrapper .title {
+  font-size: 28rpx;
+  color: #000;
+}
+
+.wrapper .apply-wrapper {
+  position: relative;
+}
+
+.wrapper .apply-list {
+  margin-top: 20rpx;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.wrapper .apply-list .item {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 100%;
+  margin-right: 16rpx;
+}
+
+.wrapper .apply-list .item image {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+
+.wrapper .apply-num {
+  height: 56rpx;
+  line-height: 56rpx;
+  font-size: 20rpx;
+  color: #000;
+  padding: 0 10rpx;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #fff;
+}
+
+.wrapper .txt {
+  font-size: 24rpx;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: 1.8;
+  margin-top: 20rpx;
+  text-align: justify;
+}
+
+.wrapper .goods-info {
+  padding: 30rpx 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.wrapper .goods-info .item {
+  height: 44rpx;
+  line-height: 44rpx;
+  padding: 0 20rpx;
+  font-size: 24rpx;
+  margin-right: 20rpx;
+  color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #979797;
+  border-radius: 44rpx;
+}
+
+.wrapper .other-info .item {
+  padding: 28rpx 0;
+  font-size: 24rpx;
+  color: #000;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.wrapper .pics {
+  padding: 30rpx 0;
+}
+
+.wrapper .pics .pic-box {
+  margin-bottom: 20rpx;
+}
+
+.wrapper .pics .pic-box image {
+  width: 100%;
+}
+
+.btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 88rpx;
+}
+
+.btn .nav-btn {
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 28rpx;
+  padding: 0;
+  background: #3d3bee;
+  border-radius: 0;
+  border: none;
+  outline: none;
+}

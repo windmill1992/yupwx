@@ -1,0 +1,116 @@
+{
+	"description": "项目配置文件。",
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "1.6.6",
+	"appid": "wxf53853fc0d818bff",
+	"projectname": "yup",
+	"isGameTourist": false,
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": -1,
+					"name": "pro",
+					"pathName": "pages/progress/progress",
+					"query": ""
+				},
+				{
+					"id": 1,
+					"name": "proDetail",
+					"pathName": "pages/productDetail/productDetail",
+					"query": "id=1&state=1"
+				},
+				{
+					"id": 2,
+					"name": "addr",
+					"pathName": "pages/address/address",
+					"query": "from=apply&proId=1"
+				},
+				{
+					"id": 3,
+					"name": "phone",
+					"pathName": "pages/bindPhone/bindPhone",
+					"query": "from=test&id=1"
+				},
+				{
+					"id": -1,
+					"name": "myaddr",
+					"pathName": "pages/myAddress/myAddress",
+					"query": ""
+				},
+				{
+					"id": 5,
+					"name": "apply",
+					"pathName": "pages/apply/apply",
+					"query": "id=1"
+				},
+				{
+					"id": -1,
+					"name": "applySuc",
+					"pathName": "pages/applySuccess/applySuccess",
+					"query": "id=1"
+				},
+				{
+					"id": -1,
+					"name": "uc",
+					"pathName": "pages/ucenter/ucenter",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "merc",
+					"pathName": "pages/merchant/merchant",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "entry",
+					"pathName": "pages/entryApply/entryApply",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "entrySuc",
+					"pathName": "pages/entrySuccess/entrySuccess",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "about",
+					"pathName": "pages/about/about",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "prog",
+					"pathName": "pages/progress/progress",
+					"query": "id=1"
+				}
+			]
+		}
+	}
+}

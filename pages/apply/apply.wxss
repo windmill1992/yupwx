@@ -1,0 +1,53 @@
+/* pages/apply/apply.wxss */
+@import '../myAddress/myAddress.wxss';
+
+.textarea-placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.addr-list {
+  padding: 0;
+  margin: 30rpx;
+}
+
+.addr-wrapper {
+  height: 198rpx;
+  font-size: 24rpx;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 30rpx;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.declaration {
+  margin: 0 30rpx;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 24rpx;
+  padding: 26rpx 26rpx 28rpx 28rpx;
+}
+
+.area {
+  width: 100%;
+  min-height: 250rpx;
+}
+
+.letter-tip {
+  margin-top: 10rpx;
+  text-align: right;
+}
+
+.btn {
+  position: static;
+  padding: 0 30rpx;
+  margin-top: 40rpx;
+}
+
+.apply-btn {
+  background: #3d3bee;
+  text-align: center;
+  font-size: 28rpx;
+  color: #fff;
+  height: 88rpx;
+  line-height: 88rpx;
+}

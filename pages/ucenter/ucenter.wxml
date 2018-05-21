@@ -1,0 +1,30 @@
+<!--pages/ucenter/ucenter.wxml-->
+<view class='container'>
+  <view class='user-info' wx:if='{{!hasUserInfo && canIUse}}'>
+    <button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='login-btn'>授权登录</button>
+  </view>
+  <view class='user-info' wx:else>
+    <view class='avatar'>
+      <image src='{{userAvatar}}'></image>
+    </view>
+    <view class='nick'>{{nickName}}</view>
+  </view>
+  <view class='menu'>
+    <view class='item'>
+      <navigator url='/pages/myAddress/myAddress' class='nav'>我的地址</navigator>
+    </view>
+    <view class='item'>
+      <button class='btn' open-type='share'>邀请好友</button>
+    </view>
+    <view class='item'>
+      <navigator url='/pages/merchant/merchant' class='nav'>商家入驻</navigator>
+    </view>
+    <view class='item'>
+      <navigator url='/pages/about/about' class='nav'>关于我们</navigator>
+    </view>
+  </view>
+
+  <view class='gift'>
+    <image src='../../img/liwu.png'></image>
+  </view>
+</view>

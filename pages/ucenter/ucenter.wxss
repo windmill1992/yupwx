@@ -1,0 +1,97 @@
+/* pages/ucenter/ucenter.wxss */
+
+.container {
+  overflow: hidden;
+}
+
+.user-info {
+  margin-top: 60rpx;
+  text-align: center;
+}
+
+.login-btn {
+  display: inline-block;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin-top: 45rpx;
+  background: #3d3bee;
+  color: #fff;
+}
+
+.avatar {
+  margin: 0 auto;
+  width: 182rpx;
+  height: 182rpx;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.avatar image {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+
+.nick {
+  margin-top: 36rpx;
+  font-size: 40rpx;
+  color: #000;
+  font-family: 'PingFangSC-Medium';
+  /* font-weight: 600; */
+}
+
+.menu {
+  margin-top: 70rpx;
+  text-align: center;
+}
+
+.item {
+  text-align: center;
+  font-size: 30rpx;
+  color: #000;
+}
+
+.item .nav {
+  display: inline-block;
+  padding: 30rpx;
+  line-height: 1;
+  vertical-align: top;
+}
+
+.item .btn {
+  display: inline-block;
+  padding: 30rpx;
+  margin: 0;
+  line-height: 1;
+  border-radius: 0;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  font-size: 30rpx;
+  color: #000;
+  vertical-align: top;
+}
+
+.item .btn::after {
+  border: none;
+}
+
+.item .btn.button-hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.gift {
+  position: fixed;
+  bottom: 30rpx;
+  right: 30rpx;
+  width: 144rpx;
+  height: 144rpx;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.gift image {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}

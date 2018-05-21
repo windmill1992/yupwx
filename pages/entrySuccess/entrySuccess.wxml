@@ -1,0 +1,7 @@
+<!--pages/entrySuccess/entrySuccess.wxml-->
+<view class='container'>
+  <view class='icon'>
+    <image src='../../img/success2.png'></image>
+  </view>
+  <view class='txt'>提交成功，请耐心等待工作人员联系</view>
+</view>

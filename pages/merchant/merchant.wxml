@@ -1,0 +1,22 @@
+<!--pages/merchant/merchant.wxml-->
+<view class='container'>
+  <view class='why'>
+    <text>为什么加入我们</text>
+  </view>
+  <view class='reasons'>
+    <view class='item'>
+      <view class='num'>01</view>
+      <view class='title'>创新的试用模式</view>
+      <view class='txt'>依托于潮流达人的鲜明的品味风格，推荐能力，优质的内容产出能力粉丝效应等，让我们推荐的试用商品增加附加值，同时用户由传统的购买行为转化为免费试用，让我们的平台从诞生开始就有强大的流量曝光</view>
+    </view>
+    <view class='item'>
+      <view class='num'>02</view>
+      <view class='title'>精准的流量推荐</view>
+      <view class='txt'>YUP新潮开放商家入驻，同时上线初期就拥有百万的粉丝 群体，免费试用加购买的模式让所有商家都有了曝光的机会，潮流的用户群体更精准，保证了曝光的效果
+      </view>
+    </view>
+  </view>
+  <view class='btn-wrapper' catchtap='join'>
+    <view class='btn'>立即加入</view>
+  </view>
+</view>

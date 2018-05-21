@@ -1,0 +1,52 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/ucenter/ucenter",
+    "pages/progress/progress",
+    "pages/logs/logs",
+    "pages/applySuccess/applySuccess",
+    "pages/address/address",
+    "pages/bindPhone/bindPhone",
+    "pages/myAddress/myAddress",
+    "pages/productDetail/productDetail",
+    "pages/apply/apply",
+    "pages/about/about",
+    "pages/merchant/merchant",
+    "pages/entryApply/entryApply",
+    "pages/entrySuccess/entrySuccess"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "YUP新潮",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true
+  },
+  "debug": false,
+  "tabBar": {
+    "color": "#a9a9a9",
+    "selectedColor": "#000",
+    "backgroundColor": "#f3f3f3",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "试用",
+        "iconPath": "img/recommend.png",
+        "selectedIconPath": "img/recommend2.png"
+      },
+      {
+        "pagePath": "pages/progress/progress",
+        "text": "进展",
+        "iconPath": "img/progress.png",
+        "selectedIconPath": "img/progress2.png"
+      },
+      {
+        "pagePath": "pages/ucenter/ucenter",
+        "text": "我的",
+        "iconPath": "img/user.png",
+        "selectedIconPath": "img/user2.png"
+      }
+    ]
+  }
+}

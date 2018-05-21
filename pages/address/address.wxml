@@ -1,0 +1,19 @@
+<!--pages/address/address.wxml-->
+<view class='container'>
+  <view class='title' wx:if='{{!isEdit}}'>添加收货地址</view>
+  <view class='title' wx:else>编辑收货地址</view>
+
+  <view class='info-wrapper'>
+    <input type='text' class='inp' bindinput='getName' value='{{uname}}' placeholder='请输入姓名'></input>
+    <input type='number' maxlength='11' class='inp' bindinput='getPhone' value='{{phone}}' placeholder='请输入手机号'></input>
+    <picker mode='region' class='inp {{addr == "请选择省市区" ? "active":""}}' bindchange='selAddr' value='{{defaultAddr}}'>{{addr}}</picker>
+    <input type='text' class='inp' bindinput='getDetailAddr' value='{{detailAddr}}' placeholder='请输入详细地址'></input>
+  </view>
+  <view class='btn-wrapper' wx:if='{{!isEdit}}'>
+    <view class='btn' bindtap='addAddr'>确认添加</view>
+  </view>
+  <view class='btn-wrapper' wx:else>
+    <view class='btn' bindtap='saveAddr'>保存</view>
+  </view>
+	<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
+</view>

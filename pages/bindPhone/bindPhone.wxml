@@ -1,0 +1,16 @@
+<!--pages/bindPhone/bindPhone.wxml-->
+<view class='container'>
+  <view class='title'>绑定手机号</view>
+
+  <view class='info-wrapper'>
+    <input type='number' class='inp' bindinput='getPhone' maxlength='11' placeholder='请输入手机号'></input>
+    <view class='yzm-box'>
+      <input type='number' class='inp' bindinput='getCode' maxlength='10' placeholder='请输入验证码'></input>
+      <view class='code-btn' catchtap='getCodeTap' wx:if='{{time < 0}}'>获取验证码</view>
+      <view class='code-btn no' wx:else>{{time}}s后再次获取</view>
+    </view>
+  </view>
+  <view class='btn-wrapper'>
+    <view class='btn' bindtap='bindPhone'>立即绑定</view>
+  </view>
+</view>

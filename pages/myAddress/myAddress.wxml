@@ -1,0 +1,35 @@
+<!--pages/myAddress/myAddress.wxml-->
+<view class='container'>
+  <view class='addr-list' wx:if='{{hasAddr}}'>
+    <navigator url='/pages/address/address?id=1' class='item'>
+      <view class='info flex fcen spb'>
+        <view class='name'>张三丰</view>
+        <view class='phone'>13310977889</view>
+      </view>
+      <view class='addr'>浙江省杭州市西湖区互联网金融大厦浙江省杭州市西湖区互联网金融大厦</view>
+      <view class='op'>
+        <view class='op-item'>编辑地址</view>
+      </view>
+    </navigator>
+    <navigator url='/pages/address/address?id=1' class='item'>
+      <view class='info flex fcen spb'>
+        <view class='name'>张三丰</view>
+        <view class='phone'>13310977889</view>
+      </view>
+      <view class='addr'>浙江省杭州市西湖区互联网金融大厦浙江省杭州市西湖区互联网金融大厦</view>
+      <view class='op'>
+        <view class='op-item'>编辑地址</view>
+      </view>
+    </navigator>
+  </view>
+
+  <view class='addr-no' wx:else>
+    <view class='map-pic flex fcen spc'>
+      <image src='../../img/map.png'></image>
+    </view>
+    <view class='tip'>你还没添加收货地址</view>
+    <view class='btn'>
+      <navigator url='/pages/address/address' class='nav-a'>点击添加</navigator>
+    </view>
+  </view>
+</view>

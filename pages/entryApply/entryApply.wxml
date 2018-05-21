@@ -1,0 +1,13 @@
+<!--pages/entryApply/entryApply.wxml-->
+<view class='container'>
+  <view class='title'>入驻申请</view>
+  <view class='info-wrapper'>
+    <input type='text' class='inp' bindinput='getName' placeholder='您的姓名'></input>
+    <input type='number' class='inp' bindinput='getPhone' placeholder='您的手机号'></input>
+    <input type='text' class='inp' bindinput='getWxId' placeholder='您的微信号'></input>
+    <input type='text' class='inp' bindinput='getService' placeholder='经营产品/服务'></input>
+  </view>
+  <view class='btn-wrapper'>
+    <view class='btn' bindtap='submitApply'>提交</view>
+  </view>
+</view>

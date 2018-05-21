@@ -1,0 +1,109 @@
+/* pages/about/about.wxss */
+
+.hd {
+  position: relative;
+  overflow: hidden;
+}
+
+.hd .bg {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.hd .title {
+  margin-top: 120rpx;
+  text-align: center;
+  font-size: 56rpx;
+  color: #fff;
+  font-family: 'PingFangSC-Medium';
+}
+
+.hd .txt {
+  padding: 0 72rpx;
+  margin-top: 120rpx;
+  color: #fff;
+  font-size: 28rpx;
+  line-height: 2.2;
+  letter-spacing: 2rpx;
+}
+
+.intro {
+  margin-top: -180rpx;
+}
+
+.intro .item {
+  display: flex;
+  justify-content: center;
+  transition: left 0.5s ease;
+}
+
+.intro .item.left1 {
+  left: 308rpx;
+}
+
+.intro .item.left2 {
+  left: 616rpx;
+}
+
+.intro .item.right1 {
+  left: -308rpx;
+}
+
+.intro .item.right2 {
+  left: -616rpx;
+}
+
+.intro .item.on {
+  left: 0;
+}
+
+.card-wrapper {
+  background: #fff;
+  box-shadow: 0 0 24rpx 0 rgba(0, 0, 0, .1);
+  width: 400rpx;
+  height: 360rpx;
+  padding: 36rpx 30rpx;
+  box-sizing: border-box;
+}
+
+.card-wrapper .h2 {
+  font-size: 48rpx;
+  color: #000;
+  line-height: 1;
+  margin-bottom: 40rpx;
+}
+
+.card-wrapper .con {
+  font-size: 28rpx;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.8;
+}
+
+.card-wrapper .tag {
+  font-size: 28rpx;
+  margin-top: 40rpx;
+  font-family: 'PingFangSC-Medium';
+  letter-spacing: 1rpx;
+}
+
+.card-wrapper .tag.tag1 {
+  color: #fe5374;
+}
+
+.card-wrapper .tag.tag2 {
+  color: #3d3bee;
+}
+
+.card-wrapper .tag.tag3 {
+  color: #50e3c2;
+}
+
+.wx {
+  text-align: center;
+  font-size: 20rpx;
+  color: #000;
+  margin-top: 48rpx;
+}

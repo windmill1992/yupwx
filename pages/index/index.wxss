@@ -1,0 +1,101 @@
+/**index.wxss**/
+
+.container {
+  padding-bottom: 30rpx;
+}
+
+.goods-wrapper {
+  padding: 0 30rpx;
+  overflow: hidden;
+}
+
+.state {
+  font-size: 48rpx;
+  color: #262628;
+  font-family: 'PingFangSC-Medium';
+  font-weight: 600;
+  margin: 32rpx 0 0;
+}
+
+.tip {
+  font-size: 20rpx;
+  color: rgba(0, 0, 0, 0.3);
+  margin-top: 10rpx;
+}
+
+.goods-list {
+  margin-top: 30rpx;
+}
+
+.goods-list .goods-item {
+  overflow: hidden;
+  margin-bottom: 30rpx;
+}
+
+.pic image {
+  width: 100%;
+  vertical-align: top;
+}
+
+.name {
+  font-size: 36rpx;
+  color: #262628;
+  font-family: 'PingFangSC-Medium';
+  margin-top: 30rpx;
+  font-weight: 600;
+}
+
+.infos {
+  margin-top: 20rpx;
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 24rpx;
+}
+
+.infos text {
+  margin-right: 40rpx;
+}
+
+.apply-box {
+  height: 64rpx;
+  margin-top: 20rpx;
+  position: relative;
+}
+
+.apply-list {
+  margin: 2rpx 0;
+}
+
+.apply-list .item {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 100%;
+  margin-right: 16rpx;
+}
+
+.apply-list .item image {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+
+.apply-num {
+  font-size: 20rpx;
+  color: #000;
+}
+
+.apply-btn {
+  padding: 0 40rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  font-size: 24rpx;
+  color: #fff;
+  border-radius: 64rpx;
+  background: #3d3bee;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.apply-btn.look-btn {
+  background: #4a4a4a;
+}

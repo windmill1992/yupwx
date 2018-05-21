@@ -1,0 +1,103 @@
+<!--pages/productDetail/productDetail.wxml-->
+<view class='container'>
+  <view class='hd'>
+    <swiper class='banner' indicator-dots indicator-color='#606060' indicator-active-color='#fff' autoplay circular style='height: {{height}}px'>
+      <swiper-item class='item' wx:for='{{proInfo.bannerImgList}}' wx:key='banner'>
+        <image src='{{item}}' mode='widthFix' bindload='imgLoad'></image>
+      </swiper-item>
+      <swiper-item class='item'>
+        <image src='../../img/test.png' mode='widthFix' bindload='imgLoad'></image>
+      </swiper-item>
+    </swiper>
+  </view>
+  <view class='bd'>
+    <view class='cloth-info'>
+      <view class='name'>{{proInfo.proName}}</view>
+      <view class='infos'>
+        <text>售价：{{proInfo.sellingPrice}}元</text>
+        <text>数量：{{proInfo.proCount}}件</text>
+        <text wx:if='{{state==2}}'>人数：{{proInfo.a}}人</text>
+      </view>
+    </view>
+    <view class='wrapper'>
+      <view class='title'>申请名单</view>
+      <view class='apply-wrapper'>
+        <view class='apply-list flex fcen'>
+          <view class='item' wx:for='{{proInfo.applyUserList}}' wx:key='au'>
+            <image src='{{item}}'></image>
+          </view>
+          <view class='item'>
+            <image src='../../img/avatar.png'></image>
+          </view>
+          <view class='item'>
+            <image src='../../img/avatar.png'></image>
+          </view>
+        </view>
+        <view class='apply-num'>1234人申请</view>
+      </view>
+    </view>
+    <view class='wrapper' wx:if='{{state==2}}'>
+      <view class='title'>中奖名单</view>
+      <view class='apply-wrapper'>
+        <view class='apply-list flex fcen'>
+          <view class='item' wx:for='{{proInfo.winningUserList}}' wx:key='wu'>
+            <image src='{{item}}'></image>
+          </view>
+          <view class='item'>
+            <image src='../../img/avatar.png'></image>
+          </view>
+          <view class='item'>
+            <image src='../../img/avatar.png'></image>
+          </view>
+          <view class='item'>
+            <image src='../../img/avatar.png'></image>
+          </view>
+        </view>
+        <view class='apply-num'>{{proInfo.winningPeopleNum}}人中奖</view>
+      </view>
+    </view>
+    <view class='wrapper'>
+      <view class='title'>试用规则</view>
+      <view class='txt'>你想穿的跟中国有嘻哈的选手一样吗，程序猿们是不是该穿些有品味有风格的衣服呢，快来租这几件单品吧你想穿的跟中国有嘻哈的选手一样吗，程序猿们是不是该穿些有品味有风格的衣服呢快来租这几件单品吧</view>
+    </view>
+    <view class='wrapper'>
+      <view class='title'>商品信息</view>
+      <view class='goods-info flex'>
+        <view class='item' wx:for='{{proInfo.proInfo.join(",")}}' wx:key='info'>{{item}}</view>
+        <view class='item'>中国</view>
+      </view>
+      <view class='other-info'>
+        <view class='item flex spb fcen'>
+          <view>参考价格</view>
+          <view>¥{{proInfo.consultPrice}}</view>
+        </view>
+        <view class='item flex spb fcen'>
+          <view>品牌</view>
+          <view>{{proInfo.brand}}</view>
+        </view>
+        <view class='item flex spb fcen'>
+          <view>品类</view>
+          <view>{{proInfo.category}}</view>
+        </view>
+        <view class='item flex spb'>
+          <view>材质详情</view>
+          <view>{{proInfo.material}}</view>
+        </view>
+      </view>
+      <view class='pics'>
+        <view class='pic-box'>
+					<image wx:if='{{proInfo.decsImg && proInfo.decsImg != ""}}' src='{{proInfo.decsImg}}' mode='widthFix'></image>
+          <image src='../../img/test2.png' mode='widthFix'></image>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='btn' wx:if='{{state==2}}'>
+    <navigator url='' class='nav-btn'>已结束（未中奖）</navigator>
+  </view>
+  <view class='btn' wx:elif='{{state==1}}'>
+    <button open-type='share' class='nav-btn' wx:if='{{!isShare}}'>分享免费申请（距结束还有{{restTime}}）</button>
+    <view class='nav-btn' bindtap='toApply' wx:else>立即申请</view>
+  </view>
+	<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
+</view>

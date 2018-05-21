@@ -1,0 +1,60 @@
+<!--pages/about/about.wxml-->
+<view class='container'>
+  <view class='hd' style='height: {{height}}px'>
+    <image src='../../img/rectangle4.png' class='bg' mode='widthFix' bindload='setHeight'></image>
+    <view class='title'>关于我们</view>
+    <view class='txt'>YUP新潮是国内领先的潮流品牌试用平台。致 力于通过精选全球优质的潮流品牌，采用免费 试用的形式让潮流触手可及。同时为潮流品牌 商家曝光引流，商品由YUP新潮发货。
+    </view>
+  </view>
+  <view class='intro'>
+    <swiper wx:if='{{!canIUse}}' current='{{cur}}' bindchange='changeItem' style='height: 366rpx;'>
+      <swiper-item class='item {{cur==0? "on" : ""}} {{cur==1?"left1":""}} {{cur==2?"left2":""}}'>
+        <view class='card-wrapper'>
+          <view class='h2'>新潮</view>
+          <view class='con'>所有试用商品均来自于品味独到的时尚达人</view>
+          <view class='tag tag1'>NEW</view>
+        </view>
+      </swiper-item>
+      <swiper-item class='item {{cur==1? "on" : ""}} {{cur==0?"right1":""}} {{cur==2?"left1":""}}'>
+        <view class='card-wrapper'>
+          <view class='h2'>免费</view>
+          <view class='con'>让潮流触手可及，人人都可试穿时尚的潮牌</view>
+          <view class='tag tag2'>FREE</view>
+        </view>
+      </swiper-item>
+      <swiper-item class='item {{cur==2? "on" : ""}} {{cur==0?"right2":""}} {{cur==1?"right1":""}}'>
+        <view class='card-wrapper'>
+          <view class='h2'>限量</view>
+          <view class='con'>试用的不只有普通的潮牌更有全球限量款</view>
+          <view class='tag tag3'>LIMITED</view>
+        </view>
+      </swiper-item>
+    </swiper>
+    <swiper wx:else current='{{cur}}' previous-margin='156rpx' next-margin='156rpx' style='height: 366rpx;'>
+      <swiper-item class='item {{cur==0? "on" : ""}}'>
+        <view class='card-wrapper'>
+          <view class='h2'>新潮</view>
+          <view class='con'>所有试用商品均来自于品味独到的时尚达人</view>
+          <view class='tag tag1'>NEW</view>
+        </view>
+      </swiper-item>
+      <swiper-item class='item {{cur==1? "on" : ""}}'>
+        <view class='card-wrapper'>
+          <view class='h2'>免费</view>
+          <view class='con'>让潮流触手可及，人人都可试穿时尚的潮牌</view>
+          <view class='tag tag2'>FREE</view>
+        </view>
+      </swiper-item>
+      <swiper-item class='item {{cur==2? "on" : ""}}'>
+        <view class='card-wrapper'>
+          <view class='h2'>限量</view>
+          <view class='con'>试用的不只有普通的潮牌更有全球限量款</view>
+          <view class='tag tag3'>LIMITED</view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+  <view class='wx'>
+    <text>微信公众号：YUPXINCHAO</text>
+  </view>
+</view>

@@ -1,0 +1,24 @@
+/* pages/bindPhone/bindPhone.wxss */
+@import "../address/address.wxss";
+
+.yzm-box {
+  position: relative;
+}
+
+.code-btn {
+  position: absolute;
+  right: 0;
+  top: 26rpx;
+  height: 48rpx;
+  line-height: 44rpx;
+  padding: 0 20rpx;
+  font-size: 22rpx;
+  border: 2rpx solid #000;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.code-btn.no {
+  color: #999;
+  border-color: transparent;
+}
