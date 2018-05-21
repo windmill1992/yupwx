@@ -1,8 +1,8 @@
 //index.js
 //获取应用实例
-const app = getApp()
+const app = getApp().globalData;
 const dataUrl = {
-	proList: app.globalData.baseUrl + '/yup/yup-rest/pro-index',		//产品列表
+	proList: app.baseUrl + '/yup/yup-rest/pro-index',		//产品列表
 }
 Page({
   data: {
@@ -18,7 +18,7 @@ Page({
     wx.request({
       url: dataUrl.proList,
 			method: 'GET',
-			header: app.globalData.header,
+			header: app.header,
 			data: {pageIndex: pn, pageSize: ps},
 			success: res => {
 				if (res.data.resultCode == 200){

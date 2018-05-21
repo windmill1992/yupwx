@@ -100,5 +100,5 @@
       </navigator>
     </view>
   </view>
-	<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
 </view>
+<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
