@@ -1,5 +1,8 @@
 // pages/ucenter/ucenter.js
 const app = getApp()
+const api = {
+	login: app.globalData.baseUrl + '/yup/yup-rest/login',	//
+}
 Page({
   data: {
     hasUserInfo: false,
@@ -21,6 +24,7 @@ Page({
             nickName: res.userInfo.nickName,
             hasUserInfo: true
           })
+					this.login()
         }
       } else {
         // 在没有 open-type=getUserInfo 版本的兼容处理
@@ -33,6 +37,7 @@ Page({
               nickName: res.userInfo.nickName,
               hasUserInfo: true
             })
+						this.login()
           }
         })
       }
@@ -47,11 +52,28 @@ Page({
         userAvatar: user.avatarUrl,
         nickName: user.nickName,
         hasUserInfo: true
-      })
+      });
+			this.login()
     } else {
       this.showToast('拒绝授权！')
     }
   },
+	login: function(){
+		wx.login({
+			success: res => {
+				wx.request({
+					url: api.login,
+					method: 'POST',
+					header: app.globalData.header,
+					data: {loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName},
+					success: res1 => {
+						console.log(res1);
+					}
+				})
+
+			}
+		})
+	},
   onShareAppMessage: function () {
     return {
       title: 'YUP新潮',
