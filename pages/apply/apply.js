@@ -1,4 +1,9 @@
 // pages/apply/apply.js
+const app = getApp().globalData;
+const api = {
+	apply: app.baseUrl + '/yup/yup-rest/apply-pro',		//申请产品
+	addr: app.baseUrl + '/yup/yup-rest/',							//获取地址
+}
 Page({
 	data: {
 		hasAddr: 0
@@ -10,6 +15,14 @@ Page({
 			wx.switchTab({
 				url: '/pages/index/index'
 			})
+		}
+	},
+	onShow: function(){
+		let addr = wx.getStorageSync('addr');
+		if(addr){
+			this.setData({ addrInfo: addr, hasAddr: 1 });
+		}else{
+			this.setData({ hasAddr: 0 });
 		}
 	},
 	getAddr: function () {

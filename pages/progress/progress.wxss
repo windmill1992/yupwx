@@ -78,3 +78,18 @@
 .loadmore.no {
   margin: 100rpx 0;
 }
+
+.btn-wrapper{
+	margin: 200rpx 0;
+	padding: 0 60rpx;
+}
+
+.login-btn{
+	width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #fff;
+  background: #3d3bee; 
+}

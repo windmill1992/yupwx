@@ -1,32 +1,43 @@
 // pages/progress/progress.js
 const app = getApp().globalData;
-const dataUrl = {
-	progress: app.baseUrl + '/yup/yup-rest/trial-progress'		//试用进展
+const api = {
+	progress: app.baseUrl + '/yup/yup-rest/trial-progress',		//试用进展
+	login: app.baseUrl + '/yup/yup-rest/login',								//登录
 }
 Page({
 	data: {
 		tab: 1,
 		hasmore: 0,
 		trialList: [],
-		page: 1
+		page: 1,
+		isLogin: false
 	},
 	onLoad: function (options) {
-		this.getProgress(1, 10);
+		// this.getProgress(1, 10);
+	},
+	onShow: function(){
+		let user = wx.getStorageSync('user');
+		if(!user || user == '' || user == null){
+			this.setData({ isLogin: false });
+		}else{
+			this.setData({ isLogin: true, userId: user.userId });
+			this.getProgress(1, 10);
+		}
 	},
 	getProgress: function (pn, ps) {
 		const dd = this.data;
-		app.header.userId = 1;
+		app.header.userId = dd.userId;
 		wx.showLoading({
 			title: '加载中...'
 		})
 		this.setData({ loading: true });
 		wx.request({
-			url: dataUrl.progress,
+			url: api.progress,
 			method: 'GET',
 			header: app.header,
 			data: { trialProgressType: dd.tab, pageIndex: pn, pageSize: ps },
 			success: res => {
-				if (res.data.resultCode == 0) {
+				if (res.data.resultCode == 200) {
 					let r = res.data.resultData;
 					let more = 0;
 					if (r.total == 0) {
@@ -41,11 +52,60 @@ Page({
 					this.setData({ hasmore: 0 });
 					this.showToast(res.data.resultMsg);
 				}
-			}, fail: () => {
+			}, 
+			fail: () => {
 				this.showToast('未知错误！');
-			}, complete: () => {
+			}, 
+			complete: () => {
 				this.setData({ loading: false });
 				wx.hideLoading()
+			}
+		})
+	},
+	getUserInfo: function (e) {
+		if (e.detail.userInfo) {
+			let user = e.detail.userInfo;
+			app.userInfo = user;
+			wx.setStorageSync("userInfo", user);
+			this.setData({
+				userAvatar: user.avatarUrl,
+				nickName: user.nickName
+			});
+			this.login()
+		} else {
+			this.showToast('拒绝授权！')
+		}
+	},
+	login: function () {
+		wx.login({
+			success: res => {
+				wx.request({
+					url: api.login,
+					method: 'POST',
+					header: app.header,
+					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName },
+					success: res1 => {
+						if (res1.data.resultCode == 200) {
+							let r = res1.data.resultData;
+							this.setData({ isLogin: true, userId: r.userId });
+							this.getProgress(1, 10);
+							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
+							wx.setStorage({
+								key: 'user',
+								data: obj
+							})
+						} else {
+							this.setData({ isLogin: false });
+							this.showToast(res1.data.resultMsg);
+						}
+					},
+					fail: () => {
+						this.showToast('未知错误');
+					}
+				})
+			},
+			fail: () => {
+				this.showToast('获取code失败！');
 			}
 		})
 	},

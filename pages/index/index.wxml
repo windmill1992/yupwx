@@ -4,7 +4,7 @@
     <view class='state'>正在进行</view>
     <view class='tip'>今日上新{{todayNewProCount}}件单品</view>
     <view class='goods-list'>
-      <navigator url='/pages/productDetail/productDetail?id={{item.proId}}&state={{item.proStatus}}' class='goods-item' wx:for='{{inProcessProList}}' wx:key='proId'>
+      <view data-id='{{item.proId}}' data-state='{{item.proStatus}}' bindtap='navToDetail' class='goods-item' wx:for='{{inProcessProList}}' wx:key='proId'>
         <view class='pic'>
           <image src='{{item.coverImg}}' mode='widthFix' lazy-load='{{index > 1}}'></image>
         </view>
@@ -20,34 +20,13 @@
             </view>
           </view>
           <view class='apply-num'>{{item.peopleNum}}人申请</view>
-          <view class='apply-btn'>免费申请</view>
+          <view wx:if='{{isLogin}}' class='apply-btn'>
+						<block wx:if='{{!isApplys[item.proId]}}'>免费申请</block>
+						<block wx:else>已申请</block>
+					</view>
+          <button open-type='getUserInfo' bindgetuserinfo='getUserInfo' wx:else class='apply-btn'>登录可申请</button>
         </view>
-      </navigator>
-      <navigator url='/pages/productDetail/productDetail?id=1&state=1' class='goods-item' hover-class='none'>
-        <view class='pic'>
-          <image src='../../img/bao2.png' mode='widthFix'></image>
-        </view>
-        <view class='name'>Supreme&Lv联名款卫衣</view>
-        <view class='infos'>
-          <text>售价：1999元</text>
-          <text>数量：10件</text>
-        </view>
-        <view class='apply-box flex fcen'>
-          <view class='apply-list flex'>
-            <view class='item'>
-              <image src='../../img/avatar.png'></image>
-            </view>
-            <view class='item'>
-              <image src='../../img/avatar.png'></image>
-            </view>
-            <view class='item'>
-              <image src='../../img/avatar.png'></image>
-            </view>
-          </view>
-          <view class='apply-num'>1234人申请</view>
-          <navigator url='/pages/productDetail/productDetail?id=1&state=1' class='apply-btn'>免费申请</navigator>
-        </view>
-      </navigator>
+      </view>
     </view>
   </view>
   <view class='goods-wrapper' wx:if='{{state == 1}}'>
@@ -70,31 +49,6 @@
             </view>
           </view>
           <view class='apply-num'>{{item.peopleNum}}人申请</view>
-          <view class='apply-btn look-btn'>查看详情</view>
-        </view>
-      </navigator>
-      <navigator url='/pages/productDetail/productDetail?id=1&state=1' class='goods-item'>
-        <view class='pic'>
-          <image src='../../img/bao2.png' mode='widthFix' lazy-load></image>
-        </view>
-        <view class='name'>Supreme&Lv联名款卫衣</view>
-        <view class='infos'>
-          <text>售价：1999元</text>
-          <text>数量：10件</text>
-        </view>
-        <view class='apply-box flex fcen'>
-          <view class='apply-list flex'>
-            <view class='item'>
-              <image src='../../img/avatar.png'></image>
-            </view>
-            <view class='item'>
-              <image src='../../img/avatar.png'></image>
-            </view>
-            <view class='item'>
-              <image src='../../img/avatar.png'></image>
-            </view>
-          </view>
-          <view class='apply-num'>1234人申请</view>
           <view class='apply-btn look-btn'>查看详情</view>
         </view>
       </navigator>

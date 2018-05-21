@@ -1,18 +1,6 @@
 //app.js
 App({
 	onLaunch: function () {
-		// 展示本地存储能力
-		// var logs = wx.getStorageSync('logs') || []
-		// logs.unshift(Date.now())
-		// wx.setStorageSync('logs', logs)
-
-		// 登录
-		// wx.login({
-		// 	success: res => {
-		// 		console.log(res);
-		// 		// 发送 res.code 到后台换取 openId, sessionKey, unionId
-		// 	}
-		// })
 		// 获取用户信息
 		wx.getSetting({
 			success: res => {
@@ -30,30 +18,7 @@ App({
 							}
 						}
 					})
-				} else {
-					wx.authorize({
-						scope: 'scope.userInfo',
-						success: res => {
-							this.globalData.userInfo = res.userInfo
-							wx.setStorageSync("userInfo", res.userInfo)
-							if (this.userInfoReadyCallback) {
-								this.userInfoReadyCallback(res)
-							}
-						}
-					})
 				}
-			},
-			fail: res => {
-				wx.authorize({
-					scope: 'scope.userInfo',
-					success: res => {
-						this.globalData.userInfo = res.userInfo
-						wx.setStorageSync("userInfo", res.userInfo)
-						if (this.userInfoReadyCallback) {
-							this.userInfoReadyCallback(res)
-						}
-					}
-				})
 			}
 		})
 	},

@@ -1,21 +1,38 @@
 // pages/productDetail/productDetail.js
 const app = getApp().globalData;
-const dataUrl = {
+const api = {
 	proDetail: app.baseUrl + '/yup/yup-rest/pro-detail',		//商品详情
+	login: app.baseUrl + '/yup/yup-rest/login',							//登录	
+	isApply: app.baseUrl + '/yup/yup-rest/user-is-apply'		//是否已申请
 }
 Page({
 	data: {
 		state: true,
 		restTime: '',
 		height: 500,
-		isShare: false
+		isShare: false,
+		isApply: false
 	},
 	onLoad: function (options) {
 		const that = this;
-		let st = options.state;
-		let id = options.id;
-		this.setData({ state: st, id: id });
+		this.setData({ state: options.state, id: options.id });
+		let user = wx.getStorageSync('user');
+		if (!user || user == '' || user == null) {
+			this.setData({ isLogin: false });
+		} else {
+			this.setData({ isLogin: true, userId: user.userId });
+			this.getIsApply();
+		}
 		this.getProDetail();
+		let shareIds = wx.getStorageSync('shareProIds');
+		if (shareIds && shareIds.length > 0) {
+			for (let i = 0; i < shareIds.length; i++) {
+				if (options.id == shareIds[i]) {
+					this.setData({ isShare: true });
+					break;
+				}
+			}
+		}
 		let time = 123780000;
 		this.getTime(time);
 		let timer = setInterval(function () {
@@ -30,18 +47,82 @@ Page({
 	},
 	getProDetail: function () {
 		wx.request({
-			url: dataUrl.proDetail,
+			url: api.proDetail,
 			method: 'GET',
 			header: app.header,
 			data: { proId: this.data.id },
 			success: res => {
-				if (res.data.resultCode == 0) {
+				if (res.data.resultCode == 200) {
 					this.setData({ proInfo: res.data.resultData });
 				} else {
 					this.showToast(res.data.resultMsg);
 				}
 			}, fail: () => {
 				this.showToast('未知错误！');
+			}
+		})
+	},
+	getIsApply: function () {
+		app.header.userId = this.data.userId;
+		wx.request({
+			url: api.isApply,
+			method: 'POST',
+			header: app.header,
+			data: { proIdList: [this.data.id] },
+			success: res => {
+				if (res.data.resultCode == 200) {
+					this.setData({ isApply: res.data.resultData[this.data.id] });
+				}
+			},
+			complete: () => {
+				app.header.userId = null;
+			}
+		})
+	},
+	getUserInfo: function (e) {
+		if (e.detail.userInfo) {
+			let user = e.detail.userInfo;
+			app.userInfo = user;
+			wx.setStorageSync("userInfo", user);
+			this.setData({
+				userAvatar: user.avatarUrl,
+				nickName: user.nickName
+			});
+			this.login()
+		} else {
+			this.showToast('拒绝授权！')
+		}
+	},
+	login: function () {
+		wx.login({
+			success: res => {
+				wx.request({
+					url: api.login,
+					method: 'POST',
+					header: app.header,
+					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName },
+					success: res1 => {
+						if (res1.data.resultCode == 200) {
+							let r = res1.data.resultData;
+							this.setData({ isLogin: true, userId: r.userId });
+							this.getIsApply();
+							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
+							wx.setStorage({
+								key: 'user',
+								data: obj
+							})
+						} else {
+							this.setData({ isLogin: false });
+							this.showToast(res1.data.resultMsg);
+						}
+					},
+					fail: () => {
+						this.showToast('未知错误');
+					}
+				})
+			},
+			fail: () => {
+				this.showToast('获取code失败！');
 			}
 		})
 	},
@@ -56,21 +137,6 @@ Page({
 		wx.navigateTo({
 			url: '/pages/apply/apply?id=' + this.data.id
 		});
-		// wx.getStorage({
-		// 	key: 'hasAddr',
-		// 	success: res => {
-		// 		if(res.data){
-		// 		}else{
-		// 			wx.navigateTo({
-		// 				url: '/pages/address/address?from=apply&proId='+ this.data.id,
-		// 			})
-		// 		}
-		// 	},fail: () => {
-		// 		wx.navigateTo({
-		// 			url: '/pages/address/address?from=apply&proId=' + this.data.id,
-		// 		})
-		// 	}
-		// })
 	},
 	toApply2: function () {
 		wx.getStorage({
@@ -112,15 +178,20 @@ Page({
 		let dd = this.data;
 		return {
 			title: '',
-			path: '/pages/productDetail/productDetail?id=1',
-			imageUrl: '../../img/test.png',
+			path: '/pages/index/index',
+			imageUrl: dd.proInfo.bannerImgList[0],
 			success: () => {
 				this.setData({ isShare: true });
-				wx.showToast({
-					title: '分享成功~'
-				});
-			}, fail: () => {
-				this.showToast('分享失败！');
+				let ids = wx.getStorageSync('shareProIds');
+				if (ids && ids.indexOf(dd.id) == -1) {
+					ids.push(dd.id);
+				} else {
+					ids = [dd.id];
+				}
+				wx.setStorage({
+					key: 'shareProIds',
+					data: ids
+				})
 			}
 		}
 	},

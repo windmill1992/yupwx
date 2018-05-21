@@ -1,4 +1,8 @@
 // pages/address/address.js
+const app = getApp().globalData;
+const api = {
+	
+}
 Page({
   data: {
     uname: '',

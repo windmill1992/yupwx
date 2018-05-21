@@ -1,13 +1,13 @@
 <!--pages/apply/apply.wxml-->
 <view class='container'>
-  <!-- <navigator url='/pages/address/address?from=apply&proId={{id}}' class='addr-wrapper flex fcen spc' wx:if='{{!hasAddr}}'>
+   <navigator url='/pages/address/address?from=apply&proId={{id}}' class='addr-wrapper flex fcen spc' wx:if='{{!hasAddr}}'>
     <view class='txt'>你还没有添加收货地址，请点击添加</view>
-  </navigator> -->
-  <view class='addr-wrapper flex fcen spc' wx:if='{{!hasAddr}}' bindtap='getAddr'>
+  </navigator> 
+  <!-- <view class='addr-wrapper flex fcen spc' wx:if='{{!hasAddr}}' bindtap='getAddr'>
     <view class='txt'>你还没有添加收货地址，请点击添加</view>
-  </view>
+  </view> -->
   <view class='addr-list' wx:if='{{hasAddr}}'>
-    <view class='item' bindtap='getAddr'>
+  	<!-- <view class='item' bindtap='getAddr'>
       <view class='info flex fcen spb'>
         <view class='name'>{{addrInfo.name}}</view>
         <view class='phone'>{{addrInfo.phone}}</view>
@@ -16,8 +16,8 @@
       <view class='op'>
         <view class='op-item'>编辑地址</view>
       </view>
-    </view>
-    <!-- <navigator url='/pages/address/address?from=apply&proId={{id}}&id=1' class='item'>
+    </view> -->
+		<navigator url='/pages/address/address?from=apply&proId={{id}}&id=1' class='item'>
       <view class='info flex fcen spb'>
         <view class='name'>{{addrInfo.name}}</view>
         <view class='phone'>{{addrInfo.phone}}</view>
@@ -26,7 +26,7 @@
       <view class='op'>
         <view class='op-item'>编辑地址</view>
       </view>
-    </navigator> -->
+    </navigator> 
   </view>
   <view class='declaration'>
     <textarea class='area' maxlength='-1' placeholder='请输入你的试用宣言，不要忘记填写尺码哦！' bindinput='getWord' auto-height></textarea>
@@ -35,5 +35,5 @@
   <view class='btn'>
     <view class='apply-btn' bindtap='apply'>立即申请</view>
   </view>
-  <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
 </view>
+<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

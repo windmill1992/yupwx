@@ -52,6 +52,7 @@
   margin-top: 20rpx;
   flex-wrap: nowrap;
   overflow: hidden;
+	height: 56rpx;
 }
 
 .wrapper .apply-list .item {
@@ -141,4 +142,8 @@
   border-radius: 0;
   border: none;
   outline: none;
+}
+
+.btn .nav-btn.no{
+	background: #ccc;
 }

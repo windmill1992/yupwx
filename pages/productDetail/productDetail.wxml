@@ -5,9 +5,6 @@
       <swiper-item class='item' wx:for='{{proInfo.bannerImgList}}' wx:key='banner'>
         <image src='{{item}}' mode='widthFix' bindload='imgLoad'></image>
       </swiper-item>
-      <swiper-item class='item'>
-        <image src='../../img/test.png' mode='widthFix' bindload='imgLoad'></image>
-      </swiper-item>
     </swiper>
   </view>
   <view class='bd'>
@@ -26,14 +23,8 @@
           <view class='item' wx:for='{{proInfo.applyUserList}}' wx:key='au'>
             <image src='{{item}}'></image>
           </view>
-          <view class='item'>
-            <image src='../../img/avatar.png'></image>
-          </view>
-          <view class='item'>
-            <image src='../../img/avatar.png'></image>
-          </view>
         </view>
-        <view class='apply-num'>1234人申请</view>
+        <view class='apply-num'>{{proInfo.applyPeopleNum}}人申请</view>
       </view>
     </view>
     <view class='wrapper' wx:if='{{state==2}}'>
@@ -42,15 +33,6 @@
         <view class='apply-list flex fcen'>
           <view class='item' wx:for='{{proInfo.winningUserList}}' wx:key='wu'>
             <image src='{{item}}'></image>
-          </view>
-          <view class='item'>
-            <image src='../../img/avatar.png'></image>
-          </view>
-          <view class='item'>
-            <image src='../../img/avatar.png'></image>
-          </view>
-          <view class='item'>
-            <image src='../../img/avatar.png'></image>
           </view>
         </view>
         <view class='apply-num'>{{proInfo.winningPeopleNum}}人中奖</view>
@@ -64,7 +46,6 @@
       <view class='title'>商品信息</view>
       <view class='goods-info flex'>
         <view class='item' wx:for='{{proInfo.proInfo.join(",")}}' wx:key='info'>{{item}}</view>
-        <view class='item'>中国</view>
       </view>
       <view class='other-info'>
         <view class='item flex spb fcen'>
@@ -87,17 +68,22 @@
       <view class='pics'>
         <view class='pic-box'>
 					<image wx:if='{{proInfo.decsImg && proInfo.decsImg != ""}}' src='{{proInfo.decsImg}}' mode='widthFix'></image>
-          <image src='../../img/test2.png' mode='widthFix'></image>
         </view>
       </view>
     </view>
   </view>
   <view class='btn' wx:if='{{state==2}}'>
-    <navigator url='' class='nav-btn'>已结束（未中奖）</navigator>
+    <view class='nav-btn'>已结束（未中奖）</view>
   </view>
   <view class='btn' wx:elif='{{state==1}}'>
-    <button open-type='share' class='nav-btn' wx:if='{{!isShare}}'>分享免费申请（距结束还有{{restTime}}）</button>
-    <view class='nav-btn' bindtap='toApply' wx:else>立即申请</view>
+		<block wx:if='{{isLogin}}'>
+			<button open-type='share' class='nav-btn' wx:if='{{!isShare}}'>分享免费申请（距结束还有{{restTime}}）</button>
+			<view class='nav-btn no' wx:if='{{isApply}}'>已申请</view>
+			<view class='nav-btn' bindtap='toApply' wx:else>立即申请</view>
+		</block>
+		<block wx:else>
+			<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='nav-btn'>登录可申请</button>
+		</block>
   </view>
-	<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
 </view>
+<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
