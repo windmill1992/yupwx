@@ -10,7 +10,7 @@
     <input type='text' class='inp' bindinput='getDetailAddr' value='{{detailAddr}}' placeholder='请输入详细地址'></input>
   </view>
   <view class='btn-wrapper' wx:if='{{!isEdit}}'>
-    <view class='btn' bindtap='addAddr'>确认添加</view>
+    <view class='btn' bindtap='saveAddr'>确认添加</view>
   </view>
   <view class='btn-wrapper' wx:else>
     <view class='btn' bindtap='saveAddr'>保存</view>

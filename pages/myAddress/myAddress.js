@@ -1,16 +1,24 @@
 // pages/myAddress/myAddress.js
 const app = getApp().globalData;
 const api = {
-	addrList: app.baseUrl + '/yup/yup-rest/',		//地址列表
+	addrList: app.baseUrl + '/yup/yup-rest/get-user-address-list',		//地址列表
 }
 Page({
   data: {
-    hasAddr: 1
+    hasAddr: 0
   },
   onLoad: function (options) {
-
+		let user = wx.getStorageSync('user');
+		if(user){
+			this.setData({userId: user.userId});
+			this.getAddrList();
+		}
   },
+	onShow: function(){
+		this.getAddrList();
+	},
 	getAddrList:  function(){
+		app.header.userId = this.data.userId;
 		wx.request({
 			url: api.addrList,
 			method: 'GET',
@@ -18,7 +26,13 @@ Page({
 			data: {},
 			success: res => {
 				if(res.data.resultCode == 200){
-					this.setData({ addrList: res.data.resultData, hasAddr: 1 });
+					let r = res.data.resultData, hasAddr = 0;
+					if(!r || r.length == 0){
+						hasAddr = 0
+					}else{
+						hasAddr = 1
+					}
+					this.setData({ addrList: r, hasAddr: hasAddr });
 				}else{
 					this.setData({ addrList: [], hasAddr: 0 });
 					this.showToast(res.data.resultMsg);
@@ -26,7 +40,18 @@ Page({
 			},
 			fail: () => {
 				this.showToast('未知异常');
+			},
+			complete: () => {
+				app.header.userId = null;
 			}
+		})
+	},
+	editAddr: function(e){
+		let id = e.currentTarget.dataset.id;
+		let addr = e.currentTarget.dataset.addr;
+		wx.setStorageSync('editAddr', addr);
+		wx.navigateTo({
+			url: '/pages/address/address?id='+ id
 		})
 	},
 	showToast: function (txt) {

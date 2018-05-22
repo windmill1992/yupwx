@@ -1,7 +1,7 @@
 // pages/address/address.js
 const app = getApp().globalData;
 const api = {
-	
+	saveAddr: app.baseUrl + '/yup/yup-rest/save-user-address',	//添加或保存地址
 }
 Page({
   data: {
@@ -20,13 +20,21 @@ Page({
     let isEdit = false;
     if (obj.id) {
       isEdit = true;
-      this.getAddrInfo(obj.id);
+      this.getAddrInfo();
     }
     this.setData({ opts: obj, isEdit: isEdit });
 
   },
-  getAddrInfo: function (id) {
-
+  getAddrInfo: function () {
+		let editAddr = wx.getStorageSync('editAddr');
+		let obj = {};
+		obj.uname = editAddr.consignee;
+		obj.phone = editAddr.mobile;
+		obj.addr = editAddr.provice + editAddr.city + editAddr.area;
+		obj.detailAddr = editAddr.address;
+		obj.defaultAddr = [editAddr.provice, editAddr.city, editAddr.area];
+		obj.addrArr = obj.defaultAddr;
+		this.setData(obj);
   },
   getName: function (e) {
     let v = e.detail.value;
@@ -43,38 +51,54 @@ Page({
   selAddr: function (e) {
     let s = e.detail.value;
     let str = s[0] + s[1] + s[2];
-    this.setData({ addr: str });
-  },
-  addAddr: function () {
-    const that = this;
-    const dd = that.data;
-    if (!that.validAddrInfo()) return;
-		
-		let obj = {name: dd.uname, phone: dd.phone, addr: dd.addr, detailAddr: dd.detailAddr};
-		wx.setStorageSync('addrInfo', obj);
-    if (dd.opts.from && dd.opts.from == 'apply') {
-      wx.redirectTo({
-				url: '/pages/apply/apply?id=' + dd.opts.proId
-      });
-    } else {
-      wx.redirectTo({
-        url: '/pages/myAddress/myAddress'
-      });
-    }
+    this.setData({ addr: str, addrArr: s });
   },
   saveAddr: function () {
     const that = this;
     const dd = that.data;
     if (!that.validAddrInfo()) return;
-    if (dd.opts.from && dd.opts.from == 'apply') {
-      wx.redirectTo({
-        url: '/pages/apply/apply?id=' + dd.opts.proId
-      });
-		} else {
-      wx.redirectTo({
-        url: '/pages/myAddress/myAddress'
-      });
-    }
+		let uid = wx.getStorageSync('user').userId;
+		let addrId = dd.isEdit ? dd.opts.id : 0;
+		wx.request({
+			url: api.saveAddr,
+			method: 'POST',
+			header: app.header,
+			data: { address: dd.detailAddr, 
+				area: dd.addrArr[2], 
+				city: dd.addrArr[1], 
+				provice: dd.addrArr[0], 
+				mobile: dd.phone, 
+				userAddressId: addrId, 
+				userId: uid,
+				consignee: dd.uname
+			},
+			success: res => {
+				if(res.data.resultCode == 200){
+					wx.showToast({
+						title: dd.isEdit ? '保存成功' : '添加成功',
+					})
+					wx.removeStorageSync('editAddr');
+					setTimeout(function(){
+						wx.navigateBack()
+					}, 1000);
+				}else{
+					this.showToast(res.data.resultMsg);
+				}
+			},
+			fail: () => {
+				this.showToast('操作失败');
+			}
+		})
+
+    // if (dd.opts.from && dd.opts.from == 'apply') {
+    //   wx.redirectTo({
+    //     url: '/pages/apply/apply?id=' + dd.opts.proId
+    //   });
+		// } else {
+    //   wx.redirectTo({
+    //     url: '/pages/myAddress/myAddress'
+    //   });
+    // }
   },
   validAddrInfo: function () {
     const dd = this.data;

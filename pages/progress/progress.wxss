@@ -45,13 +45,19 @@
 }
 
 .prog-list .infos {
-  padding: 0 20rpx;
+  padding: 20rpx;
 }
 
 .prog-list .title {
   font-size: 32rpx;
   color: #262628;
   letter-spacing: 1rpx;
+	max-height: 2.6em;
+	word-break: break-all;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-line-break: auto;
+	overflow: hidden;
   font-family: 'PingFangSC-Medium';
 }
 

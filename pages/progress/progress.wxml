@@ -11,13 +11,13 @@
 				<view class='pic'>
 					<image src='{{item.proImg}}'></image>
 				</view>
-				<view class='infos fcol spc'>
+				<view class='infos flex1 fcol spb'>
 					<view class='title'>{{item.proName}}</view>
 					<view class='apply flex spb'>
 						<view class='num'>{{item.applyPeopleNum}}人申请</view>
-						<view class='state' wx:if='{{item.applyStatus == 1}}'>已申请</view>
-						<view class='state' wx:elif='{{item.applyStatus == 2}}'>已选中</view>
-						<view class='state' wx:elif='{{item.applyStatus == 3}}'>已完成</view>
+						<view class='state' wx:if='{{item.trialProgressType == 1}}'>已申请</view>
+						<view class='state' wx:elif='{{item.trialProgressType == 2}}'>已选中</view>
+						<view class='state' wx:elif='{{item.trialProgressType == 3}}'>已完成</view>
 					</view>
 				</view>
 			</view>
@@ -25,8 +25,8 @@
 				<view class='pic'>
 					<image src='../../img/bao.png'></image>
 				</view>
-				<view class='infos fcol spc'>
-					<view class='title'>Supreme&Lv联名款限量版卫衣震撼来袭</view>
+				<view class='infos flex1 fcol spb'>
+					<view class='title'>Supreme&Lv联名款限量版卫衣震撼来袭震撼来袭震撼来袭震撼来袭震撼来袭</view>
 					<view class='apply flex spb'>
 						<view class='num'>222人申请</view>
 						<view class='state'>已申请</view>

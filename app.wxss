@@ -20,6 +20,10 @@ page {
   display: flex;
 }
 
+.flex1{
+	flex: 1;
+}
+
 .spa {
   justify-content: space-around;
 }

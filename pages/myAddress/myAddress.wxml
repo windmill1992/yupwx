@@ -1,26 +1,16 @@
 <!--pages/myAddress/myAddress.wxml-->
 <view class='container'>
   <view class='addr-list' wx:if='{{hasAddr}}'>
-    <navigator url='/pages/address/address?id=1' class='item'>
+    <view data-id='{{item.userAddressId}}' data-addr='{{item}}' bindtap='editAddr' class='item' wx:for='{{addrList}}' wx:key='addr'>
       <view class='info flex fcen spb'>
-        <view class='name'>张三丰</view>
-        <view class='phone'>13310977889</view>
+        <view class='name'>{{item.consignee}}</view>
+        <view class='phone'>{{item.mobile}}</view>
       </view>
-      <view class='addr'>浙江省杭州市西湖区互联网金融大厦浙江省杭州市西湖区互联网金融大厦</view>
+      <view class='addr'>{{item.provice}}{{item.city}}{{item.area}}{{item.address}}</view>
       <view class='op'>
         <view class='op-item'>编辑地址</view>
       </view>
-    </navigator>
-    <navigator url='/pages/address/address?id=1' class='item'>
-      <view class='info flex fcen spb'>
-        <view class='name'>张三丰</view>
-        <view class='phone'>13310977889</view>
-      </view>
-      <view class='addr'>浙江省杭州市西湖区互联网金融大厦浙江省杭州市西湖区互联网金融大厦</view>
-      <view class='op'>
-        <view class='op-item'>编辑地址</view>
-      </view>
-    </navigator>
+    </view>
   </view>
 
   <view class='addr-no' wx:else>
