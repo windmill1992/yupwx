@@ -33,17 +33,7 @@ Page({
 				}
 			}
 		}
-		let time = 123780000;
-		this.getTime(time);
-		let timer = setInterval(function () {
-			time -= 60000;
-			if (time <= 0) {
-				clearInterval(that.timer);
-				that.setData({ timer: null, restTime: 0, state: 2 });
-			} else {
-				that.getTime(time);
-			}
-		}, 60000);
+
 	},
 	getProDetail: function () {
 		wx.request({
@@ -53,7 +43,16 @@ Page({
 			data: { proId: this.data.id },
 			success: res => {
 				if (res.data.resultCode == 200) {
-					this.setData({ proInfo: res.data.resultData });
+					let r = res.data.resultData;
+					this.setData({ proInfo: r, endTime: r.proEndTime });
+					this.countDown();
+					for (let i = 0; i < r.winningUserList.length; i++) {
+						if (r.winningUserList[i].userId == this.data.userId) {
+							this.setData({ isPrized: true });
+							break;
+						}
+					}
+					this.setData({ isPrized: false });
 				} else {
 					this.showToast(res.data.resultMsg);
 				}
@@ -157,6 +156,23 @@ Page({
 				});
 			}
 		})
+	},
+	countDown: function () {
+		let time = this.data.endTime - Date.now();
+		if (time <= 0) {
+			this.setData({ restTime: 0, state: 2 });
+			return;
+		}
+		this.getTime(time);
+		let timer = setInterval(function () {
+			time -= 60000;
+			if (time <= 0) {
+				clearInterval(that.timer);
+				that.setData({ timer: null, restTime: 0, state: 2 });
+			} else {
+				that.getTime(time);
+			}
+		}, 60000);
 	},
 	getTime: function (time) {
 		let day = parseInt(time / 1000 / 60 / 60 / 24);

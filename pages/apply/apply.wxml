@@ -17,16 +17,16 @@
         <view class='op-item'>编辑地址</view>
       </view>
     </view> -->
-		<navigator url='/pages/address/address?from=apply&proId={{id}}&id=1' class='item'>
+		<view data-id='{{addrInfo.userAddressId}}' data-addr='{{addrInfo}}' bindtap='editAddr' class='item'>
       <view class='info flex fcen spb'>
-        <view class='name'>{{addrInfo.name}}</view>
-        <view class='phone'>{{addrInfo.phone}}</view>
+        <view class='name'>{{addrInfo.consignee}}</view>
+        <view class='phone'>{{addrInfo.mobile}}</view>
       </view>
-      <view class='addr'>{{addrInfo.addr}}{{addrInfo.detailAddr}}</view>
+      <view class='addr'>{{addrInfo.provice}}{{addrInfo.city}}{{addrInfo.area}}{{addrInfo.address}}</view>
       <view class='op'>
         <view class='op-item'>编辑地址</view>
       </view>
-    </navigator> 
+    </view> 
   </view>
   <view class='declaration'>
     <textarea class='area' maxlength='-1' placeholder='请输入你的试用宣言，不要忘记填写尺码哦！' bindinput='getWord' auto-height></textarea>

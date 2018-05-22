@@ -11,7 +11,7 @@
   </view>
   <view class='menu'>
     <view class='item'>
-			<view wx:if='{{!isLogin}}' class='nav' bindtap='noAddr'>我的地址</view>
+      <view wx:if='{{!isLogin}}' class='nav' bindtap='noAddr'>我的地址</view>
       <navigator wx:else url='/pages/myAddress/myAddress' class='nav'>我的地址</navigator>
     </view>
     <view class='item'>
@@ -25,8 +25,8 @@
     </view>
   </view>
 
-  <view class='gift'>
+  <!-- <view class='gift'>
     <image src='../../img/liwu.png'></image>
-  </view>
+  </view> -->
 </view>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

@@ -15,11 +15,11 @@ Page({
 	onLoad: function (options) {
 		// this.getProgress(1, 10);
 	},
-	onShow: function(){
+	onShow: function () {
 		let user = wx.getStorageSync('user');
-		if(!user || user == '' || user == null){
+		if (!user || user == '' || user == null) {
 			this.setData({ isLogin: false });
-		}else{
+		} else {
 			this.setData({ isLogin: true, userId: user.userId });
 			this.getProgress(1, 10);
 		}
@@ -52,10 +52,10 @@ Page({
 					this.setData({ hasmore: 0 });
 					this.showToast(res.data.resultMsg);
 				}
-			}, 
+			},
 			fail: () => {
 				this.showToast('未知错误！');
-			}, 
+			},
 			complete: () => {
 				this.setData({ loading: false });
 				wx.hideLoading()

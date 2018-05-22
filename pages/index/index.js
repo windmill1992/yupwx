@@ -115,6 +115,10 @@ Page({
 			success: res => {
 				if (res.data.resultCode == 200) {
 					this.setData({ isApplys: res.data.resultData });
+				}else{
+					wx.removeStorageSync('user');
+					this.showToast('登录已过期！');
+					this.setData({ isLogin : false });
 				}
 			},
 			complete: () => {
@@ -128,6 +132,14 @@ Page({
 			wx.navigateTo({
 				url: '/pages/productDetail/productDetail?id=' + data.id + '&state=' + data.state
 			})
+		}
+	},
+	onShareAppMessage: function () {
+		let shareImg = this.data.inProcessProList[0].coverImg;
+		return {
+			title: 'YUP新潮',
+			path: '/pages/index/index',
+			imageUrl: shareImg
 		}
 	},
 	showToast: function (txt) {

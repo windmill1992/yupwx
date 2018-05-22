@@ -73,11 +73,11 @@
     </view>
   </view>
   <view class='btn' wx:if='{{state==2}}'>
-    <view class='nav-btn'>已结束（未中奖）</view>
+    <view class='nav-btn'>已结束（<block wx:if='{{isPrized}}'>已中奖</block><block wx:else>未中奖</block>）</view>
   </view>
   <view class='btn' wx:elif='{{state==1}}'>
 		<block wx:if='{{isLogin}}'>
-			<button open-type='share' class='nav-btn' wx:if='{{!isShare}}'>分享免费申请（距结束还有{{restTime}}）</button>
+			<button open-type='share' class='nav-btn' wx:if='{{!isShare && !isApply}}'>分享免费申请（距结束还有{{restTime}}）</button>
 			<view class='nav-btn no' wx:if='{{isApply}}'>已申请</view>
 			<view class='nav-btn' bindtap='toApply' wx:else>立即申请</view>
 		</block>
