@@ -1,5 +1,6 @@
 // pages/progress/progress.js
 const app = getApp().globalData;
+const util = require('./../../utils/util.js');
 const api = {
 	progress: app.baseUrl + '/yup/yup-rest/trial-progress',		//试用进展
 	login: app.baseUrl + '/yup/yup-rest/login',								//登录
@@ -20,8 +21,13 @@ Page({
 		if (!user || user == '' || user == null) {
 			this.setData({ isLogin: false });
 		} else {
-			this.setData({ isLogin: true, userId: user.userId });
-			this.getProgress(1, 10);
+			if (util.check('validTime')) {
+				this.setData({ isLogin: true, userId: user.userId });
+				this.getProgress(1, 10);
+			}else{
+				this.setData({ isLogin: false });
+				this.showToast('登录已失效');
+			}
 		}
 	},
 	getProgress: function (pn, ps) {
@@ -66,7 +72,7 @@ Page({
 		if (e.detail.userInfo) {
 			let user = e.detail.userInfo;
 			app.userInfo = user;
-			wx.setStorageSync("userInfo", user);
+			wx.setStorageSync('userInfo', user);
 			this.setData({
 				userAvatar: user.avatarUrl,
 				nickName: user.nickName
@@ -83,20 +89,23 @@ Page({
 					url: api.login,
 					method: 'POST',
 					header: app.header,
-					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName },
+					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName, userAvatar: this.data.userAvatar },
 					success: res1 => {
 						if (res1.data.resultCode == 200) {
 							let r = res1.data.resultData;
 							this.setData({ isLogin: true, userId: r.userId });
 							this.getProgress(1, 10);
 							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
-							wx.setStorage({
-								key: 'user',
-								data: obj
-							})
+							wx.setStorageSync('user', obj)
+							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
+							this.showToast('登录成功！');
 						} else {
 							this.setData({ isLogin: false });
-							this.showToast(res1.data.resultMsg);
+							wx.showModal({
+								title: '',
+								content: res1.data.resultMsg,
+								showCancel: false
+							})
 						}
 					},
 					fail: () => {

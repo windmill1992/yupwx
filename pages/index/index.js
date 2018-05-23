@@ -1,5 +1,6 @@
 //index.js
 const app = getApp().globalData;
+const util = require('./../../utils/util.js');
 const api = {
 	proList: app.baseUrl + '/yup/yup-rest/pro-index',			//产品列表
 	login: app.baseUrl + '/yup/yup-rest/login',						//登录
@@ -8,7 +9,8 @@ const api = {
 Page({
 	data: {
 		state: 1,
-		isLogin: false
+		isLogin: false,
+		endProList: []
 	},
 	onLoad: function () {
 		this.getProList(1, 10);
@@ -18,9 +20,14 @@ Page({
 		if (!user || user == '' || user == null) {
 			this.setData({ isLogin: false });
 		} else {
-			this.setData({ isLogin: true, userId: user.userId });
-			if(this.data.ids){
-				this.getIsApply();
+			if(util.check('validTime')){
+				this.setData({ isLogin: true, userId: user.userId });
+				if(this.data.ids){
+					this.getIsApply();
+				}
+			}else{
+				this.setData({ isLogin: false });
+				this.showToast('登录已失效');
 			}
 		}
 	},
@@ -28,7 +35,7 @@ Page({
 		if (e.detail.userInfo) {
 			let user = e.detail.userInfo;
 			app.userInfo = user;
-			wx.setStorageSync("userInfo", user);
+			wx.setStorageSync('userInfo', user);
 			this.setData({
 				userAvatar: user.avatarUrl,
 				nickName: user.nickName
@@ -45,20 +52,23 @@ Page({
 					url: api.login,
 					method: 'POST',
 					header: app.header,
-					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName },
+					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName, userAvatar: this.data.userAvatar },
 					success: res1 => {
 						if (res1.data.resultCode == 200) {
 							let r = res1.data.resultData;
 							this.setData({ isLogin: true, userId: r.userId });
 							this.getIsApply();
 							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
-							wx.setStorage({
-								key: 'user',
-								data: obj
-							})
+							wx.setStorageSync('user', obj)
+							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
+							this.showToast('登录成功！');
 						} else {
 							this.setData({ isLogin: false });
-							this.showToast(res1.data.resultMsg);
+							wx.showModal({
+								title: '',
+								content: res1.data.resultMsg,
+								showCancel: false
+							})
 						}
 					},
 					fail: () => {
@@ -76,6 +86,7 @@ Page({
 		wx.showLoading({
 			title: '加载中...'
 		});
+		this.setData({ loading: true });
 		wx.request({
 			url: api.proList,
 			method: 'GET',
@@ -91,8 +102,25 @@ Page({
 						}
 						this.setData({ids: arr});
 					}
-					that.setData({ inProcessProList: r.inProcessProList, endProList: r.endProList, todayNewProCount: r.todayNewProCount, allProCount: r.allProCount });
-					that.getIsApply();
+					let hasmore = 0;
+					if (r.allProCount == 0){
+						hasmore = 0;
+					} else if (r.allProCount <= pn * ps){
+						hasmore = 1;
+					}else{
+						hasmore = 2;
+					}
+					let arr2 = this.data.endProList.concat(r.endProList);
+					that.setData({ 
+						inProcessProList: r.inProcessProList, 
+						endProList: arr2, 
+						todayNewProCount: r.todayNewProCount, 
+						allProCount: r.allProCount,
+						hasmore: hasmore 
+					});
+					if(that.data.isLogin && util.check('validTime')){
+						that.getIsApply();
+					}
 				} else {
 					that.showToast(res.data.resultMsg);
 				}
@@ -101,7 +129,8 @@ Page({
 				that.showToast('未知错误！');
 			},
 			complete: () => {
-				wx.hideLoading()
+				wx.hideLoading();
+				this.setData({ loading: false });
 			}
 		})
 	},
@@ -115,10 +144,16 @@ Page({
 			success: res => {
 				if (res.data.resultCode == 200) {
 					this.setData({ isApplys: res.data.resultData });
+				} else if(res.data.resultCode == 4002){
+					this.showToast('登录已失效');
+					this.setData({ isLogin: false })
+					wx.clearStorageSync();
 				}else{
-					wx.removeStorageSync('user');
-					this.showToast('登录已过期！');
-					this.setData({ isLogin : false });
+					wx.showModal({
+						title: '',
+						content: '服务器错误',
+						showCancel: false
+					})
 				}
 			},
 			complete: () => {
@@ -140,6 +175,18 @@ Page({
 			title: 'YUP新潮',
 			path: '/pages/index/index',
 			imageUrl: shareImg
+		}
+	},
+	onPullDownRefresh: function(){
+		wx.stopPullDownRefresh();
+		this.getProList(1, 10);
+		this.setData({ endPage: 1, endProList: [] });
+	},
+	onReachBottom: function(){
+		if(this.data.hasmore == 2 && !this.data.loading){
+			let page = this.data.endPage;
+			page++;
+			this.getProList(page, 10);
 		}
 	},
 	showToast: function (txt) {

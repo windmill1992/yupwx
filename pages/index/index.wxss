@@ -99,3 +99,10 @@
 .apply-btn.look-btn {
   background: #4a4a4a;
 }
+
+.loadmore{
+	text-align: center;
+	font-size: 26rpx;
+	color: #999;
+	margin: 20rpx 0;
+}

@@ -73,7 +73,12 @@
     </view>
   </view>
   <view class='btn' wx:if='{{state==2}}'>
-    <view class='nav-btn'>已结束（<block wx:if='{{isPrized}}'>已中奖</block><block wx:else>未中奖</block>）</view>
+		<block wx:if='{{isLogin}}'>
+    	<view class='nav-btn'>已结束（<block wx:if='{{isPrized}}'>已中奖</block><block wx:else>未中奖</block>）</view>
+		</block>
+		<block wx:else>
+			<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='nav-btn'>登录</button>
+		</block>
   </view>
   <view class='btn' wx:elif='{{state==1}}'>
 		<block wx:if='{{isLogin}}'>

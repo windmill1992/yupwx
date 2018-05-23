@@ -1,5 +1,6 @@
 // pages/ucenter/ucenter.js
-const app = getApp()
+const app = getApp();
+const util = require('./../../utils/util.js');
 const api = {
 	login: app.globalData.baseUrl + '/yup/yup-rest/login',	//登录
 }
@@ -26,13 +27,23 @@ Page({
 		}
 	},
 	onShow: function(){
-		
+		let user = wx.getStorageSync('user');
+		if (!user || user == '' || user == null) {
+			this.setData({ isLogin: false });
+		} else {
+			if(util.check('validTime')){
+				this.setData({ userAvatar: user.avatarUrl, nickName: user.nickName, isLogin: true, userId: user.userId });
+			}else{
+				this.setData({ isLogin: false });
+				this.showToast('登录已失效');
+			}
+		}
 	},
 	getUserInfo: function (e) {
 		if (e.detail.userInfo) {
 			let user = e.detail.userInfo;
 			app.globalData.userInfo = user;
-			wx.setStorageSync("userInfo", user);
+			wx.setStorageSync('userInfo', user);
 			this.setData({
 				userAvatar: user.avatarUrl,
 				nickName: user.nickName
@@ -49,19 +60,22 @@ Page({
 					url: api.login,
 					method: 'POST',
 					header: app.globalData.header,
-					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName },
+					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName, userAvatar: this.data.userAvatar },
 					success: res1 => {
 						if (res1.data.resultCode == 200) {
 							let r = res1.data.resultData;
 							this.setData({ isLogin: true });
 							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
-							wx.setStorage({
-								key: 'user',
-								data: obj
-							})
+							wx.setStorageSync('user', obj)
+							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
+							this.showToast('登录成功！');
 						} else {
 							this.setData({ isLogin: false });
-							this.showToast(res1.data.resultMsg);
+							wx.showModal({
+								title: '',
+								content: res1.data.resultMsg,
+								showCancel: false
+							})
 						}
 					},
 					fail: () => {
