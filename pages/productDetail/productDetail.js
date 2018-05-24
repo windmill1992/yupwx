@@ -111,6 +111,9 @@ Page({
 		}
 	},
 	login: function () {
+		wx.showLoading({
+			title: '正在登录...'
+		});
 		wx.login({
 			success: res => {
 				wx.request({
@@ -138,11 +141,17 @@ Page({
 					},
 					fail: () => {
 						this.showToast('未知错误');
+					},
+					complete: () => {
+						wx.hideLoading()
 					}
 				})
 			},
 			fail: () => {
 				this.showToast('获取code失败！');
+			},
+			complete: () => {
+				wx.hideLoading()
 			}
 		})
 	},
