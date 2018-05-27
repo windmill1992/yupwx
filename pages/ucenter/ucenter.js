@@ -97,7 +97,7 @@ Page({
 			}
 		})
 	},
-	noAddr: function () {
+	noLogin: function () {
 		this.showToast('未登录');
 	},
 	onShareAppMessage: function () {

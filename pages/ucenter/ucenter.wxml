@@ -11,14 +11,15 @@
   </view>
   <view class='menu'>
     <view class='item'>
-      <view wx:if='{{!isLogin}}' class='nav' bindtap='noAddr'>我的地址</view>
+      <view wx:if='{{!isLogin}}' class='nav' bindtap='noLogin'>我的地址</view>
       <navigator wx:else url='/pages/myAddress/myAddress' class='nav'>我的地址</navigator>
     </view>
     <view class='item'>
       <button class='btn' open-type='share'>邀请好友</button>
     </view>
     <view class='item'>
-      <navigator url='/pages/merchant/merchant' class='nav'>商家入驻</navigator>
+			<view wx:if='{{!isLogin}}' class='nav' bindtap='noLogin'>商家入驻</view>
+      <navigator wx:else url='/pages/merchant/merchant' class='nav'>商家入驻</navigator>
     </view>
     <view class='item'>
       <navigator url='/pages/about/about' class='nav'>关于我们</navigator>
