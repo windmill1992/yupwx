@@ -188,6 +188,7 @@ Page({
 		})
 	},
 	countDown: function () {
+		const that = this;
 		let time = this.data.endTime - Date.now();
 		if (time <= 0) {
 			this.setData({ restTime: 0, state: 2 });

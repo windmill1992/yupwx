@@ -40,7 +40,7 @@
     </view>
     <view class='wrapper'>
       <view class='title'>试用规则</view>
-      <view class='txt'>你想穿的跟中国有嘻哈的选手一样吗，程序猿们是不是该穿些有品味有风格的衣服呢，快来租这几件单品吧你想穿的跟中国有嘻哈的选手一样吗，程序猿们是不是该穿些有品味有风格的衣服呢快来租这几件单品吧</view>
+      <view class='txt'>{{proInfo.proDescribe}}</view>
     </view>
     <view class='wrapper'>
       <view class='title'>商品信息</view>
