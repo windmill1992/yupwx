@@ -13,16 +13,13 @@ Page({
     isEdit: false
   },
   onLoad: function (options) {
-    let obj = {};
-    obj.from = options.from;
-    obj.proId = options.proId;
-    obj.id = options.id;
+    let id = options.id;
     let isEdit = false;
-    if (obj.id) {
+    if (id) {
       isEdit = true;
       this.getAddrInfo();
     }
-    this.setData({ opts: obj, isEdit: isEdit });
+    this.setData({ id: id, isEdit: isEdit });
 
   },
   getAddrInfo: function () {
@@ -58,7 +55,7 @@ Page({
     const dd = that.data;
     if (!that.validAddrInfo()) return;
 		let uid = wx.getStorageSync('user').userId;
-		let addrId = dd.isEdit ? dd.opts.id : 0;
+		let addrId = dd.isEdit ? dd.id : 0;
 		wx.request({
 			url: api.saveAddr,
 			method: 'POST',
@@ -89,16 +86,6 @@ Page({
 				this.showToast('操作失败');
 			}
 		})
-
-    // if (dd.opts.from && dd.opts.from == 'apply') {
-    //   wx.redirectTo({
-    //     url: '/pages/apply/apply?id=' + dd.opts.proId
-    //   });
-		// } else {
-    //   wx.redirectTo({
-    //     url: '/pages/myAddress/myAddress'
-    //   });
-    // }
   },
   validAddrInfo: function () {
     const dd = this.data;

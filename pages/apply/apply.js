@@ -72,8 +72,8 @@ Page({
 			header: app.header,
 			data: {
 				note: dd.note,
-				proId: dd.id,
-				userAddressId: dd.addrInfo.userAddressId
+				proId: Number(dd.id),
+				userAddressId: Number(dd.addrInfo.userAddressId)
 			},
 			success: res => {
 				if (res.data.resultCode == 200) {

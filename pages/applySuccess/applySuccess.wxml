@@ -9,11 +9,11 @@
   </view>
   <view class='pic-wrapper'>
     <view class='pic'>
-      <image src='../../img/bao2.png'></image>
+      <image src='{{proInfo.coverImg}}'></image>
     </view>
     <view class='foot flex spb fcen'>
       <view class='adv'>
-        <view class='txt'>我正在YUP新潮申请试用「阿迪达斯限量版男士手提包」你也来一起参与领取吧</view>
+        <view class='txt'>我正在YUP新潮申请试用「{{proInfo.proName}}」你也来一起参与领取吧</view>
         <view class='tip'>扫描小程序码免费领取！</view>
       </view>
       <view class='qrcode'>

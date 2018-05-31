@@ -1,5 +1,8 @@
 // pages/testDetail/testDetail.js
-
+const app = getApp().globalData;
+const api = {
+	proDetail: app.baseUrl + '/yup/yup-rest/pro-detail',		//商品详情
+}
 Page({
 	data: {
 		id: ''
@@ -7,6 +10,25 @@ Page({
 	onLoad: function (options) {
 		this.setData({ id: options.id });
 		this.getQRCode();
+		this.getProDetail();
+	},
+	getProDetail: function () {
+		wx.request({
+			url: api.proDetail,
+			method: 'GET',
+			header: app.header,
+			data: { proId: this.data.id },
+			success: res => {
+				if (res.data.resultCode == 200) {
+					let r = res.data.resultData;
+					this.setData({ proInfo: r });
+				} else {
+					this.showToast(res.data.resultMsg);
+				}
+			}, fail: () => {
+				this.showToast('未知错误！');
+			}
+		})
 	},
 	getQRCode: function () {
 		const dd = this.data;

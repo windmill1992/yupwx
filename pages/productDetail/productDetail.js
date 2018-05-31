@@ -22,7 +22,7 @@ Page({
 			this.setData({ isLogin: false });
 		} else {
 			if(util.check('validTime')){
-				this.setData({ isLogin: true, userId: user.userId });
+				this.setData({ isLogin: true, userId: user.userId, userAvatar: user.avatarUrl });
 			}else{
 				this.setData({ isLogin: false });
 				this.showToast('登录已失效');
@@ -51,14 +51,17 @@ Page({
 					let r = res.data.resultData;
 					this.setData({ proInfo: r, endTime: r.proEndTime });
 					if(this.data.isLogin){
-						this.countDown();
+						if(this.data.state != 2){
+							this.countDown();
+						}
+						let boo = false;
 						for (let i = 0; i < r.winningUserList.length; i++) {
-							if (r.winningUserList[i].userId == this.data.userId) {
-								this.setData({ isPrized: true });
+							if (r.winningUserList[i] == this.data.userAvatar) {
+								boo = true;
 								break;
 							}
 						}
-						this.setData({ isPrized: false });
+						this.setData({ isPrized: boo });
 						this.getIsApply();
 					}
 				} else {

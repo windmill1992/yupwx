@@ -44,8 +44,8 @@
         </view>
         <view class='apply-box flex fcen'>
           <view class='apply-list flex'>
-            <view class='item' wx:for='{{item.applyUserList}}' wx:key='au'>
-              <image src='{{au}}'></image>
+            <view class='item' wx:for='{{item.applyUserList}}' wx:for-item='avatar' wx:key='au'>
+              <image src='{{avatar}}'></image>
             </view>
           </view>
           <view class='apply-num'>{{item.peopleNum}}人申请</view>

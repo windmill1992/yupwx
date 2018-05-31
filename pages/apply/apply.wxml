@@ -1,22 +1,9 @@
 <!--pages/apply/apply.wxml-->
 <view class='container'>
-   <navigator url='/pages/address/address?from=apply&proId={{id}}' class='addr-wrapper flex fcen spc' wx:if='{{!hasAddr}}'>
+   <navigator url='/pages/address/address' class='addr-wrapper flex fcen spc' wx:if='{{!hasAddr}}'>
     <view class='txt'>你还没有添加收货地址，请点击添加</view>
   </navigator> 
-  <!-- <view class='addr-wrapper flex fcen spc' wx:if='{{!hasAddr}}' bindtap='getAddr'>
-    <view class='txt'>你还没有添加收货地址，请点击添加</view>
-  </view> -->
   <view class='addr-list' wx:if='{{hasAddr}}'>
-  	<!-- <view class='item' bindtap='getAddr'>
-      <view class='info flex fcen spb'>
-        <view class='name'>{{addrInfo.name}}</view>
-        <view class='phone'>{{addrInfo.phone}}</view>
-      </view>
-      <view class='addr'>{{addrInfo.addr}}{{addrInfo.detailAddr}}</view>
-      <view class='op'>
-        <view class='op-item'>编辑地址</view>
-      </view>
-    </view> -->
 		<view data-id='{{addrInfo.userAddressId}}' data-addr='{{addrInfo}}' bindtap='editAddr' class='item'>
       <view class='info flex fcen spb'>
         <view class='name'>{{addrInfo.consignee}}</view>
