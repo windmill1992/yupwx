@@ -5,11 +5,12 @@ const api = {
 }
 Page({
 	data: {
-		id: ''
+		id: '',
+		qrCode: '../../img/qrcode.jpg'
 	},
 	onLoad: function (options) {
 		this.setData({ id: options.id });
-		this.getQRCode();
+		this.getToken();
 		this.getProDetail();
 	},
 	getProDetail: function () {
@@ -30,25 +31,43 @@ Page({
 			}
 		})
 	},
-	getQRCode: function () {
+	getToken: function () {
+		wx.request({
+			url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + app.appid + '&secret=' + app.appSecret,
+			method: 'GET',
+			data: {},
+			success: res => {
+				if (res.data) {
+					this.getQRCode(res.data.access_token);
+				} else {
+					this.showToast('获取token失败！');
+				}
+			}
+		})
+	},
+	getQRCode: function (token) {
 		const dd = this.data;
 		wx.request({
-			url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=',
+			url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + token,
 			method: 'POST',
 			header: { 'content-type': 'application/json' },
 			data: {
 				scene: encodeURI('pro_' + dd.id),
 				page: 'pages/productDetail/productDetail'
 			},
-			success(res) {
-				console.log(res);
+			success: res => {
+				console.log(res.data);
+				if (res.data) {
+					// this.setData({ qrCode: res.data });	
+				}
 			}
 		})
 	},
 	savePhoto: function () {
 		const that = this;
+		let imgUrl = this.data.proInfo.coverImg;
 		wx.downloadFile({
-			url: 'https://e.9.cn/static/pc/images/dev-1.jpg',
+			url: imgUrl,
 			success(res) {
 				console.log(res);
 				if (res.statusCode == 200) {
@@ -121,6 +140,15 @@ Page({
 				that.showToast('图片保存失败！');
 			}
 		})
+	},
+	preview: function (e) {
+		// wx.previewImage({
+		// 	urls: [this.data.qrCode]
+		// })
+		this.setData({ isPreview: true });
+	},
+	closePreview: function () {
+		this.setData({ isPreview: false });
 	},
 	onShareAppMessage: function () {
 

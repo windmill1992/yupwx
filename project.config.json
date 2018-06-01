@@ -42,7 +42,8 @@
 					"id": 1,
 					"name": "proDetail",
 					"pathName": "pages/productDetail/productDetail",
-					"query": "id=1&state=1"
+					"query": "id=1&state=1",
+					"scene": "1011"
 				},
 				{
 					"id": 2,
@@ -69,7 +70,7 @@
 					"query": "id=1"
 				},
 				{
-					"id": -1,
+					"id": 6,
 					"name": "applySuc",
 					"pathName": "pages/applySuccess/applySuccess",
 					"query": "id=1"

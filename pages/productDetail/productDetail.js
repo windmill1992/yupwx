@@ -16,7 +16,14 @@ Page({
 	},
 	onLoad: function (options) {
 		const that = this;
-		this.setData({ state: options.state, id: options.id });
+		if (!options.id){
+			let id = decodeURIComponent(options.scene).split('_')[1];
+			this.setData({ state: options.state, id: id });
+			console.log(decodeURIComponent(options.scene));
+		}else{
+			this.setData({ state: options.state, id: options.id });
+		}
+		
 		let user = wx.getStorageSync('user');
 		if (!user || user == '' || user == null) {
 			this.setData({ isLogin: false });

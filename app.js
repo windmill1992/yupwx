@@ -27,6 +27,8 @@ App({
 		baseUrl: 'http://api.yupfashion.cn',
 		header: {
 			'content-type': 'application/json',
-		}
+		},
+		appid: 'wxf53853fc0d818bff',
+		appSecret: '67ca8cca161fb80a3bf9316a1f49bf1b'
 	}
 })
