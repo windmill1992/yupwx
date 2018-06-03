@@ -9,6 +9,7 @@ Page({
 		qrCode: '../../img/qrcode.jpg'
 	},
 	onLoad: function (options) {
+		console.log(decodeURIComponent(options.scene));
 		this.setData({ id: options.id });
 		this.getToken();
 		this.getProDetail();
@@ -58,7 +59,7 @@ Page({
 			success: res => {
 				console.log(res.data);
 				if (res.data) {
-					// this.setData({ qrCode: res.data });	
+					// this.setData({ qrCode: res.data });
 				}
 			}
 		})
