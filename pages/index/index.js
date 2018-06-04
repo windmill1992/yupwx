@@ -13,19 +13,20 @@ Page({
 		endProList: []
 	},
 	onLoad: function () {
-		this.getProList(1, 10);
+
 	},
 	onShow: function () {
+		this.getProList(1, 10);
 		let user = wx.getStorageSync('user');
 		if (!user || user == '' || user == null) {
 			this.setData({ isLogin: false });
 		} else {
-			if(util.check('validTime')){
+			if (util.check('validTime')) {
 				this.setData({ isLogin: true, userId: user.userId });
-				if(this.data.ids){
+				if (this.data.ids) {
 					this.getIsApply();
 				}
-			}else{
+			} else {
 				this.setData({ isLogin: false });
 				this.showToast('登录已失效');
 			}
@@ -68,10 +69,10 @@ Page({
 							wx.setStorageSync('user', obj)
 							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
 							this.showToast('登录成功！');
-							if(o){
+							if (o) {
 								setTimeout(() => {
 									wx.navigateTo({
-										url: '/pages/productDetail/productDetail?id='+ o.id + '&state='+ o.state
+										url: '/pages/productDetail/productDetail?id=' + o.id + '&state=' + o.state
 									}, 2000)
 								})
 							}
@@ -114,30 +115,30 @@ Page({
 			success: res => {
 				if (res.data.resultCode == 200) {
 					let r = res.data.resultData;
-					if (r.inProcessProList && r.inProcessProList.length > 0){
+					if (r.inProcessProList && r.inProcessProList.length > 0) {
 						let arr = [];
-						for (let i = 0; i < r.inProcessProList.length;i++){
+						for (let i = 0; i < r.inProcessProList.length; i++) {
 							arr.push(r.inProcessProList[i].proId);
 						}
 						this.setData({ ids: arr, hasInprocess: true });
 					}
 					let hasmore = 0;
-					if (r.allProCount == 0){
+					if (r.allProCount == 0) {
 						hasmore = 0;
-					} else if (r.allProCount <= pn * ps){
+					} else if (r.allProCount <= pn * ps) {
 						hasmore = 1;
-					}else{
+					} else {
 						hasmore = 2;
 					}
 					let arr2 = this.data.endProList.concat(r.endProList);
-					that.setData({ 
-						inProcessProList: r.inProcessProList, 
-						endProList: arr2, 
-						todayNewProCount: r.todayNewProCount, 
+					that.setData({
+						inProcessProList: r.inProcessProList,
+						endProList: arr2,
+						todayNewProCount: r.todayNewProCount,
 						allProCount: r.allProCount,
-						hasmore: hasmore 
+						hasmore: hasmore
 					});
-					if(that.data.isLogin && util.check('validTime')){
+					if (that.data.isLogin && util.check('validTime')) {
 						that.getIsApply();
 					}
 				} else {
@@ -163,11 +164,11 @@ Page({
 			success: res => {
 				if (res.data.resultCode == 200) {
 					this.setData({ isApplys: res.data.resultData });
-				} else if(res.data.resultCode == 4002){
+				} else if (res.data.resultCode == 4002) {
 					this.showToast('登录已失效');
 					this.setData({ isLogin: false })
 					wx.clearStorageSync();
-				}else{
+				} else {
 					wx.showModal({
 						title: '',
 						content: '服务器错误',
@@ -188,7 +189,7 @@ Page({
 			})
 		}
 	},
-	toDetail: function(e){
+	toDetail: function (e) {
 		let data = e.currentTarget.dataset;
 		wx.navigateTo({
 			url: '/pages/productDetail/productDetail?id=' + data.id + '&state=' + data.state
@@ -201,13 +202,13 @@ Page({
 			imageUrl: '../../img/share.png'
 		}
 	},
-	onPullDownRefresh: function(){
+	onPullDownRefresh: function () {
 		wx.stopPullDownRefresh();
 		this.getProList(1, 10);
 		this.setData({ endPage: 1, endProList: [] });
 	},
-	onReachBottom: function(){
-		if(this.data.hasmore == 2 && !this.data.loading){
+	onReachBottom: function () {
+		if (this.data.hasmore == 2 && !this.data.loading) {
 			let page = this.data.endPage;
 			page++;
 			this.getProList(page, 10);

@@ -111,3 +111,11 @@
 	z-index: 1;
 	opacity: 1;
 }
+
+.canvas{
+	width: 1100rpx;
+	height: 1500rpx;
+	position: fixed;
+	top: 0;
+	left: -10000px;
+}
