@@ -16,7 +16,7 @@ Page({
 	},
 	onLoad: function (options) {
 		const that = this;
-		if (options.id){
+		if (options.id) {
 			if (!options.state) {
 				options.state = 1;
 				this.setData({ isShare2: true });
@@ -46,7 +46,7 @@ Page({
 			}
 		}
 	},
-	onShow: function(){
+	onShow: function () {
 		this.getProDetail();
 	},
 	getProDetail: function () {
@@ -253,8 +253,12 @@ Page({
 			key: 'shareProIds',
 			data: ids
 		})
+		let title = dd.proInfo.proName;
+		if(!title || title == null){
+			title = '潮流好物';
+		}
 		return {
-			title: '',
+			title: '免费领取，跟我一起来拿'+ title,
 			path: '/pages/productDetail/productDetail?id=' + dd.id,
 			imageUrl: dd.proInfo.bannerImgList[0]
 		}

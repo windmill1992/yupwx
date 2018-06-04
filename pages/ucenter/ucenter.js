@@ -102,9 +102,9 @@ Page({
 	},
 	onShareAppMessage: function () {
 		return {
-			title: 'YUP新潮',
+			title: '免费领取，跟我一起来拿潮流好物',
 			path: '/pages/index/index',
-			imageUrl: '../../img/logo.jpg'
+			imageUrl: '../../img/share.png'
 		}
 	},
 	showToast: function (txt) {

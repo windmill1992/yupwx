@@ -189,19 +189,16 @@ Page({
 		}
 	},
 	toDetail: function(e){
-		if (!this.data.isLogin){
-			let data = e.currentTarget.dataset;
-			wx.navigateTo({
-				url: '/pages/productDetail/productDetail?id=' + data.id + '&state=' + data.state
-			})
-		}
+		let data = e.currentTarget.dataset;
+		wx.navigateTo({
+			url: '/pages/productDetail/productDetail?id=' + data.id + '&state=' + data.state
+		})
 	},
 	onShareAppMessage: function () {
-		let shareImg = this.data.inProcessProList[0].coverImg;
 		return {
-			title: 'YUP新潮',
+			title: '免费领取，跟我一起来拿潮流好物',
 			path: '/pages/index/index',
-			imageUrl: shareImg
+			imageUrl: '../../img/share.png'
 		}
 	},
 	onPullDownRefresh: function(){

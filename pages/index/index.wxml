@@ -5,7 +5,7 @@
     <view class='tip'>今日上新{{todayNewProCount}}件单品</view>
     <view class='goods-list'>
       <view data-id='{{item.proId}}' data-state='{{item.proStatus}}' bindtap='navToDetail' class='goods-item' wx:for='{{inProcessProList}}' wx:key='proId'>
-        <view class='pic' catchtap='toDetail' data-id='{{item.proId}}' data-state='{{item.proStatus}}'>
+        <view class='pic' catchtap='{{!isLogin ? "toDetail":""}}' data-id='{{item.proId}}' data-state='{{item.proStatus}}'>
           <image src='{{item.coverImg}}' mode='widthFix' lazy-load='{{index > 1}}'></image>
         </view>
         <view class='name'>{{item.proName}}</view>
