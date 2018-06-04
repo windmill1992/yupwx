@@ -6,9 +6,10 @@
 
 .hd image {
   width: 100%;
+  height: 600rpx;
 }
 
-.hd .banner{
+.hd .banner {
   height: auto;
 }
 
@@ -52,7 +53,7 @@
   margin-top: 20rpx;
   flex-wrap: nowrap;
   overflow: hidden;
-	height: 56rpx;
+  height: 56rpx;
 }
 
 .wrapper .apply-list .item {
@@ -144,6 +145,6 @@
   outline: none;
 }
 
-.btn .nav-btn.no{
-	background: #ccc;
+.btn .nav-btn.no {
+  background: #ccc;
 }

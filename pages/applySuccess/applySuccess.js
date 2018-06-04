@@ -9,7 +9,6 @@ Page({
 		qrCode: '../../img/qrcode.jpg'
 	},
 	onLoad: function (options) {
-		console.log(decodeURIComponent(options.scene));
 		this.setData({ id: options.id });
 		this.getToken();
 		this.getProDetail();
@@ -49,17 +48,21 @@ Page({
 	getQRCode: function (token) {
 		const dd = this.data;
 		wx.request({
-			url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + token,
+			// url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + token,
+			url: 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=' + token,
 			method: 'POST',
 			header: { 'content-type': 'application/json' },
+			// data: {
+			// 	scene: encodeURI('pro_' + dd.id),
+			// 	page: 'pages/productDetail/productDetail'
+			// },
 			data: {
-				scene: encodeURI('pro_' + dd.id),
-				page: 'pages/productDetail/productDetail'
+				path: 'pages/productDetail/productDetail?id=' + dd.proInfo.proId,
 			},
 			success: res => {
-				console.log(res.data);
+				// console.log(res.data);
 				if (res.data) {
-					// this.setData({ qrCode: res.data });
+					this.setData({ qrCode: res.data });
 				}
 			}
 		})
@@ -143,16 +146,19 @@ Page({
 		})
 	},
 	preview: function (e) {
-		// wx.previewImage({
-		// 	urls: [this.data.qrCode]
-		// })
-		this.setData({ isPreview: true });
-	},
-	closePreview: function () {
-		this.setData({ isPreview: false });
+		if (this.data.isPreview) {
+			this.setData({ isPreview: false });
+		} else {
+			this.setData({ isPreview: true });
+		}
 	},
 	onShareAppMessage: function () {
-
+		let dd = this.data.proInfo;
+		return {
+			title: dd.proName,
+			path: 'pages/productDetail/productDetail?id=' + dd.proId,
+			imageUrl: dd.coverImg
+		}
 	},
 	showToast: function (txt) {
 		const that = this;

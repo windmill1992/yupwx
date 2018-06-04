@@ -3,7 +3,7 @@
   <view class='hd'>
     <swiper class='banner' indicator-dots indicator-color='#606060' indicator-active-color='#fff' autoplay circular style='height: {{height}}px'>
       <swiper-item class='item' wx:for='{{proInfo.bannerImgList}}' wx:key='banner'>
-        <image src='{{item}}' mode='widthFix' bindload='imgLoad'></image>
+        <image src='{{item}}' data-src='{{item}}' mode='{{index == 0 ? "widthFix" : "aspectFill"}}' bindload='imgLoad' catchtap='preview'></image>
       </swiper-item>
     </swiper>
   </view>

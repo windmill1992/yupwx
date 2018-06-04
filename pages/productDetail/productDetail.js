@@ -16,21 +16,21 @@ Page({
 	},
 	onLoad: function (options) {
 		const that = this;
-		if (!options.id){
+		if (!options.id) {
 			let id = decodeURIComponent(options.scene).split('_')[1];
 			this.setData({ state: options.state, id: id });
 			console.log(decodeURIComponent(options.scene));
-		}else{
+		} else {
 			this.setData({ state: options.state, id: options.id });
 		}
-		
+
 		let user = wx.getStorageSync('user');
 		if (!user || user == '' || user == null) {
 			this.setData({ isLogin: false });
 		} else {
-			if(util.check('validTime')){
+			if (util.check('validTime')) {
 				this.setData({ isLogin: true, userId: user.userId, userAvatar: user.avatarUrl });
-			}else{
+			} else {
 				this.setData({ isLogin: false });
 				this.showToast('登录已失效');
 			}
@@ -57,8 +57,8 @@ Page({
 				if (res.data.resultCode == 200) {
 					let r = res.data.resultData;
 					this.setData({ proInfo: r, endTime: r.proEndTime });
-					if(this.data.isLogin){
-						if(this.data.state != 2){
+					if (this.data.isLogin) {
+						if (this.data.state != 2) {
 							this.countDown();
 						}
 						let boo = false;
@@ -172,6 +172,13 @@ Page({
 		let H = parseFloat(winw * h / w).toFixed(2);
 		this.setData({ height: H });
 	},
+	preview: function (e) {
+		let src = e.currentTarget.dataset.src;
+		wx.previewImage({
+			urls: this.data.proInfo.bannerImgList,
+			current: src
+		})
+	},
 	toApply: function () {
 		wx.navigateTo({
 			url: '/pages/apply/apply?id=' + this.data.id
@@ -235,7 +242,7 @@ Page({
 		let dd = this.data;
 		return {
 			title: '',
-			path: '/pages/productDetail/productDetail?id='+ dd.id,
+			path: '/pages/productDetail/productDetail?id=' + dd.id,
 			imageUrl: dd.proInfo.bannerImgList[0],
 			success: () => {
 				this.setData({ isShare: true });

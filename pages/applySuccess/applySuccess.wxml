@@ -17,12 +17,10 @@
         <view class='tip'>扫描小程序码免费领取！</view>
       </view>
       <view class='qrcode'>
-        <image src='{{qrCode}}' bindtap='preview'></image>
+        <image src='{{qrCode}}' class='{{isPreview ? "big" : ""}}' bindtap='preview'></image>
       </view>
     </view>
   </view>
-	<view class='preview' wx:if='{{isPreview}}'>
-		<image src='{{qrCode}}' bindtap='closePreview' mode='widthFix'></image>
-	</view>
+	<view class='preview' class='preview {{isPreview ? "show" : ""}}'></view>
 </view>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
