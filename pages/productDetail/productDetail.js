@@ -58,9 +58,9 @@ Page({
 			success: res => {
 				if (res.data.resultCode == 200) {
 					let r = res.data.resultData;
-					this.setData({ proInfo: r, endTime: r.proEndTime });
+					this.setData({ proInfo: r, endTime: r.proEndTime, state: r.proStatus });
 					if (this.data.isLogin) {
-						if (this.data.state != 2) {
+						if (this.data.state < 2) {
 							this.countDown();
 						}
 						let boo = false;
