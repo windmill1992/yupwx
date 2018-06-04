@@ -1,11 +1,11 @@
-<!--index.wxml-->
+ <!--index.wxml-->
 <view class="container">
-  <view class='goods-wrapper' wx:if='{{state == 1}}'>
+  <view class='goods-wrapper' wx:if='{{state == 1 && hasInprocess}}'>
     <view class='state'>正在进行</view>
     <view class='tip'>今日上新{{todayNewProCount}}件单品</view>
     <view class='goods-list'>
       <view data-id='{{item.proId}}' data-state='{{item.proStatus}}' bindtap='navToDetail' class='goods-item' wx:for='{{inProcessProList}}' wx:key='proId'>
-        <view class='pic'>
+        <view class='pic' catchtap='toDetail' data-id='{{item.proId}}' data-state='{{item.proStatus}}'>
           <image src='{{item.coverImg}}' mode='widthFix' lazy-load='{{index > 1}}'></image>
         </view>
         <view class='name'>{{item.proName}}</view>
@@ -24,7 +24,7 @@
 						<block wx:if='{{!isApplys[item.proId]}}'>免费申请</block>
 						<block wx:else>已申请</block>
 					</view>
-          <button open-type='getUserInfo' bindgetuserinfo='getUserInfo' wx:else class='apply-btn'>登录可申请</button>
+          <button open-type='getUserInfo' bindgetuserinfo='getUserInfo' wx:else class='apply-btn' data-id='{{item.proId}}' data-state='{{item.proStatus}}'>免费申请</button>
         </view>
       </view>
     </view>

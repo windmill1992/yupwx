@@ -1,11 +1,12 @@
 <!--pages/productDetail/productDetail.wxml-->
 <view class='container'>
   <view class='hd'>
-    <swiper class='banner' indicator-dots indicator-color='#606060' indicator-active-color='#fff' autoplay circular style='height: {{height}}px'>
+    <swiper class='banner' indicator-dots indicator-color='#606060' indicator-active-color='#fff'  circular style='height: {{height}}px'>
       <swiper-item class='item' wx:for='{{proInfo.bannerImgList}}' wx:key='banner'>
-        <image src='{{item}}' data-src='{{item}}' mode='{{index == 0 ? "widthFix" : "aspectFill"}}' bindload='imgLoad' catchtap='preview'></image>
+        <image src='{{item}}' data-src='{{item}}' mode='{{index == 0 ? "widthFix" : "aspectFill"}}' bindload='imgLoad' catchtap='preview' style='height: {{height}}px'></image>
       </swiper-item>
     </swiper>
+		<navigator url='/pages/index/index' open-type='switchTab' class='nav' wx:if='{{isShare2}}'>返回首页</navigator>
   </view>
   <view class='bd'>
     <view class='cloth-info'>
@@ -84,7 +85,7 @@
 		<block wx:if='{{isLogin}}'>
 			<button open-type='share' class='nav-btn' wx:if='{{!isShare && !isApply}}'>分享免费申请（距结束还有{{restTime}}）</button>
 			<view class='nav-btn no' wx:if='{{isApply}}'>已申请</view>
-			<view class='nav-btn' bindtap='toApply' wx:else>立即申请</view>
+			<view class='nav-btn' bindtap='toApply' wx:else>立即申请（距结束还有{{restTime}}）</view>
 		</block>
 		<block wx:else>
 			<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='nav-btn'>登录可申请</button>

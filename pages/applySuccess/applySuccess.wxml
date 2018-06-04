@@ -5,11 +5,15 @@
       <image src='../../img/success.png'></image>
     </view>
     <view class='txt'>申请成功，分享到朋友圈可提高获奖概率哦！</view>
-    <view class='btn' bindtap='savePhoto'>保存图片</view>
+		<view class='btns flex spa'>
+    	<view class='btn' bindtap='savePhoto' wx:if='{{!canIUse}}'>保存图片</view>
+			<button class='btn' open-type='openSetting' bindtap='openSetting' wx:else>保存图片(未授权)</button>
+			<navigator url='/pages/index/index' open-type='switchTab' class='btn' hover-class='none'>返回首页</navigator>
+		</view>
   </view>
   <view class='pic-wrapper'>
     <view class='pic'>
-      <image src='{{proInfo.coverImg}}'></image>
+      <image src='{{proInfo.coverImg}}' mode='aspectFill'></image>
     </view>
     <view class='foot flex spb fcen'>
       <view class='adv'>

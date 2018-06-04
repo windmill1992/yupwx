@@ -32,6 +32,9 @@ Page({
 		}
 	},
 	getUserInfo: function (e) {
+		let obj = {}, data = e.currentTarget.dataset;
+		obj.id = data.id;
+		obj.state = data.state;
 		if (e.detail.userInfo) {
 			let user = e.detail.userInfo;
 			app.userInfo = user;
@@ -40,12 +43,12 @@ Page({
 				userAvatar: user.avatarUrl,
 				nickName: user.nickName
 			});
-			this.login()
+			this.login(obj)
 		} else {
 			this.showToast('拒绝授权！')
 		}
 	},
-	login: function () {
+	login: function (o) {
 		wx.showLoading({
 			title: '正在登录...'
 		});
@@ -65,6 +68,13 @@ Page({
 							wx.setStorageSync('user', obj)
 							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
 							this.showToast('登录成功！');
+							if(o){
+								setTimeout(() => {
+									wx.navigateTo({
+										url: '/pages/productDetail/productDetail?id='+ o.id + '&state='+ o.state
+									}, 2000)
+								})
+							}
 						} else {
 							this.setData({ isLogin: false });
 							wx.showModal({
@@ -109,7 +119,7 @@ Page({
 						for (let i = 0; i < r.inProcessProList.length;i++){
 							arr.push(r.inProcessProList[i].proId);
 						}
-						this.setData({ids: arr});
+						this.setData({ ids: arr, hasInprocess: true });
 					}
 					let hasmore = 0;
 					if (r.allProCount == 0){
@@ -131,7 +141,7 @@ Page({
 						that.getIsApply();
 					}
 				} else {
-					that.showToast(res.data.resultMsg);
+					that.showToast('服务器错误！');
 				}
 			},
 			fail: () => {
@@ -173,6 +183,14 @@ Page({
 	navToDetail: function (e) {
 		let data = e.currentTarget.dataset;
 		if (this.data.isLogin) {
+			wx.navigateTo({
+				url: '/pages/productDetail/productDetail?id=' + data.id + '&state=' + data.state
+			})
+		}
+	},
+	toDetail: function(e){
+		if (!this.data.isLogin){
+			let data = e.currentTarget.dataset;
 			wx.navigateTo({
 				url: '/pages/productDetail/productDetail?id=' + data.id + '&state=' + data.state
 			})

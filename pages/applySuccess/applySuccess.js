@@ -2,16 +2,21 @@
 const app = getApp().globalData;
 const api = {
 	proDetail: app.baseUrl + '/yup/yup-rest/pro-detail',		//商品详情
+	qrcode: app.baseUrl + '/yup/yup-rest/pro-wechat-code'		//获取小程序码
 }
 Page({
 	data: {
 		id: '',
+		canIUse: false,
 		qrCode: '../../img/qrcode.jpg'
 	},
 	onLoad: function (options) {
 		this.setData({ id: options.id });
-		this.getToken();
 		this.getProDetail();
+		this.getQRCode();
+		if (wx.canIUse('button.open-type.openSetting')){
+			this.setData({ canIUse: true });
+		}
 	},
 	getProDetail: function () {
 		wx.request({
@@ -31,38 +36,20 @@ Page({
 			}
 		})
 	},
-	getToken: function () {
+	getQRCode: function(){
 		wx.request({
-			url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + app.appid + '&secret=' + app.appSecret,
+			url: api.qrcode,
 			method: 'GET',
-			data: {},
+			data: { proId: this.data.id },
 			success: res => {
-				if (res.data) {
-					this.getQRCode(res.data.access_token);
-				} else {
-					this.showToast('获取token失败！');
-				}
-			}
-		})
-	},
-	getQRCode: function (token) {
-		const dd = this.data;
-		wx.request({
-			// url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + token,
-			url: 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=' + token,
-			method: 'POST',
-			header: { 'content-type': 'application/json' },
-			// data: {
-			// 	scene: encodeURI('pro_' + dd.id),
-			// 	page: 'pages/productDetail/productDetail'
-			// },
-			data: {
-				path: 'pages/productDetail/productDetail?id=' + dd.proInfo.proId,
-			},
-			success: res => {
-				// console.log(res.data);
-				if (res.data) {
-					this.setData({ qrCode: res.data });
+				if(res.data.resultCode == 200){
+					if(res.data.resultData){
+						this.setData({ qrCode: res.data.resultData });
+					}else{
+						this.showToast('生成小程序码出错');
+					}
+				}else{
+					this.showToast(res.data.resultMsg);
 				}
 			}
 		})

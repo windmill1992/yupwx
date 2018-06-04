@@ -2,7 +2,7 @@
 
 .head {
   text-align: center;
-  padding: 60rpx 30rpx 0;
+  padding: 50rpx 30rpx 0;
 }
 
 .head .icon {

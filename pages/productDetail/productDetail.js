@@ -16,11 +16,11 @@ Page({
 	},
 	onLoad: function (options) {
 		const that = this;
-		if (!options.id) {
-			let id = decodeURIComponent(options.scene).split('_')[1];
-			this.setData({ state: options.state, id: id });
-			console.log(decodeURIComponent(options.scene));
-		} else {
+		if (options.id){
+			if (!options.state) {
+				options.state = 1;
+				this.setData({ isShare2: true });
+			}
 			this.setData({ state: options.state, id: options.id });
 		}
 
@@ -45,7 +45,9 @@ Page({
 				}
 			}
 		}
-
+	},
+	onShow: function(){
+		this.getProDetail();
 	},
 	getProDetail: function () {
 		wx.request({
@@ -240,23 +242,21 @@ Page({
 	},
 	onShareAppMessage: function () {
 		let dd = this.data;
+		this.setData({ isShare: true });
+		let ids = wx.getStorageSync('shareProIds');
+		if (ids && ids.indexOf(dd.id) == -1) {
+			ids.push(dd.id);
+		} else {
+			ids = [dd.id];
+		}
+		wx.setStorage({
+			key: 'shareProIds',
+			data: ids
+		})
 		return {
 			title: '',
 			path: '/pages/productDetail/productDetail?id=' + dd.id,
-			imageUrl: dd.proInfo.bannerImgList[0],
-			success: () => {
-				this.setData({ isShare: true });
-				let ids = wx.getStorageSync('shareProIds');
-				if (ids && ids.indexOf(dd.id) == -1) {
-					ids.push(dd.id);
-				} else {
-					ids = [dd.id];
-				}
-				wx.setStorage({
-					key: 'shareProIds',
-					data: ids
-				})
-			}
+			imageUrl: dd.proInfo.bannerImgList[0]
 		}
 	},
 	showToast: function (txt) {

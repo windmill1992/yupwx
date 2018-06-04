@@ -18,8 +18,9 @@ Page({
     if (id) {
       isEdit = true;
       this.getAddrInfo();
+			this.setData({ id: id })
     }
-    this.setData({ id: id, isEdit: isEdit });
+    this.setData({ isEdit: isEdit });
 
   },
   getAddrInfo: function () {

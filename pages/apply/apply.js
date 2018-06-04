@@ -30,7 +30,11 @@ Page({
 			data: {},
 			success: res => {
 				if (res.data.resultCode == 200) {
-					this.setData({ addrInfo: res.data.resultData[0], hasAddr: 1 });
+					if (res.data.resultData && res.data.resultData.length > 0){
+						this.setData({ addrInfo: res.data.resultData[0], hasAddr: 1 });
+					}else{
+						this.setData({ hasAddr: 0 });
+					}
 				} else {
 					this.showToast(res.data.resultMsg);
 					this.setData({ hasAddr: 0 });
