@@ -36,6 +36,7 @@
 .area {
   width: 100%;
   min-height: 250rpx;
+	color: #151419;
 }
 
 .letter-tip {
