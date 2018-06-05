@@ -59,7 +59,6 @@ Page({
 	},
 	savePhoto: function (path) {
 		const that = this;
-
 		wx.getSetting({
 			success: res1 => {
 				if (!res1.authSetting['scope.writePhotosAlbum']) {
@@ -131,6 +130,11 @@ Page({
 		}
 	},
 	makeShareImg: function () {
+		if(this.data.making) return;
+		this.setData({ making: true });
+		wx.showLoading({
+			title: '正在保存...'
+		})
 		let dd = this.data;
 		let img = dd.proInfo.coverImg;
 		let code = dd.qrCode;
@@ -138,17 +142,30 @@ Page({
 		img = img.replace(img.split('/')[0], app.imgHost2);
 		code = code.replace('http://', '');
 		code = code.replace(code.split('/')[0], app.imgHost);
-		console.log(img);
 		wx.downloadFile({
-			url: 'https://propic.yupfashion.cn/1528101785495.jpg',
+			url: img,
 			success: res => {
 				img = res.tempFilePath;
 				wx.downloadFile({
-					url: 'https://pic.yupfashion.cn/1528100388031.png?Expires=1843552401&OSSAccessKeyId=LTAIUEHkf3brTwt1&Signature=pcyTJXf7isI53wRedzJUsHAl%2B7Q%3D',
+					url: code,
 					success: res1 => {
 						code = res1.tempFilePath;
 						exec();
+					},
+					fail: res => {
+						wx.hideLoading();
+						this.setData({ making: false });
 					}
+				})
+			},
+			fail: res => {
+				wx.hideLoading();
+				this.setData({ making: false });
+				console.log(res);
+				wx.showModal({
+					title: '',
+					content: JSON.stringify(res),
+					showCancel: false
 				})
 			}
 		})
@@ -204,7 +221,13 @@ Page({
 					destWidth: 1100,
 					destHeight: 1500,
 					success: res => {
+						wx.hideLoading();
+						that.setData({ making: false });
 						that.savePhoto(res.tempFilePath);
+					},
+					fail: res => {
+						that.setData({ making: false });
+						wx.hideLoading();
 					}
 				}, that)
 			}, 100));

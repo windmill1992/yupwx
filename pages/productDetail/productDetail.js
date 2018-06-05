@@ -242,7 +242,10 @@ Page({
 	},
 	onShareAppMessage: function () {
 		let dd = this.data;
-		this.setData({ isShare: true });
+		const that = this;
+		setTimeout(() => {
+			that.setData({ isShare: true });
+		}, 1000);
 		let ids = wx.getStorageSync('shareProIds');
 		if (ids && ids.indexOf(dd.id) == -1) {
 			ids.push(dd.id);
