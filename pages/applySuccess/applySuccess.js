@@ -37,7 +37,6 @@ Page({
 		})
 	},
 	getProp: function (e) {
-		console.log(e);
 		this.setData({ imgW: e.detail.width, imgH: e.detail.height });
 	},
 	getQRCode: function () {
@@ -135,45 +134,81 @@ Page({
 		let dd = this.data;
 		let img = dd.proInfo.coverImg;
 		let code = dd.qrCode;
-		let name = dd.proInfo.proName;
-		let r = wx.getSystemInfoSync().windowWidth / 375;
-		let w = 550 * r;
-		let h = 750 * r;
-		let imgWidth = dd.imgW / dd.imgH * 550 * r;
-		let imgX = (550 - imgWidth) * r / 2;
-		let ctx = wx.createCanvasContext('cv', this);
-		ctx.beginPath();
-		ctx.drawImage(img, imgX, 0, imgWidth, 550 * r);
-		ctx.setFontSize(24 * r);
-		ctx.setTextBaseline('top');
-		ctx.setFillStyle('#262628');
-		ctx.fillText('我正在YUP新潮申请试用', 20, 580 * r);
-		ctx.fillText('「' + name + '」你也来', 20, 614 * r);
-		ctx.fillText('一起参与领取吧', 20, 648 * r);
-		ctx.closePath();
+		img = img.replace('http://', '');
+		img = img.replace(img.split('/')[0], app.imgHost2);
+		code = code.replace('http://', '');
+		code = code.replace(code.split('/')[0], app.imgHost);
+		console.log(img);
+		wx.downloadFile({
+			url: 'https://propic.yupfashion.cn/1528101785495.jpg',
+			success: res => {
+				img = res.tempFilePath;
+				wx.downloadFile({
+					url: 'https://pic.yupfashion.cn/1528100388031.png?Expires=1843552401&OSSAccessKeyId=LTAIUEHkf3brTwt1&Signature=pcyTJXf7isI53wRedzJUsHAl%2B7Q%3D',
+					success: res1 => {
+						code = res1.tempFilePath;
+						exec();
+					}
+				})
+			}
+		})
+		const that = this;
+		function exec() {
+			let name = dd.proInfo.proName;
+			name = name.length > 13 ? (name.substr(0, 13) + '...') : name;
+			let r = wx.getSystemInfoSync().windowWidth / 375;
+			let w = 550 * r;
+			let h = 750 * r;
+			let imgWidth = dd.imgW / dd.imgH * 550 * r;
+			let imgX = (550 - imgWidth) * r / 2;
+			imgX = imgX < 0 ? 0 : imgX;
+			let ctx = wx.createCanvasContext('cv', that);
 
-		ctx.beginPath();
-		ctx.setFontSize(20 * r);
-		ctx.setFillStyle('rgba(0,0,0,0.5)');
-		ctx.fillText('扫描小程序码免费领取！', 20, 690 * r);
+			ctx.beginPath();
+			ctx.setFillStyle('#F5F7F6');
+			ctx.fillRect(0, 0, w, 550 * r);
+			ctx.closePath();
 
-		ctx.drawImage(code, 352 * r + 20, 570 * r, 158 * r, 158 * r);
+			ctx.beginPath();
+			ctx.drawImage(img, imgX, 0, imgWidth, 550 * r);
+			ctx.setFillStyle('#ffffff');
+			ctx.fillRect(0, 550 * r, w, 250 * r);
+			ctx.closePath();
 
-		ctx.closePath();
-		ctx.draw(true, setTimeout(() => {
-			wx.canvasToTempFilePath({
-				canvasId: 'cv',
-				x: 0,
-				y: 0,
-				width: w,
-				height: h,
-				destWidth: 1100,
-				destHeight: 1500,
-				success: res => {
-					this.savePhoto(res.tempFilePath);
-				}
-			}, this)
-		}, 100));
+			ctx.beginPath();
+			ctx.setFontSize(24 * r);
+			ctx.setTextBaseline('top');
+			ctx.setFillStyle('#262628');
+			ctx.fillText('我正在YUP新潮申请试用', 20, 580 * r);
+			ctx.fillText('「' + name + '」', 20, 614 * r);
+			ctx.fillText('你也来一起参与领取吧', 20, 648 * r);
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.setFontSize(20 * r);
+			ctx.setFillStyle('rgba(0,0,0,0.5)');
+			ctx.fillText('扫描小程序码免费领取！', 20, 690 * r);
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.drawImage(code, 352 * r + 20, 570 * r, 158 * r, 158 * r);
+			ctx.closePath();
+
+			ctx.draw(true, setTimeout(() => {
+				wx.canvasToTempFilePath({
+					canvasId: 'cv',
+					x: 0,
+					y: 0,
+					width: w,
+					height: h,
+					destWidth: 1100,
+					destHeight: 1500,
+					success: res => {
+						that.savePhoto(res.tempFilePath);
+					}
+				}, that)
+			}, 100));
+		}
 	},
 	onShareAppMessage: function () {
 		let dd = this.data.proInfo;

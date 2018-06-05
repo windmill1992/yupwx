@@ -27,7 +27,6 @@
   margin-bottom: 30rpx;
   background: #fff;
 	border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 16rpx;
 }
 
 .prog-list .pic {

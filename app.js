@@ -24,11 +24,11 @@ App({
 	},
 	globalData: {
 		userInfo: null,
-		baseUrl: 'http://api.yupfashion.cn',
+		baseUrl: 'https://api.yupfashion.cn',
 		header: {
 			'content-type': 'application/json',
 		},
-		appid: 'wxf53853fc0d818bff',
-		appSecret: '67ca8cca161fb80a3bf9316a1f49bf1b'
+		imgHost: 'https://pic.yupfashion.cn',			//小程序码
+		imgHost2: 'https://propic.yupfashion.cn'	//封面图
 	}
 })
