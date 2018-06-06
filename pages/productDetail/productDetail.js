@@ -263,7 +263,7 @@ Page({
 		return {
 			title: '免费领取，跟我一起来拿'+ title,
 			path: '/pages/productDetail/productDetail?id=' + dd.id,
-			imageUrl: dd.proInfo.bannerImgList[0]
+			imageUrl: dd.proInfo.coverImg
 		}
 	},
 	showToast: function (txt) {

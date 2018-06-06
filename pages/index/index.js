@@ -16,6 +16,7 @@ Page({
 
 	},
 	onShow: function () {
+		this.setData({ endPage: 1, endProList: [] });
 		this.getProList(1, 10);
 		let user = wx.getStorageSync('user');
 		if (!user || user == '' || user == null) {

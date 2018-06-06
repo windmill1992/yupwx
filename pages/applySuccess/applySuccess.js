@@ -152,16 +152,20 @@ Page({
 						code = res1.tempFilePath;
 						exec();
 					},
-					fail: res => {
+					fail: res1 => {
 						wx.hideLoading();
 						this.setData({ making: false });
+						wx.showModal({
+							title: '',
+							content: JSON.stringify(res1),
+							showCancel: false
+						})
 					}
 				})
 			},
 			fail: res => {
 				wx.hideLoading();
 				this.setData({ making: false });
-				console.log(res);
 				wx.showModal({
 					title: '',
 					content: JSON.stringify(res),
@@ -176,7 +180,7 @@ Page({
 			let r = wx.getSystemInfoSync().windowWidth / 375;
 			let w = 550 * r;
 			let h = 750 * r;
-			let imgWidth = dd.imgW / dd.imgH * 550 * r;
+			let imgWidth = dd.imgW / dd.imgH * 550;
 			let imgX = (550 - imgWidth) * r / 2;
 			imgX = imgX < 0 ? 0 : imgX;
 			let ctx = wx.createCanvasContext('cv', that);
@@ -232,6 +236,24 @@ Page({
 				}, that)
 			}, 100));
 		}
+	},
+	showDialog: function(){
+		this.setData({ showDialog: true });
+	},
+	closeDialog: function(){
+		this.setData({ showDialog: false });
+	},
+	save2photo: function(e){
+		let src = e.currentTarget.dataset.src;
+		wx.showModal({
+			title: '',
+			content: '是否保存图片？',
+			success: res => {
+				if(res.confirm){
+					this.savePhoto(src);
+				}
+			}
+		})
 	},
 	onShareAppMessage: function () {
 		let dd = this.data.proInfo;

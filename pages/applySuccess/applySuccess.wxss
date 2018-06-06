@@ -1,8 +1,13 @@
 /* pages/testDetail/testDetail.wxss */
 
+page{
+	overflow: hidden
+}
+
 .head {
   text-align: center;
-  padding: 50rpx 30rpx 0;
+  padding: 30rpx 30rpx 0;
+  position: relative;
 }
 
 .head .icon {
@@ -22,25 +27,46 @@
 .head .txt {
   font-size: 26rpx;
   color: #000;
-  margin-bottom: 34rpx;
+  margin-bottom: 10rpx;
+}
+
+.head .txt1 {
+  margin-bottom: 30rpx;
 }
 
 .head .btn {
   width: 140rpx;
-  height: 44rpx;
-  margin: 0 auto;
-  line-height: 44rpx;
+  height: 48rpx;
+  line-height: 48rpx;
   font-size: 24rpx;
   color: rgba(0, 0, 0, 0.6);
   border: 1px solid rgba(0, 0, 0, 0.6);
-  border-radius: 44rpx;
+  border-radius: 48rpx;
+}
+
+.head .btn:first-child {
+  margin-right: 40rpx;
+}
+
+.back-index {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 0 20rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  font-size: 24rpx;
+  color: #fff;
+  background: #3d3bee;
+  border-top-left-radius: 52rpx;
+  border-bottom-left-radius: 52rpx;
 }
 
 .pic-wrapper {
   width: 550rpx;
   height: 744rpx;
   background: #fff;
-  margin: 52rpx auto 30rpx;
+  margin: 40rpx auto 30rpx;
   box-shadow: 0 0 24rpx 0 rgba(0, 0, 0, 0.05);
   border-radius: 16rpx;
   overflow: hidden;
@@ -82,41 +108,75 @@
 .foot .qrcode image {
   width: 100%;
   height: 100%;
-	transition: all .4s ease;
+  transition: all 0.4s ease;
 }
 
-.foot .qrcode image.big{
-	position: fixed;
-	width: 100%;
-	height: 750rpx;
-	top: 50%;
-	left: 0;
-	transform: translate3d(0, -50%, 0);
-	z-index: 99
+.foot .qrcode image.big {
+  position: fixed;
+  width: 100%;
+  height: 750rpx;
+  top: 50%;
+  left: 0;
+  transform: translate3d(0, -50%, 0);
+  z-index: 99;
 }
 
-.preview{
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	background: rgba(0, 0, 0, 0.9);
-	z-index: -1;
-	opacity: 0;
-	transition: all .4s ease;
+.preview {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: -1;
+  opacity: 0;
+  transition: all 0.4s ease;
 }
 
-.preview.show{
-	z-index: 1;
-	opacity: 1;
+.preview.show {
+  z-index: 1;
+  opacity: 1;
 }
 
-.canvas{
-	width: 1100rpx;
-	height: 1500rpx;
-	position: fixed;
-	top: 0;
-	/* left: -20px; */
-	 left: -10000px; 
+.canvas {
+  width: 1100rpx;
+  height: 1500rpx;
+  position: fixed;
+  top: 0;
+  /* left: -20px; */
+  left: -10000px;
+}
+
+.dialog, .dialog .mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.dialog .mask {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.dialog .content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 500rpx;
+  text-align: center;
+}
+
+.dialog .content .wx {
+  width: 500rpx;
+  height: 500rpx;
+  vertical-align: top;
+  margin: 0 auto;
+}
+
+.dialog .content .close {
+  width: 80rpx;
+  height: 80rpx;
+  margin: 60rpx auto;
 }
