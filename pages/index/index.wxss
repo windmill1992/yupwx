@@ -14,13 +14,13 @@
   color: #262628;
   font-family: 'PingFangSC-Medium';
   font-weight: 600;
-  margin: 32rpx 0 0;
+  margin: 32rpx 0 10rpx;
 }
 
 .tip {
   font-size: 20rpx;
   color: rgba(0, 0, 0, 0.3);
-  margin-top: 10rpx;
+  margin-top: 20rpx;
 }
 
 .goods-list {
@@ -100,9 +100,9 @@
   background: #4a4a4a;
 }
 
-.loadmore{
-	text-align: center;
-	font-size: 26rpx;
-	color: #999;
-	margin: 20rpx 0;
+.loadmore {
+  text-align: center;
+  font-size: 26rpx;
+  color: #999;
+  margin: 20rpx 0;
 }

@@ -2,9 +2,12 @@
 
 .time-box {
   height: 80rpx;
-  background: #f00;
   color: #fff;
   font-size: 28rpx;
   text-align: center;
   line-height: 80rpx;
+}
+
+.time-box.c-ae985b {
+	background: #AE985B;
 }

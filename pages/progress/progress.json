@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "试用进展"
+  "navigationBarTitleText": "试用进展",
+	"usingComponents": {
+		"countdown": "/components/Countdown/countdown"
+	}
 }

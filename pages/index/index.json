@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "YUP新潮"
+  "navigationBarTitleText": "YUP新潮",
+	"usingComponents": {
+		"countdown": "/components/Countdown/countdown"
+	}
 }

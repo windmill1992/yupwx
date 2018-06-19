@@ -1,14 +1,16 @@
 <!--pages/progress/progress.wxml-->
 <view class='container'>
   <view class='nav flex'>
-    <view class='nav-a {{tab == 1 ? "on":""}}' data-tab='1' catchtap='switchTab'>已申请</view>
-    <view class='nav-a {{tab == 2 ? "on":""}}' data-tab='2' catchtap='switchTab'>已选中</view>
+    <view class='nav-a {{tab == 0 ? "on":""}}' data-tab='0' catchtap='switchTab'>全部</view>
+    <view class='nav-a {{tab == 1 ? "on":""}}' data-tab='1' catchtap='switchTab'>进行中</view>
+    <view class='nav-a {{tab == 2 ? "on":""}}' data-tab='2' catchtap='switchTab'>已中奖</view>
     <view class='nav-a {{tab == 3 ? "on":""}}' data-tab='3' catchtap='switchTab'>已完成</view>
   </view>
   <block wx:if='{{isLogin}}'>
     <view class='prog-list'>
       <navigator url='/pages/productDetail/productDetail?id={{item.proId}}' class='item flex' wx:for='{{trialList}}' wx:key='proId'>
-        <view class='pic'>
+        <countdown time='{{item.endTime}}' class='times'>距结束还有：</countdown>
+				<view class='pic'>
           <image src='{{item.proImg}}'></image>
         </view>
         <view class='infos flex1 fcol spb'>

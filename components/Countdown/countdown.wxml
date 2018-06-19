@@ -1,5 +1,5 @@
 <!--components/Countdown/countdown.wxml-->
-<view class='time-box'>
-  <text wx:if='{{state == 1}}'><slot name='before'></slot>{{restTime}}</text>
-  <text wx:elif='{{state == 2}}'>已结束<slot name='after'></slot></text>
+<view class='time-box {{myClass}}'>
+  <text wx:if='{{state == 1}}'><slot></slot>{{restTime}}</text>
+  <text wx:elif='{{state == 2}}'>已结束<slot></slot></text>
 </view>

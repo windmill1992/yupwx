@@ -1,8 +1,10 @@
 // components/Countdown/countdown.js
 Component({
   properties: {
-		time: {
-			type: Number
+		time: Number,
+		myClass: {
+			type: String,
+			value: ''
 		}
   },
   data: {

@@ -120,6 +120,7 @@ Page({
 						let arr = [];
 						for (let i = 0; i < r.inProcessProList.length; i++) {
 							arr.push(r.inProcessProList[i].proId);
+							r.inProcessProList[i].endTime = 1529413331730
 						}
 						this.setData({ ids: arr, hasInprocess: true });
 					}

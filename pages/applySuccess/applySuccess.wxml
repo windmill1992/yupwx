@@ -1,18 +1,71 @@
 <!--pages/testDetail/testDetail.wxml-->
 <view class='container'>
   <view class='head'>
-    <view class='icon flex fcen spc'>
-      <image src='../../img/success.png'></image>
-    </view>
-    <view class='txt'>申请成功，分享到朋友圈可提高获奖概率哦！</view>
-    <view class='txt txt1'>关注微信公众号查看中奖信息！</view>
-    <view class='btns flex spc'>
-      <view class='btn' bindtap='makeShareImg' wx:if='{{!canIUse}}'>保存图片</view>
-      <button class='btn' open-type='openSetting' bindtap='openSetting' wx:else>保存图片(未授权)</button>
-      <view class='btn' bindtap='showDialog'>关注微信</view>
-    </view>
+    <navigator url='' class='goods-wrapper flex'>
+			<view class='pic fshink0'>
+				<image src='{{proInfo.coverImg}}' mode='aspectFill'></image>
+			</view>
+			<view class='fcol spb flex1'>
+				<view class='info'>
+					<view class='title'>{{proInfo.proName}}</view>
+					<view class='other'>售价：{{proInfo.sellingPrice}} 数量：{{proInfo.proCount}}件</view>
+				</view>
+				<view class='apply-box flex fcen spb'>
+					<view class='apply-list flex'>
+						<image wx:for='{{proInfo.applyUserList}}' wx:key='apply{{index}}' src='{{item}}' wx:if='{{index < 5}}'></image>
+					</view>
+					<view class='apply-num'>{{proInfo.applyPeopleNum}}人申请</view>
+				</view>
+			</view>
+		</navigator>
+    <view class='txt'>活动规则：在结束时间前 获得Yup值最高的前3名用户可以获得该奖品</view>
     <navigator url='/pages/index/index' open-type='switchTab' class='back-index' hover-class='none'>返回首页</navigator>
   </view>
+	<view class='body'>
+		<view class='yup-box'>
+			<view class='txt1'>我的当前YUP值</view>
+			<view class='num'>28.03</view>
+			<view class='min'>当前获奖最低YUP值214</view>
+			<view class='get'>获取记录</view>
+		</view>
+		<view class='op-list'>
+			<view class='item flex fcen spb'>
+				<view>
+					<view class='title'>每日签到</view>
+					<view class='txt'>四小时一次机会，随机获得YUP值</view>
+				</view>
+				<view class='btn'>去签到</view>
+			</view>
+			<view class='item flex fcen spb'>
+				<view>
+					<view class='title'>关注金主爸爸公众号</view>
+					<view class='txt'>四小时一次机会，随机获得YUP值</view>
+				</view>
+				<view class='btn'>去关注</view>
+			</view>
+			<view class='item flex fcen spb'>
+				<view>
+					<view class='title'>关注公众号</view>
+					<view class='txt'>四小时一次机会，随机获得YUP值</view>
+				</view>
+				<view class='btn'>去关注</view>
+			</view>
+			<view class='item flex fcen spb'>
+				<view>
+					<view class='title'>分享好友</view>
+					<view class='txt'>四小时一次机会，随机获得YUP值</view>
+				</view>
+				<view class='btn'>去分享</view>
+			</view>
+			<view class='item flex fcen spb'>
+				<view>
+					<view class='title'>分享到朋友圈</view>
+					<view class='txt'>四小时一次机会，随机获得YUP值</view>
+				</view>
+				<view class='btn ed'>已完成</view>
+			</view>
+		</view>
+	</view>
   <view class='pic-wrapper'>
     <view class='pic'>
       <image src='{{proInfo.coverImg}}' mode='aspectFill' bindload='getProp'></image>
