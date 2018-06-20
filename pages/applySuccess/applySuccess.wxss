@@ -1,7 +1,8 @@
 /* pages/testDetail/testDetail.wxss */
+@import './dialog.wxss';
 
-page{
-	overflow: hidden;
+.container{
+	padding-bottom: 110rpx;
 }
 
 .head {
@@ -129,6 +130,156 @@ page{
 	background: #d9d9d9;
 }
 
+.op-list2{
+	padding: 30rpx;
+	margin-bottom: 30rpx;
+	border-bottom: 1px solid #f3f3f3;
+}
+
+.op-list2 .btn1{
+	text-align: center;
+	color: #fff;
+	font-size: 28rpx;
+	height: 88rpx;
+	line-height: 88rpx;
+	margin-bottom: 30rpx;
+	background: #3d3bee;
+}
+
+.op-list2 .btn2{
+	text-align: center;
+	color: #000;
+	font-size: 28rpx;
+	height: 84rpx;
+	line-height: 84rpx;
+	border: 1px solid #000;
+}
+
+.ranking .title{
+	padding: 0 30rpx;
+	font-size: 26rpx;
+	color: #050505;
+}
+
+.ranking .th{
+	font-size: 22rpx;
+	color: #646368;
+	background: #f2f2f2;
+	padding: 20rpx 30rpx;
+	margin-top: 30rpx;
+}
+
+.ranking .th1{
+	margin-right: 20rpx;
+}
+
+.rank-list{
+	padding: 0 30rpx;
+}
+
+.rank-list .item{
+	padding: 30rpx 0;
+	font-size: 26rpx;
+	color: #000;
+	border-bottom: 1px solid #f3f3f3;
+}
+
+.rank-list .item .nick{
+	color: #4a4a4a;
+}
+
+.rank-list .item .img1{
+	width: 40rpx;
+	height: 46rpx;
+	margin-right: 20rpx;
+	position: relative;
+}
+
+.rank-list .item .img1 image{
+	width: 100%;
+	height: 100%;
+}
+
+.rank-list .item .img1 .txt1{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 46rpx;
+	line-height: 46rpx;
+	text-align: center;
+	font-size: 20rpx;
+	color: #4a4a4a;
+}
+
+.rank-list .item .img2{
+	width: 36rpx;
+	height: 36rpx;
+	border-radius: 100%;
+	margin-right: 20rpx;
+}
+
+.recomend{
+	padding: 0 30rpx;
+}
+
+.recomend .title{
+	padding: 30rpx 0;
+	font-size: 26rpx;
+	color: #050505;
+}
+
+.recomend .list{
+	overflow-x: auto;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.recomend .list::-webkit-scrollbar{
+	display: none;
+}
+
+.recomend .list .item{
+	margin-right: 30rpx;
+	width: 284rpx;
+}
+
+.recomend .list .item image{
+	width: 284rpx;
+	height: 284rpx;
+}
+
+.recomend .list .item .name{
+	font-size: 26rpx;
+	font-weight: 600;
+	font-family: PingFangSC-Medium;
+	color: #000;
+	margin-top: 10rpx;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 1;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.recomend .list .item .txt{
+	font-size: 18rpx;
+	color: #9b9b9b;
+	margin-top: 10rpx;
+
+}
+
+.recomend .list .item .btn{
+	width: 100%;
+	text-align: center;
+	height: 64rpx;
+	line-height: 64rpx;
+	color: #fff;
+	font-size: 24rpx;
+	margin-top: 20rpx;
+	background: #3d3bee;
+}
+
 .back-index {
   position: absolute;
   right: 0;
@@ -143,7 +294,105 @@ page{
   border-bottom-left-radius: 52rpx;
 }
 
-.pic-wrapper {
+.foot{
+	position: fixed;
+	width: 100%;
+	height: 88rpx;
+	line-height: 88rpx;
+	color: #fff;
+	font-size: 28rpx;
+	text-align: center;
+	bottom: 0;
+	left: 0;
+}
+
+.dialog .close{
+	position: absolute;
+	width: 70rpx;
+	height: 70rpx;
+	left: 50%;
+	bottom: -110rpx;
+	transform: translate3d(-50%, 0, 0);
+}
+
+.dialog .close image{
+	width: 100%;
+	height: 100%;
+	vertical-align: top;
+}
+
+.dialog .txt1{
+	font-size: 26rpx;
+	color: #000;
+}
+
+.care-d .txt2{
+	font-size: 24rpx;
+}
+
+.care-d .pic{
+	width: 256rpx;
+	height: 256rpx;
+	margin-top: 10rpx;
+}
+
+.tip-d .txt1{
+	margin-bottom: 50rpx;
+}
+
+.tip-d .txt2{
+	font-size: 26rpx;
+	color: #000;
+	margin-bottom: 30rpx;
+}
+
+.tip-d .txt2 image{
+	width: 36rpx;
+	height: 36rpx;
+	margin: 0 10rpx;
+}
+
+.tip-d .hand{
+	position: absolute;
+	top: 30rpx;
+	right: 100rpx;
+	width: 60rpx;
+	height: 78rpx;
+}
+
+.tip-d .hand image{
+	width: 100%;
+	height: 100%;
+}
+
+.sign-d .txt2{
+	font-size: 96rpx;
+	font-family: PingFangSC-Semibold;
+	font-weight: 600;
+	margin: 20rpx 0;
+}
+
+.sign-d .btn, .get-d .btn{
+	margin-top: 40rpx;
+	text-align: center;
+	font-size: 26rpx;
+	color: #fff;
+	height: 88rpx;
+	line-height: 88rpx;
+	background: #3d3bee;
+}
+
+.get-d .txt2{
+	font-size: 32rpx;
+	margin-bottom: 30rpx;
+}
+
+.get-d .txt1{
+	line-height: 2;
+	text-align: justify;
+}
+
+/* .pic-wrapper {
   width: 550rpx;
   height: 744rpx;
   background: #fff;
@@ -217,7 +466,7 @@ page{
 .preview.show {
   z-index: 1;
   opacity: 1;
-}
+} */
 
 .canvas {
   width: 1100rpx;
@@ -228,7 +477,7 @@ page{
   left: -10000px;
 }
 
-.dialog, .dialog .mask {
+.dialog-1, .dialog-1 .mask {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -236,11 +485,11 @@ page{
   top: 0;
 }
 
-.dialog .mask {
+.dialog-1 .mask {
   background: rgba(0, 0, 0, 0.8);
 }
 
-.dialog .content {
+.dialog-1 .content {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -249,15 +498,16 @@ page{
   text-align: center;
 }
 
-.dialog .content .wx {
+.dialog-1 .content .wx {
   width: 500rpx;
   height: 500rpx;
   vertical-align: top;
   margin: 0 auto;
 }
 
-.dialog .content .close {
+.dialog-1 .content .close {
   width: 80rpx;
   height: 80rpx;
   margin: 60rpx auto;
 }
+

@@ -8,7 +8,9 @@ Page({
 	data: {
 		id: '',
 		canIUse: false,
-		qrCode: '../../img/qrcode.jpg'
+		qrCode: '../../img/qrcode.jpg',
+		isSelf: true,
+		signTime: 0
 	},
 	onLoad: function (options) {
 		this.setData({ id: options.id });
@@ -16,6 +18,11 @@ Page({
 		this.getQRCode();
 		if (wx.canIUse('button.open-type.openSetting')) {
 			this.setData({ canIUse: true });
+		}
+		if(!this.data.isSelf){
+			wx.setNavigationBarTitle({
+				title: '为TA加速'
+			})
 		}
 	},
 	getProDetail: function () {

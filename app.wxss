@@ -40,9 +40,33 @@ page {
   align-items: center;
 }
 
+.fend{
+	justify-content: flex-end;
+}
+
 .fcol {
   display: flex;
   flex-direction: column;
+}
+
+.fwrap{
+	flex-wrap: wrap;
+}
+
+.fnowrap{
+	flex-wrap: nowrap;
+}
+
+.txtL{
+	text-align: left!important;
+}
+
+.txtC{
+	text-align: center!important;
+}
+
+.txtR{
+	text-align: right!important;
 }
 
 .fl {
