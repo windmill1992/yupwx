@@ -354,8 +354,8 @@
 
 .tip-d .hand{
 	position: absolute;
-	top: 30rpx;
-	right: 100rpx;
+	top: 20rpx;
+	right: 140rpx;
 	width: 60rpx;
 	height: 78rpx;
 }

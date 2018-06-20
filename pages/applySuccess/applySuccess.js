@@ -10,7 +10,11 @@ Page({
 		canIUse: false,
 		qrCode: '../../img/qrcode.jpg',
 		isSelf: true,
-		signTime: 0
+		signTime: 0,
+		showCare: false,
+		showTip: false,
+		showSign: false,
+		showGet: false
 	},
 	onLoad: function (options) {
 		this.setData({ id: options.id });
@@ -244,10 +248,10 @@ Page({
 			}, 100));
 		}
 	},
-	showDialog: function(){
+	showDialog1: function(){
 		this.setData({ showDialog: true });
 	},
-	closeDialog: function(){
+	closeDialog1: function(){
 		this.setData({ showDialog: false });
 	},
 	save2photo: function(e){
@@ -261,6 +265,14 @@ Page({
 				}
 			}
 		})
+	},
+	showDialog: function(e){
+		let name = e.currentTarget.dataset.name;
+		this.setData({ [name]: true });
+	},
+	closeDialog: function(e){
+		let name = e.currentTarget.dataset.name;
+		this.setData({ [name]: false });
 	},
 	onShareAppMessage: function () {
 		let dd = this.data.proInfo;
