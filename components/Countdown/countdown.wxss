@@ -1,5 +1,13 @@
 /* components/Countdown/countdown.wxss */
 
+.time-box.default{
+	height: 88rpx;
+	line-height: 88rpx;
+	font-size: 28rpx;
+	color: #fff;
+	text-align: center;
+}
+
 .time-box.c-ae985b {
 	background: #AE985B;
 }
