@@ -24,7 +24,8 @@ App({
 	},
 	globalData: {
 		userInfo: null,
-		baseUrl: 'https://api.yupfashion.cn',
+		// baseUrl: 'https://api.yupfashion.cn',
+		baseUrl: '',
 		header: {
 			'content-type': 'application/json',
 		},

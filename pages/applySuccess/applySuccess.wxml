@@ -75,8 +75,13 @@
       </view>
     </view>
     <view class='op-list2' wx:else>
-      <view class='btn1'>帮TA点赞，加速获奖</view>
-      <view class='btn2'>我也要免费试用</view>
+			<block wx:if='{{isLogin}}'>
+      	<view class='btn1' wx:if='{{!zaned}}' bindtap='handleZan'>帮TA点赞，加速获奖</view>
+				<view class='btn1 ed' wx:else>已点赞</view>
+			</block>
+      <button class='btn1' wx:else open-type='getUserInfo' bindgetuserinfo='getUserInfo'>帮TA点赞，加速获奖</button>
+      <navigator wx:if='{{!isApply}}' url='/pages/productDetail/productDetail?id={{proInfo.proId}}' open-type='redirect' class='btn2'>我也要免费试用</navigator>
+			<navigator wx:else url='/pages/applySuccess/applySuccess?id={{proInfo.proId}}&apply=1' open-type='redirect' class='btn2'>已申请</navigator>
     </view>
     <view class='ranking'>
       <view class='title'>实时排名</view>
@@ -213,6 +218,18 @@
       <view class='txt1'>明天还要再来获取更多YUP值哦</view>
       <view class='btn'>距下次签到还有 {{signTime}}</view>
       <view class='close' bindtap='closeDialog' data-name='showSign'>
+        <image src='../../img/close.png'></image>
+      </view>
+    </view>
+  </view>
+  <view class='dialog sign-d {{showZan ? "show" : ""}}'>
+    <view class='mask'></view>
+    <view class='dialog_inner'>
+      <view class='txt1'>YUP值</view>
+      <view class='txt2'>+5</view>
+      <view class='txt1'>成功帮好友增加了YUP值</view>
+			<view class='btn' bindtap='navToDetail'>我也要免费申请</view>
+      <view class='close' bindtap='closeDialog' data-name='showZan'>
         <image src='../../img/close.png'></image>
       </view>
     </view>

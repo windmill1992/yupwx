@@ -1,8 +1,10 @@
 // pages/testDetail/testDetail.js
 const app = getApp().globalData;
 const api = {
-  proDetail: app.baseUrl + '/yup/yup-rest/pro-detail', 	//商品详情
-  qrcode: app.baseUrl + '/yup/yup-rest/pro-wechat-code' //获取小程序码
+  proDetail: app.baseUrl + '/yup/yup-rest/pro-detail', 		//商品详情
+  qrcode: app.baseUrl + '/yup/yup-rest/pro-wechat-code', 	//获取小程序码
+	login: app.baseUrl + '/yup/yup-rest/login',							//登录
+	isApply: app.baseUrl + '/yup/yup-rest/user-is-apply',		//是否已申请
 }
 Page({
   data: {
@@ -18,21 +20,48 @@ Page({
     showGet: false,
     showPic: false,
 		showRecord: false,
+		showZan: false,
     preview: false
   },
   onLoad: function(options) {
+		console.log(options);
     this.setData({ id: options.id });
+		if(options.userId){
+			this.setData({ shareUserId: options.userId });
+			if(options.userId != wx.getStorageSync('user').userId){
+				this.setData({ isSelf: false });
+				wx.setNavigationBarTitle({
+					title: '为TA加速'
+				})
+			}else{
+				this.setData({ isSelf: true });
+				if (options.apply == 1) {
+					wx.setNavigationBarTitle({
+						title: '我的申请'
+					})
+				}
+			}
+		}else{
+			this.setData({ isSelf: true });
+			if (options.apply == 1){
+				wx.setNavigationBarTitle({
+					title: '我的申请'
+				})
+			}
+		}
     this.getProDetail();
     this.getQRCode();
     if (wx.canIUse('button.open-type.openSetting')) {
       this.setData({ canIUse: true });
     }
-    if (!this.data.isSelf) {
-      wx.setNavigationBarTitle({
-        title: '为TA加速'
-      })
-    }
   },
+	onShow: function(){
+		let uid = wx.getStorageSync('user').userId;
+		if(uid){
+			this.setData({ userId: uid });
+			this.getIsApply();
+		}
+	},
   getProDetail: function() {
     wx.request({
       url: api.proDetail,
@@ -82,6 +111,97 @@ Page({
       }
     })
   },
+	getUserInfo: function (e) {
+		if (e.detail.userInfo) {
+			let user = e.detail.userInfo;
+			app.userInfo = user;
+			wx.setStorageSync('userInfo', user);
+			this.setData({
+				userAvatar: user.avatarUrl,
+				nickName: user.nickName
+			});
+			this.login()
+		} else {
+			this.showToast('拒绝授权！')
+		}
+	},
+	login: function () {
+		wx.showLoading({
+			title: '正在登录...'
+		});
+		wx.login({
+			success: res => {
+				wx.request({
+					url: api.login,
+					method: 'POST',
+					header: app.header,
+					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName, userAvatar: this.data.userAvatar },
+					success: res1 => {
+						if (res1.data.resultCode == 200) {
+							let r = res1.data.resultData;
+							this.setData({ isLogin: true, userId: r.userId });
+							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
+							wx.setStorageSync('user', obj)
+							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
+							this.showToast('登录成功！');
+							this.getIsApply();
+							this.handleZan();
+						} else {
+							this.setData({ isLogin: false });
+							wx.showModal({
+								title: '',
+								content: res1.data.resultMsg,
+								showCancel: false
+							})
+						}
+					},
+					fail: () => {
+						this.showToast('未知错误');
+					},
+					complete: () => {
+						wx.hideLoading()
+					}
+				})
+			},
+			fail: () => {
+				this.showToast('获取code失败！');
+			},
+			complete: () => {
+				wx.hideLoading()
+			}
+		})
+	},
+	handleZan: function(){
+		this.setData({ showZan: true, zaned: true });
+	},
+	getIsApply: function () {
+		app.header.userId = this.data.userId;
+		let pid = this.data.id;
+		wx.request({
+			url: api.isApply,
+			method: 'POST',
+			header: app.header,
+			data: { proIdList: [pid] },
+			success: res => {
+				if (res.data.resultCode == 200) {
+					this.setData({ isApply: res.data.resultData[0][pid] });
+				} else if (res.data.resultCode == 4002) {
+					this.showToast('登录已失效');
+					this.setData({ isLogin: false })
+					wx.clearStorageSync();
+				} else {
+					wx.showModal({
+						title: '',
+						content: '服务器错误',
+						showCancel: false
+					})
+				}
+			},
+			complete: () => {
+				app.header.userId = null;
+			}
+		})
+	},
   signIn: function() {
     let dd = new Date();
     dd.setHours(23);
@@ -342,9 +462,23 @@ Page({
   },
   onShareAppMessage: function() {
     let dd = this.data.proInfo;
+		let uid = '', isSelf = false;
+		if (!this.data.isSelf){
+			uid = this.data.shareUserId;
+		}else{
+			isSelf = true;
+			uid = wx.getStorageSync('user').userId;
+		}
+		let query = '?id=' + dd.proId;
+		if(uid){
+			query += '&userId=' + uid;
+		}
+		if(isSelf){
+			query += '&apply=1';
+		}
     return {
       title: dd.proName,
-      path: 'pages/productDetail/productDetail?id=' + dd.proId,
+			path: 'pages/applySuccess/applySuccess' + query,
       imageUrl: dd.coverImg
     }
   },

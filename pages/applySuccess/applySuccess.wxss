@@ -152,6 +152,16 @@
   line-height: 88rpx;
   margin-bottom: 30rpx;
   background: #3d3bee;
+	border-radius: 0;
+}
+
+.op-list2 .btn1::after{
+	border: none;
+	outline: none;
+}
+
+.op-list2 .btn1.ed{
+	background: #ccc;
 }
 
 .op-list2 .btn2 {

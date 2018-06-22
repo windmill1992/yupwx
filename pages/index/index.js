@@ -186,9 +186,15 @@ Page({
 	navToDetail: function (e) {
 		let data = e.currentTarget.dataset;
 		if (this.data.isLogin) {
-			wx.navigateTo({
-				url: '/pages/productDetail/productDetail?id=' + data.id + '&state=' + data.state
-			})
+			if(this.data.isApplys[data.id]){
+				wx.navigateTo({
+					url: '/pages/applySuccess/applySuccess?id=' + data.id + '&apply=1'
+				})
+			}else{
+				wx.navigateTo({
+					url: '/pages/productDetail/productDetail?id=' + data.id + '&state=' + data.state
+				})
+			}
 		}
 	},
 	toDetail: function (e) {
