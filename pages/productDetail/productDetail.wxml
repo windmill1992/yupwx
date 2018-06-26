@@ -2,7 +2,7 @@
 <view class='container'>
   <view class='hd'>
 		<view class='top'>
-			<countdown wx:if='{{state < 2}}' time='{{restTime}}'>距结束还有</countdown>
+			<countdown wx:if='{{proInfo.proStatus < 2}}' time='{{proInfo.proEndTime}}'>距结束还有</countdown>
 			<view wx:else>已结束</view>
 		</view>
     <swiper class='banner' indicator-dots indicator-color='#606060' indicator-active-color='#fff'  circular style='height: {{height}}px'>
@@ -90,7 +90,7 @@
 		<view class='btn1'>领优惠去购买</view>
 		<block wx:if='{{isLogin}}'>
 			<button open-type='share' class='nav-btn' wx:if='{{!isShare && !isApply}}'>分享免费申请</button>
-			<view class='nav-btn no' wx:if='{{isApply}}'>已申请</view>
+			<view class='nav-btn no' wx:elif='{{isApply}}'>已申请</view>
 			<view class='nav-btn' bindtap='toApply' wx:else>立即申请</view>
 		</block>
 		<block wx:else>

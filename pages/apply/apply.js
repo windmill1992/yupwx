@@ -65,8 +65,8 @@ Page({
 			this.showToast('您还未添加收货地址！');
 			return
 		}
-		if (!dd.note || dd.note.length < 50) {
-			this.showToast('试用宣言不能少于50字！');
+		if (!dd.note || dd.note.length < 20) {
+			this.showToast('试用宣言不能少于20字！');
 			return
 		}
 		app.header.userId = wx.getStorageSync('user').userId;

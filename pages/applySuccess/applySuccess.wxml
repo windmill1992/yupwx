@@ -11,7 +11,7 @@
           <view class='other'>售价：{{proInfo.sellingPrice}} 数量：{{proInfo.proCount}}件</view>
         </view>
         <view class='apply-box flex fcen spb'>
-          <view class='apply-list flex'>
+          <view class='apply-list flex' wx:if='{{proInfo.applyUserList.length > 0}}'>
             <image wx:for='{{proInfo.applyUserList}}' wx:key='apply{{index}}' src='{{item}}' wx:if='{{index < 5}}'></image>
           </view>
           <view class='apply-num'>{{proInfo.applyPeopleNum}}人申请</view>
@@ -25,8 +25,8 @@
   <view class='body'>
     <view class='yup-box'>
       <view class='txt1'>我的当前YUP值</view>
-      <view class='num'>28.03</view>
-      <view class='min'>当前获奖最低YUP值：214</view>
+      <view class='num'>{{myYup}}</view>
+      <view class='min'>当前获奖最低YUP值：{{maxYup}}</view>
       <view class='get' bindtap='showDialog' data-name='showRecord'>获取记录</view>
     </view>
     <view class='op-list' wx:if='{{isSelf}}'>
@@ -64,14 +64,15 @@
           <view class='title'>分享到朋友圈</view>
           <view class='txt'>邀请3人扫图片码立即加25YUP值</view>
         </view>
-        <view class='btn' bindtap='makeShareImg'>去分享</view>
+        <view class='btn' bindtap='showDialog' data-name='showPic'>去分享</view>
       </view>
       <view class='item flex fcen spb'>
         <view>
           <view class='title'>完善收货地址</view>
           <view class='txt'>填写收货地址，立即加25YUP值</view>
         </view>
-        <view class='btn ed'>已完成</view>
+        <view class='btn ed' wx:if='{{hasAddr}}'>已完成</view>
+        <navigator class='btn' url='/pages/address/address' wx:else>去填写</navigator>
       </view>
     </view>
     <view class='op-list2' wx:else>
@@ -133,19 +134,25 @@
     <view class='recomend'>
       <view class='title'>试用推荐</view>
       <view class='list flex fnowrap'>
-        <navigator url='/pages/productDetail/productDetail?id=' class='item'>
+        <navigator url='/pages/productDetail/productDetail?id={{item.proId}}' class='item' wx:for='{{recommendList}}' wx:key='rec'>
+          <image src='{{item.coverImg}}' mode='aspectFill'></image>
+          <view class='name'>{{item.proName}}</view>
+          <view class='txt'>{{item.peopleNum}}人申请/{{item.proCount}}件免费</view>
+          <view class='btn'>免费申请</view>
+        </navigator>
+        <navigator url='/pages/productDetail/productDetail?id=1' class='item'>
           <image src='{{proInfo.coverImg}}' mode='aspectFill'></image>
           <view class='name'>{{proInfo.proName}}</view>
           <view class='txt'>1234人申请/3件免费</view>
           <view class='btn'>免费申请</view>
         </navigator>
-        <navigator url='/pages/productDetail/productDetail?id=' class='item'>
+        <navigator url='/pages/productDetail/productDetail?id=1' class='item'>
           <image src='{{proInfo.coverImg}}' mode='aspectFill'></image>
           <view class='name'>{{proInfo.proName}}</view>
           <view class='txt'>1234人申请/3件免费</view>
           <view class='btn'>免费申请</view>
         </navigator>
-        <navigator url='/pages/productDetail/productDetail?id=' class='item'>
+        <navigator url='/pages/productDetail/productDetail?id=1' class='item'>
           <image src='{{proInfo.coverImg}}' mode='aspectFill'></image>
           <view class='name'>{{proInfo.proName}}</view>
           <view class='txt'>1234人申请/3件免费</view>
@@ -155,7 +162,8 @@
     </view>
   </view>
   <view class='foot'>
-    <countdown time='{{1534646545454}}' my-class='c-ae985b'>距开奖还有：</countdown>
+    <countdown wx:if='{{proInfo.proStatus < 2}}' time='{{proInfo.proEndTime}}' my-class='c-ae985b'>距开奖还有：</countdown>
+		<view wx:else class='end'>已结束</view>
   </view>
   <view class='dialog pic-d {{showPic ? "show":""}}'>
     <view class='mask'></view>
@@ -175,6 +183,10 @@
       <view class='close' bindtap='closeDialog' data-name='showPic'>
         <image src='../../img/close.png'></image>
       </view>
+			<view class='save-btn'>
+				<button class='btn' open-type='openSetting' bindopensetting='openSetting' wx:if='{{canIUse && refuseAuth}}'>保存图片</button>
+        <view class='btn' bindtap='makeShareImg' wx:else>保存图片</view>
+			</view>
     </view>
   </view>
   <view class='preview' class='preview {{isPreview ? "show" : ""}}'></view>

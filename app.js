@@ -21,11 +21,22 @@ App({
 				}
 			}
 		})
+		
+		if (wx.canIUse('button.open-type.openSetting')) {
+			this.globalData.canIUse = true;
+		} else {
+			let arr = wx.getSystemInfoSync().SDKVersion.split('.');
+			if (arr[0] >= 2 && arr[1] == 0 && arr[2] >= 7) {
+				this.globalData.canIUse = true;
+			} else {
+				this.globalData.canIUse = false;
+			}
+		}
 	},
 	globalData: {
 		userInfo: null,
 		// baseUrl: 'https://api.yupfashion.cn',
-		baseUrl: '',
+		baseUrl: 'http://apidev.yupfashion.cn',
 		header: {
 			'content-type': 'application/json',
 		},

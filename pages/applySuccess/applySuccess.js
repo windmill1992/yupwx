@@ -1,10 +1,14 @@
 // pages/testDetail/testDetail.js
 const app = getApp().globalData;
 const api = {
-  proDetail: app.baseUrl + '/yup/yup-rest/pro-detail', 		//商品详情
-  qrcode: app.baseUrl + '/yup/yup-rest/pro-wechat-code', 	//获取小程序码
-	login: app.baseUrl + '/yup/yup-rest/login',							//登录
-	isApply: app.baseUrl + '/yup/yup-rest/user-is-apply',		//是否已申请
+  proDetail: app.baseUrl + '/yup/yup-rest/pro-detail', 							//商品详情
+  qrcode: app.baseUrl + '/yup/yup-rest/pro-wechat-code', 						//获取小程序码
+	login: app.baseUrl + '/yup/yup-rest/login',												//登录
+	isApply: app.baseUrl + '/yup/yup-rest/user-is-apply',							//是否已申请
+	takeUserYup: app.baseUrl + '/yup/yup-rest/take-user-pro-yup',			//获取yup值
+	userYup: app.baseUrl + '/yup/yup-rest/user-pro-yup',							//获取用户yup值
+	recommendList: app.baseUrl + '/yup/yup-rest/pro-recommend-list',	//推荐商品列表
+	addrList: app.baseUrl + '/yup/yup-rest/get-user-address-list',		//地址列表
 }
 Page({
   data: {
@@ -25,7 +29,7 @@ Page({
   },
   onLoad: function(options) {
 		console.log(options);
-    this.setData({ id: options.id });
+		this.setData({ id: options.id, canIUse: app.canIUse });
 		if(options.userId){
 			this.setData({ shareUserId: options.userId });
 			if(options.userId != wx.getStorageSync('user').userId){
@@ -40,6 +44,7 @@ Page({
 						title: '我的申请'
 					})
 				}
+				this.getAddrList();
 			}
 		}else{
 			this.setData({ isSelf: true });
@@ -48,18 +53,28 @@ Page({
 					title: '我的申请'
 				})
 			}
+			this.getAddrList();
 		}
     this.getProDetail();
     this.getQRCode();
-    if (wx.canIUse('button.open-type.openSetting')) {
-      this.setData({ canIUse: true });
-    }
+		this.getRecommendList();
+
+		wx.authorize({
+			scope: 'scope.writePhotosAlbum',
+			success: () => {
+				this.setData({ refuseAuth: false });
+			},
+			fail: () => {
+				this.setData({ refuseAuth: true });
+			}
+		})
   },
 	onShow: function(){
 		let uid = wx.getStorageSync('user').userId;
 		if(uid){
 			this.setData({ userId: uid });
 			this.getIsApply();
+			this.getUserYup();
 		}
 	},
   getProDetail: function() {
@@ -146,6 +161,7 @@ Page({
 							this.showToast('登录成功！');
 							this.getIsApply();
 							this.handleZan();
+							this.getUserYup();
 						} else {
 							this.setData({ isLogin: false });
 							wx.showModal({
@@ -184,7 +200,9 @@ Page({
 			data: { proIdList: [pid] },
 			success: res => {
 				if (res.data.resultCode == 200) {
-					this.setData({ isApply: res.data.resultData[0][pid] });
+					if (res.data.resultData[0]) {
+						this.setData({ isApply: res.data.resultData[0][pid] });
+					}
 				} else if (res.data.resultCode == 4002) {
 					this.showToast('登录已失效');
 					this.setData({ isLogin: false })
@@ -199,6 +217,98 @@ Page({
 			},
 			complete: () => {
 				app.header.userId = null;
+			}
+		})
+	},
+	getAddrList: function () {
+		app.header.userId = wx.getStorageSync('user').userId;
+		wx.request({
+			url: api.addrList,
+			method: 'GET',
+			header: app.header,
+			data: {},
+			success: res => {
+				if (res.data.resultCode == 200) {
+					let r = res.data.resultData, hasAddr = 0;
+					if (!r || r.length == 0) {
+						hasAddr = 0
+					} else {
+						hasAddr = 1
+					}
+					this.setData({ hasAddr: hasAddr });
+				} else {
+					this.setData({ hasAddr: 0 });
+					this.showToast(res.data.resultMsg);
+				}
+			},
+			fail: () => {
+				this.showToast('未知异常');
+			},
+			complete: () => {
+				app.header.userId = null;
+			}
+		})
+	},
+	takeUserYup: function() {
+		let uid = wx.getStorageSync('user').userId;
+		wx.request({
+			url: api.takeUserYup,
+			method: 'POST',
+			data: {
+				userId: uid,
+				proId: this.data.id,
+				yupTypeId: id
+			},
+			success: res => {
+				if (res.data.resultCode == 200) {
+					this.setData({ [yupList[id]]: res.data.resultData });
+				} else {
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('服务器错误！');
+					}
+				}
+			}
+		})
+	},
+	getUserYup: function() {
+		let uid = wx.getStorageSync('user').userId;
+		wx.request({
+			url: api.userYup,
+			method: 'GET',
+			header: { userId: uid },
+			data: { proId: this.data.id },
+			success: res => {
+				if (res.data.resultCode == 200) {
+					let r = res.data.resultData;
+					let { myYup, maxYup, userProYupInfoList: yupList, yupListInfoVO: yupBoard } = r;
+					this.setData({ myYup: myYup, maxYup: maxYup, yupList: yupList, yupBoard: yupBoard });
+				} else {
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('服务器错误！');
+					}
+				}
+			}
+		})
+	},
+	getRecommendList: function() {
+		wx.request({
+			url: api.recommendList,
+			method: 'GET',
+			data: { proId: this.data.id },
+			success: res => {
+				if (res.data.resultCode  == 200) {
+					this.setData({ recommendList: res.data.resultData });
+				} else {
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('服务器错误！');
+					}
+				}
 			}
 		})
 	},
@@ -236,10 +346,17 @@ Page({
     m = m < 10 ? '0' + m : m;
     s = s < 10 ? '0' + s : s;
     let time = h + ':' + m + ':' + s;
-    this.setData({
-      signTime: time
-    });
+    this.setData({ signTime: time });
   },
+	openSetting: function(e) {
+		console.log(e);
+		const that = this;
+		if (e.detail.authSetting['scope.writePhotosAlbum']) {
+			this.makeShareImg();
+		} else {
+			this.showToast('授权失败！');
+		}
+	},
   savePhoto: function(path) {
     const that = this;
     wx.getSetting({

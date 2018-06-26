@@ -8,7 +8,8 @@
         <view class='pic' catchtap='{{!isLogin ? "toDetail":""}}' data-id='{{item.proId}}' data-state='{{item.proStatus}}'>
           <image src='{{item.coverImg}}' mode='widthFix' lazy-load='{{index > 1}}'></image>
         </view>
-				<countdown wx:if='{{item.proStatus < 3}}' time='{{item.endTime}}' my-class='c-ae985b default'><text>距结束还有</text></countdown>
+				<countdown wx:if='{{item.proStatus < 2}}' time='{{item.proEndTime}}' my-class='c-ae985b default'><text>距结束还有</text></countdown>
+				<view wx:else class='end'>已结束</view>
         <view class='name'>{{item.proName}}</view>
         <view class='infos'>
           <text>售价：{{item.sellingPrice}}元</text>

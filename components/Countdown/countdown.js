@@ -18,6 +18,7 @@ Component({
 		_countDown: function () {
 			const that = this;
 			let time = this.data.time - Date.now();
+			console.log(time);
 			if (time <= 0) {
 				this.setData({ restTime: 0, state: 2 });
 				return;

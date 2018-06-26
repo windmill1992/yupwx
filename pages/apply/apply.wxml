@@ -17,7 +17,7 @@
   </view>
   <view class='declaration'>
     <textarea class='area' maxlength='-1' placeholder='请输入你的试用宣言，不要忘记填写尺码哦！' bindinput='getWord' auto-height></textarea>
-    <view class='letter-tip'>至少50字</view>
+    <view class='letter-tip'>至少20字</view>
   </view>
   <view class='btn'>
     <view class='apply-btn' bindtap='apply'>立即申请</view>

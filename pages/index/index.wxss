@@ -37,6 +37,15 @@
   vertical-align: top;
 }
 
+.end{
+	height: 88rpx;
+	line-height: 88rpx;
+	color: #fff;
+	font-size: 28rpx;
+	text-align: center;
+	background: #AE985B;
+}
+
 .name {
   font-size: 36rpx;
   color: #262628;
