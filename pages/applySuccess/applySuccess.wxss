@@ -495,16 +495,41 @@
 	border: none;
 }
 
+.record-d .dialog_inner{
+	width: 90%;
+}
+
 .record-d .list {
   max-height: 600rpx;
   overflow: auto;
   margin: 30rpx 0;
 }
 
-.record-d .list .txt2 {
-  font-size: 26rpx;
-  color: #050505;
-  margin-top: 20rpx;
+.record-d .list .item{
+	font-size: 24rpx;
+	color: #000;
+	margin-top: 20rpx;
+}
+
+.record-d .list .item image{
+	width: 40rpx;
+	height: 40rpx;
+	border-radius: 100%;
+	margin-right: 12rpx;
+}
+
+.record-d .list .item .nick{
+	margin-right: 20rpx;
+}
+
+.record-d .list .item .txt2{
+	max-width: 45%;
+	word-break: break-all;
+}
+
+.record-d .list .item .time{
+	color: #9b9b9b;
+	align-items: flex-end;
 }
 
 .preview {

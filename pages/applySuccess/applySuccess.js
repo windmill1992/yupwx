@@ -312,7 +312,12 @@ Page({
 			}
 		})
 	},
-  signIn: function() {
+  signIn: function(e) {
+		let yup = Number.parseInt(e.currentTarget.dataset.yup);
+		console.log(yup);
+		let num = this.data.myYup;
+		num += yup;
+		this.setData({ myYup: num, addSignYup: yup });
     let dd = new Date();
     dd.setHours(23);
     dd.setMinutes(59);
@@ -567,15 +572,11 @@ Page({
   },
   showDialog: function(e) {
     let name = e.currentTarget.dataset.name;
-    this.setData({
-      [name]: true
-    });
+    this.setData({ [name]: true });
   },
   closeDialog: function(e) {
     let name = e.currentTarget.dataset.name;
-    this.setData({
-      [name]: false
-    });
+    this.setData({ [name]: false });
   },
   onShareAppMessage: function() {
     let dd = this.data.proInfo;
