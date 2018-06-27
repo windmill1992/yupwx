@@ -54,7 +54,7 @@
 					<view class='btn' bindtap='showDialog' data-name='showPic'>去分享</view>
 				</block>
 				<block wx:if='{{item.yupTypeCode == "ADDRESS"}}'>
-					<view class='btn ed' wx:if='{{hasAddr}}'>已完成</view>
+					<view class='btn ed' wx:if='{{item.get}}'>已完成</view>
         	<navigator class='btn' url='/pages/address/address?yupTypeId={{item.yupTypeId}}' wx:else>去填写</navigator>
 				</block>
       </view> 
@@ -122,24 +122,6 @@
           <image src='{{item.coverImg}}' mode='aspectFill'></image>
           <view class='name'>{{item.proName}}</view>
           <view class='txt'>{{item.peopleNum}}人申请/{{item.proCount}}件免费</view>
-          <view class='btn'>免费申请</view>
-        </navigator>
-        <navigator url='/pages/productDetail/productDetail?id=1' class='item'>
-          <image src='{{proInfo.coverImg}}' mode='aspectFill'></image>
-          <view class='name'>{{proInfo.proName}}</view>
-          <view class='txt'>1234人申请/3件免费</view>
-          <view class='btn'>免费申请</view>
-        </navigator>
-        <navigator url='/pages/productDetail/productDetail?id=1' class='item'>
-          <image src='{{proInfo.coverImg}}' mode='aspectFill'></image>
-          <view class='name'>{{proInfo.proName}}</view>
-          <view class='txt'>1234人申请/3件免费</view>
-          <view class='btn'>免费申请</view>
-        </navigator>
-        <navigator url='/pages/productDetail/productDetail?id=1' class='item'>
-          <image src='{{proInfo.coverImg}}' mode='aspectFill'></image>
-          <view class='name'>{{proInfo.proName}}</view>
-          <view class='txt'>1234人申请/3件免费</view>
           <view class='btn'>免费申请</view>
         </navigator>
       </view>
@@ -246,29 +228,11 @@
     <view class='dialog_inner'>
       <view class='txt1'>YUP值获取记录：</view>
       <view class='list txtL'>
-				<view class='item flex fcen spb'>
-					<image src='../../img/group.png'></image>
-					<view class='nick'>小**</view>
-        	<view class='txt2 flex1'>签到获得5yup值</view>
-					<view class='time'>06-26 21:14:44</view>
-				</view>
-				<view class='item flex fcen spb'>
-					<image src='../../img/group.png'></image>
-					<view class='nick'>小**</view>
-        	<view class='txt2 flex1'>关注公众号获得25yup值</view>
-					<view class='time'>06-26 21:14:44</view>
-				</view>
-				<view class='item flex fcen spb'>
-					<image src='../../img/group.png'></image>
-					<view class='nick'>小**</view>
-        	<view class='txt2 flex1'>填写收货地址获得25yup值</view>
-					<view class='time'>06-26 21:14:44</view>
-				</view>
-				<view class='item flex fcen spb'>
-					<image src='../../img/group.png'></image>
-					<view class='nick'>小**</view>
-        	<view class='txt2 flex1'>分享好友获得25yup值</view>
-					<view class='time'>06-26 21:14:44</view>
+				<view class='item flex fcen spb' wx:for='{{userYupList}}' wx:key='record'>
+					<image src='{{item.userAvatar}}'></image>
+					<view class='nick'>{{item.userName}}</view>
+        	<view class='txt2 flex1'>{{item.yupDesc}}</view>
+					<view class='time'>{{item.getTime}}</view>
 				</view>
       </view>
       <view class='close' bindtap='closeDialog' data-name='showRecord'>

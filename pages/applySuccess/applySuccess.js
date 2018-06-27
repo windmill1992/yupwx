@@ -39,6 +39,9 @@ Page({
 				wx.setNavigationBarTitle({
 					title: '为TA加速'
 				})
+				if (options.yupTypeId) {
+					this.setData({ shareTypeId: options.yupTypeId });
+				}
 			}else{
 				this.setData({ isSelf: true });
 				if (options.apply == 1) {
@@ -192,6 +195,10 @@ Page({
 	},
 	handleZan: function(){
 		this.setData({ showZan: true, zaned: true });
+		let id = this.data.shareTypeId;
+		if (id) {
+			this.takeUserYup(id);
+		}
 	},
 	getIsApply: function () {
 		app.header.userId = this.data.userId;
@@ -320,7 +327,7 @@ Page({
 					let r = res.data.resultData;
 					if(r && r.length > 0){
 						for(let i of r){
-							i.getTime = util.formatTime(new Date(i.getTime)).substr(2);
+							i.getTime = util.formatTime(new Date(i.getTime), '-').substr(5);
 							i.userName = i.userName.substr(0, 1) + '**';
 						}
 					}else{
@@ -465,21 +472,14 @@ Page({
   },
   preview: function(e) {
     if (this.data.isPreview) {
-      this.setData({
-        isPreview: false
-      });
+      this.setData({ isPreview: false });
     } else {
-      this.setData({
-        isPreview: true
-      });
+      this.setData({ isPreview: true });
     }
   },
   makeShareImg: function() {
     if (this.data.making) return;
-    this.setData({
-      making: true,
-      showPic: true
-    });
+    this.setData({ making: true, showPic: true });
     wx.showLoading({
       title: '正在保存...'
     })
@@ -502,9 +502,7 @@ Page({
           },
           fail: res1 => {
             wx.hideLoading();
-            this.setData({
-              making: false
-            });
+            this.setData({ making: false });
             wx.showModal({
               title: '',
               content: JSON.stringify(res1),
@@ -515,9 +513,7 @@ Page({
       },
       fail: res => {
         wx.hideLoading();
-        this.setData({
-          making: false
-        });
+        this.setData({ making: false });
         wx.showModal({
           title: '',
           content: JSON.stringify(res),
@@ -579,15 +575,11 @@ Page({
           destHeight: 1500,
           success: res => {
             wx.hideLoading();
-            that.setData({
-              making: false
-            });
+            that.setData({ making: false });
             that.savePhoto(res.tempFilePath);
           },
           fail: res => {
-            that.setData({
-              making: false
-            });
+            that.setData({ making: false });
             wx.hideLoading();
           }
         }, that)
@@ -628,7 +620,14 @@ Page({
 			query += '&userId=' + uid;
 		}
 		if(isSelf){
-			query += '&apply=1';
+			let yupId = 0;
+			for(let v of this.data.yupList) {
+				if (v.yupTypeCode == 'SHARE_FRIENDS') {
+					yupId = v.yupTypeId;
+					break;
+				}
+			}
+			query += '&apply=1&yupTypeId='+ yupId;
 		}
     return {
       title: dd.proName,

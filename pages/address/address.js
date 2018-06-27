@@ -56,7 +56,6 @@ Page({
 							break;
 						}
 					}
-					
 				} else {
 					if (res.data.resultMsg) {
 						this.showToast(res.data.resultMsg);
@@ -129,7 +128,7 @@ Page({
 			method: 'POST',
 			header: { 'Content-type': 'application/x-www-form-urlencoded', userId: userId },
 			data: {
-				proId: this.data.id,
+				proId: 0,
 				yupTypeId: id,
 				triggerUserId: userId
 			},
