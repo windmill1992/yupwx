@@ -9,7 +9,9 @@ const api = {
 	userYup: app.baseUrl + '/yup/yup-rest/user-pro-yup',							//获取用户yup值
 	recommendList: app.baseUrl + '/yup/yup-rest/pro-recommend-list',	//推荐商品列表
 	addrList: app.baseUrl + '/yup/yup-rest/get-user-address-list',		//地址列表
+	userYupList: app.baseUrl + '/yup/yup-rest/user-yup-list'					//yup获取记录
 }
+const util = require('./../../utils/util.js');
 Page({
   data: {
     id: '',
@@ -57,6 +59,7 @@ Page({
 		}
     this.getProDetail();
     this.getQRCode();
+		this.getUserYupList();
 		this.getRecommendList();
 
 		wx.authorize({
@@ -249,19 +252,30 @@ Page({
 			}
 		})
 	},
-	takeUserYup: function() {
-		let uid = wx.getStorageSync('user').userId;
+	takeUserYup: function(id, code) {
+		let userId = wx.getStorageSync('user').userId;
+		let uid = this.data.isSelf ? userId : this.data.shareUserId;
+		let tuid = userId;
 		wx.request({
 			url: api.takeUserYup,
 			method: 'POST',
+			header: { 'Content-type': 'application/x-www-form-urlencoded', userId: uid },
 			data: {
-				userId: uid,
 				proId: this.data.id,
-				yupTypeId: id
+				yupTypeId: id,
+				triggerUserId: tuid
 			},
 			success: res => {
 				if (res.data.resultCode == 200) {
-					this.setData({ [yupList[id]]: res.data.resultData });
+					switch(code){
+						case 'SIGN':
+							let num = this.data.myYup;
+							let add = res.data.resultData | 0;
+							num += add;
+							this.setData({ addSignYup: add, myYup: num });
+							break;
+						default: break;
+					}
 				} else {
 					if (res.data.resultMsg) {
 						this.showToast(res.data.resultMsg);
@@ -273,7 +287,7 @@ Page({
 		})
 	},
 	getUserYup: function() {
-		let uid = wx.getStorageSync('user').userId;
+		let uid = this.data.isSelf ? wx.getStorageSync('user').userId : this.data.shareUserId;
 		wx.request({
 			url: api.userYup,
 			method: 'GET',
@@ -289,6 +303,35 @@ Page({
 						this.showToast(res.data.resultMsg);
 					} else {
 						this.showToast('服务器错误！');
+					}
+				}
+			}
+		})
+	},
+	getUserYupList: function() {
+		let uid = this.data.isSelf ? wx.getStorageSync('user').userId : this.data.shareUserId;
+		wx.request({
+			url: api.userYupList,
+			method: 'GET',
+			header: { userId: uid },
+			data: { proId: this.data.id },
+			success: res => {
+				if(res.data.resultCode == 200){
+					let r = res.data.resultData;
+					if(r && r.length > 0){
+						for(let i of r){
+							i.getTime = util.formatTime(new Date(i.getTime)).substr(2);
+							i.userName = i.userName.substr(0, 1) + '**';
+						}
+					}else{
+						r = [];
+					}
+					this.setData({ userYupList: r });
+				}else{
+					if(res.data.resultMsg){
+						this.showToast(res.data.resultMsg);
+					}else{
+						this.showToast('yup记录获取错误！');
 					}
 				}
 			}
@@ -313,20 +356,16 @@ Page({
 		})
 	},
   signIn: function(e) {
-		let yup = Number.parseInt(e.currentTarget.dataset.yup);
-		console.log(yup);
-		let num = this.data.myYup;
-		num += yup;
-		this.setData({ myYup: num, addSignYup: yup });
+		let data = e.currentTarget.dataset;
+		let id = Number.parseInt(data.id);
+		let code = data.code;
+		this.takeUserYup(id, code);
     let dd = new Date();
     dd.setHours(23);
     dd.setMinutes(59);
     dd.setSeconds(59);
     let signTimes = dd.getTime() - Date.now();
-    this.setData({
-      showSign: true,
-      signed: true
-    });
+    this.setData({ showSign: true });
     if (signTimes > 0) {
       this.countdown(signTimes);
       let timer = setInterval(() => {
@@ -335,10 +374,7 @@ Page({
           this.countdown(signTimes);
         } else {
           clearInterval(timer);
-          this.setData({
-            showSign: false,
-            signed: false
-          })
+          this.setData({ showSign: false })
         }
       }, 1000);
     }

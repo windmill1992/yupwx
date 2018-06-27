@@ -529,7 +529,7 @@
 
 .record-d .list .item .time{
 	color: #9b9b9b;
-	align-items: flex-end;
+	font-size: 20rpx;
 }
 
 .preview {

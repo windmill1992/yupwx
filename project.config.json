@@ -73,7 +73,7 @@
 					"id": 6,
 					"name": "applySuc",
 					"pathName": "pages/applySuccess/applySuccess",
-					"query": "id=1&apply=1",
+					"query": "id=2&apply=1",
 					"scene": "1011"
 				},
 				{
@@ -111,6 +111,13 @@
 					"name": "prog",
 					"pathName": "pages/progress/progress",
 					"query": "id=1"
+				},
+				{
+					"id": -1,
+					"name": "applySuc",
+					"pathName": "pages/applySuccess/applySuccess",
+					"query": "id=1&apply=1",
+					"scene": "1011"
 				}
 			]
 		}

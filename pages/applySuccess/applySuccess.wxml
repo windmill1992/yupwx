@@ -30,61 +30,34 @@
       <view class='get' bindtap='showDialog' data-name='showRecord'>获取记录</view>
     </view>
     <view class='op-list' wx:if='{{isSelf}}'>
-      <!-- <view class='item flex fcen spb' wx:for='{{yupList}}' wx:key='yup{{index}}'>
+       <view class='item flex fcen spb' wx:for='{{yupList}}' wx:key='yup{{index}}'>
         <view>
           <view class='title'>{{item.yupTypeName}}</view>
           <view class='txt'>{{item.yupTypeDesc}}</view>
         </view>
-        <view class='btn' bindtap='signIn' data-id='{{item.yupTypeId}}' data-yup='{{item.yup}}' wx:if='{{!item.get || signed}}'>去签到</view>
-        <view class='btn ed' wx:else>
-					<block wx:if='{{item.yupTypeName.contains("签到")}}'>已签到</block>
-					<block wx:else>已完成</block>
-				</view>
-      </view> -->
-      <view class='item flex fcen spb'>
-        <view>
-          <view class='title'>每日签到</view>
-          <view class='txt'>每天一次机会，随机获得YUP值</view>
-        </view>
-        <view class='btn' bindtap='signIn' data-id='1' data-yup='5' wx:if='{{!signed}}'>去签到</view>
-        <view class='btn ed' wx:else>已签到</view>
-      </view>
-      <view class='item flex fcen spb'>
-        <view>
-          <view class='title'>关注金主爸爸公众号</view>
-          <view class='txt'>关注公众号，立即加50YUP值</view>
-        </view>
-        <view class='btn' bindtap='showDialog' data-name='showCare'>去关注</view>
-      </view>
-      <view class='item flex fcen spb'>
-        <view>
-          <view class='title'>关注公众号</view>
-          <view class='txt'>关注公众号，立即加25YUP值</view>
-        </view>
-        <view class='btn' bindtap='showDialog' data-name='showTip'>去关注</view>
-      </view>
-      <view class='item flex fcen spb'>
-        <view>
-          <view class='title'>分享好友</view>
-          <view class='txt'>邀请好友为你点赞，获得更多YUP值</view>
-        </view>
-        <button open-type='share' class='btn'>去分享</button>
-      </view>
-      <view class='item flex fcen spb'>
-        <view>
-          <view class='title'>分享到朋友圈</view>
-          <view class='txt'>邀请3人扫图片码立即加25YUP值</view>
-        </view>
-        <view class='btn' bindtap='showDialog' data-name='showPic'>去分享</view>
-      </view>
-      <view class='item flex fcen spb'>
-        <view>
-          <view class='title'>完善收货地址</view>
-          <view class='txt'>填写收货地址，立即加25YUP值</view>
-        </view>
-        <view class='btn ed' wx:if='{{hasAddr}}'>已完成</view>
-        <navigator class='btn' url='/pages/address/address' wx:else>去填写</navigator>
-      </view>
+				<block wx:if='{{item.yupTypeCode == "SIGN"}}'>
+					<view class='btn' bindtap='signIn' data-id='{{item.yupTypeId}}' data-code='{{item.yupTypeCode}}' wx:if='{{!item.get}}'>去签到</view>
+					<view class='btn ed' wx:else>已签到</view>
+				</block>
+				<block wx:elif='{{item.yupTypeCode == "FOLLOW_VIPCN_OTHER"}}'>
+					<view class='btn' bindtap='showDialog' data-name='showCare' wx:if='{{!item.get}}'>去关注</view>
+					<view class='btn ed'wx:else>已关注</view>
+				</block>
+				<block wx:elif='{{item.yupTypeCode == "FOLLOW_VIPCN"}}'>
+					<view class='btn' bindtap='showDialog' data-name='showTip' wx:if='{{!item.get}}'>去关注</view>
+					<view class='btn ed'wx:else>已关注</view>
+				</block>
+				<block wx:elif='{{item.yupTypeCode == "SHARE_FRIENDS"}}'>
+					<button open-type='share' class='btn'>去分享</button>
+				</block>
+				<block wx:if='{{item.yupTypeCode == "SHARE_MOMENTS"}}'>
+					<view class='btn' bindtap='showDialog' data-name='showPic'>去分享</view>
+				</block>
+				<block wx:if='{{item.yupTypeCode == "ADDRESS"}}'>
+					<view class='btn ed' wx:if='{{hasAddr}}'>已完成</view>
+        	<navigator class='btn' url='/pages/address/address?yupTypeId={{item.yupTypeId}}' wx:else>去填写</navigator>
+				</block>
+      </view> 
     </view>
     <view class='op-list2' wx:else>
 			<block wx:if='{{isLogin}}'>
