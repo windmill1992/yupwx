@@ -8,7 +8,6 @@ const api = {
 	takeUserYup: app.baseUrl + '/yup/yup-rest/take-user-pro-yup',			//获取yup值
 	userYup: app.baseUrl + '/yup/yup-rest/user-pro-yup',							//获取用户yup值
 	recommendList: app.baseUrl + '/yup/yup-rest/pro-recommend-list',	//推荐商品列表
-	addrList: app.baseUrl + '/yup/yup-rest/get-user-address-list',		//地址列表
 	userYupList: app.baseUrl + '/yup/yup-rest/user-yup-list'					//yup获取记录
 }
 const util = require('./../../utils/util.js');
@@ -27,7 +26,8 @@ Page({
     showPic: false,
 		showRecord: false,
 		showZan: false,
-    preview: false
+    preview: false,
+		isLogin: false
   },
   onLoad: function(options) {
 		console.log(options);
@@ -49,7 +49,6 @@ Page({
 						title: '我的申请'
 					})
 				}
-				this.getAddrList();
 			}
 		}else{
 			this.setData({ isSelf: true });
@@ -58,10 +57,12 @@ Page({
 					title: '我的申请'
 				})
 			}
-			this.getAddrList();
+		}
+		if (wx.getStorageSync('user').userId) {
+			this.setData({ isLogin: true });
 		}
     this.getProDetail();
-    this.getQRCode();
+    // this.getQRCode();
 		this.getUserYupList();
 		this.getRecommendList();
 
@@ -197,7 +198,7 @@ Page({
 		this.setData({ showZan: true, zaned: true });
 		let id = this.data.shareTypeId;
 		if (id) {
-			this.takeUserYup(id);
+			this.takeUserYup(id, 'SHARE_FRIENDS');
 		}
 	},
 	getIsApply: function () {
@@ -230,35 +231,6 @@ Page({
 			}
 		})
 	},
-	getAddrList: function () {
-		app.header.userId = wx.getStorageSync('user').userId;
-		wx.request({
-			url: api.addrList,
-			method: 'GET',
-			header: app.header,
-			data: {},
-			success: res => {
-				if (res.data.resultCode == 200) {
-					let r = res.data.resultData, hasAddr = 0;
-					if (!r || r.length == 0) {
-						hasAddr = 0
-					} else {
-						hasAddr = 1
-					}
-					this.setData({ hasAddr: hasAddr });
-				} else {
-					this.setData({ hasAddr: 0 });
-					this.showToast(res.data.resultMsg);
-				}
-			},
-			fail: () => {
-				this.showToast('未知异常');
-			},
-			complete: () => {
-				app.header.userId = null;
-			}
-		})
-	},
 	takeUserYup: function(id, code) {
 		let userId = wx.getStorageSync('user').userId;
 		let uid = this.data.isSelf ? userId : this.data.shareUserId;
@@ -274,14 +246,11 @@ Page({
 			},
 			success: res => {
 				if (res.data.resultCode == 200) {
-					switch(code){
-						case 'SIGN':
-							let num = this.data.myYup;
-							let add = res.data.resultData | 0;
-							num += add;
-							this.setData({ addSignYup: add, myYup: num });
-							break;
-						default: break;
+					if (code == 'SIGN') {
+						let num = this.data.myYup;
+						let add = res.data.resultData | 0;
+						num += add;
+						this.setData({ addSignYup: add, myYup: num });
 					}
 				} else {
 					if (res.data.resultMsg) {
@@ -305,6 +274,11 @@ Page({
 					let r = res.data.resultData;
 					let { myYup, maxYup, userProYupInfoList: yupList, yupListInfoVO: yupBoard } = r;
 					this.setData({ myYup: myYup, maxYup: maxYup, yupList: yupList, yupBoard: yupBoard });
+					for (let v of yupList) {
+						if (v.yupTypeCode == 'SHARE_FRIENDS') {
+							this.setData({ friendYup: v.yup });
+						}
+					}
 				} else {
 					if (res.data.resultMsg) {
 						this.showToast(res.data.resultMsg);

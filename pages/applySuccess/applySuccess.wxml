@@ -204,7 +204,7 @@
     <view class='mask'></view>
     <view class='dialog_inner'>
       <view class='txt1'>YUP值</view>
-      <view class='txt2'>+5</view>
+      <view class='txt2'>+{{friendYup}}</view>
       <view class='txt1'>成功帮好友增加了YUP值</view>
 			<view class='btn' bindtap='navToDetail'>我也要免费申请</view>
       <view class='close' bindtap='closeDialog' data-name='showZan'>

@@ -2,8 +2,6 @@
 const app = getApp().globalData;
 const api = {
 	saveAddr: app.baseUrl + '/yup/yup-rest/save-user-address',		//添加或保存地址
-	takeUserYup: app.baseUrl + '/yup/yup-rest/take-user-pro-yup',	//获取yup值
-	userYup: app.baseUrl + '/yup/yup-rest/user-pro-yup',					//获取用户yup值
 }
 Page({
   data: {
@@ -23,11 +21,6 @@ Page({
 			this.setData({ id: id })
     }
     this.setData({ isEdit: isEdit });
-		if(options.yupTypeId){
-			this.setData({ yupTypeId: options.yupTypeId });
-		}else{
-			this.getUserYup();
-		}
   },
   getAddrInfo: function () {
 		let editAddr = wx.getStorageSync('editAddr');
@@ -40,32 +33,6 @@ Page({
 		obj.addrArr = obj.defaultAddr;
 		this.setData(obj);
   },
-	getUserYup: function() {
-		let uid = wx.getStorageSync('user').userId;
-		wx.request({
-			url: api.userYup,
-			method: 'GET',
-			header: { userId: uid },
-			data: { proId: 0 },
-			success: res => {
-				if (res.data.resultCode == 200) {
-					let r = res.data.resultData.userProYupInfoList;
-					for (let v of r) {
-						if (v.yupTypeCode == 'ADDRESS') {
-							this.setData({ yupTypeId: v.yupTypeId });
-							break;
-						}
-					}
-				} else {
-					if (res.data.resultMsg) {
-						this.showToast(res.data.resultMsg);
-					} else {
-						this.showToast('服务器错误！');
-					}
-				}
-			}
-		})
-	},
   getName: function (e) {
     let v = e.detail.value;
     this.setData({ uname: v });
@@ -93,7 +60,8 @@ Page({
 			url: api.saveAddr,
 			method: 'POST',
 			header: app.header,
-			data: { address: dd.detailAddr, 
+			data: { 
+				address: dd.detailAddr, 
 				area: dd.addrArr[2], 
 				city: dd.addrArr[1], 
 				provice: dd.addrArr[0], 
@@ -107,7 +75,6 @@ Page({
 					wx.showToast({
 						title: dd.isEdit ? '保存成功' : '添加成功',
 					})
-					this.takeUserYup(this.data.yupTypeId);
 					wx.removeStorageSync('editAddr');
 					setTimeout(function(){
 						wx.navigateBack()
@@ -121,30 +88,6 @@ Page({
 			}
 		})
   },
-	takeUserYup: function (id) {
-		let userId = wx.getStorageSync('user').userId;
-		wx.request({
-			url: api.takeUserYup,
-			method: 'POST',
-			header: { 'Content-type': 'application/x-www-form-urlencoded', userId: userId },
-			data: {
-				proId: 0,
-				yupTypeId: id,
-				triggerUserId: userId
-			},
-			success: res => {
-				if (res.data.resultCode == 200) {
-					
-				} else {
-					if (res.data.resultMsg) {
-						this.showToast(res.data.resultMsg);
-					} else {
-						this.showToast('服务器错误！');
-					}
-				}
-			}
-		})
-	},
   validAddrInfo: function () {
     const dd = this.data;
     if (!dd.uname) {

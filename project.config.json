@@ -73,7 +73,7 @@
 					"id": 6,
 					"name": "applySuc",
 					"pathName": "pages/applySuccess/applySuccess",
-					"query": "id=2&apply=1",
+					"query": "id=3&apply=1&userId=1&yupTypeId=3",
 					"scene": "1011"
 				},
 				{
