@@ -36,7 +36,6 @@ App({
 		if (wx.getUpdateManager) {
 			const updateManager = wx.getUpdateManager();
 			updateManager.onCheckForUpdate(res => {
-				console.log(res.hasUpdate)
 				if (res.hasUpdate) {
 					updateManager.onUpdateReady(() => {
 						wx.showModal({

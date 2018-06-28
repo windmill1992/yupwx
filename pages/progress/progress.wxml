@@ -9,7 +9,11 @@
   <block wx:if='{{isLogin}}'>
     <view class='prog-list'>
       <navigator url='/pages/productDetail/productDetail?id={{item.proId}}' class='item' wx:for='{{trialList}}' wx:key='proId'>
-        <countdown time='{{item.endTime}}' class='times'>距结束还有：</countdown>
+        <countdown time='{{item.proEndTime}}' class='times' wx:if='{{item.proStatus < 3}}'>距结束还有：</countdown>
+				<view class='times' wx:else>
+					<block wx:if='{{item.trialProgressType == 2}}'>已中奖</block>
+					<block wx:elif='{{item.trialProgressType == 3}}'>未中奖</block>
+				</view>
 				<view class='goods flex'>
 					<view class='pic'>
 						<image src='{{item.proImg}}'></image>
@@ -17,16 +21,13 @@
 					<view class='infos flex1 fcol spb'>
 						<view class='title'>{{item.proName}}</view>
 						<view class='apply flex spb'>
-							<view class='num'>{{item.applyPeopleNum}}人申请</view>
-							<view class='state' wx:if='{{item.trialProgressType == 1}}'>已申请</view>
-							<view class='state' wx:elif='{{item.trialProgressType == 2}}'>已选中</view>
-							<view class='state' wx:elif='{{item.trialProgressType == 3}}'>已完成</view>
+							<view class='num'>{{item.applyPeopleNum}}人申请/{{item.proCount}}件奖品</view>
 						</view>
 					</view>
 				</view>
 				<view class='flex spb'>
-					<view class='txt'>当前YUP值：32.4</view>
-					<view class='txt'>最低获奖YUP值：123</view>
+					<view class='txt'>当前YUP值：{{item.myYup}}</view>
+					<view class='txt'>最低获奖YUP值：{{item.maxYup}}</view>
 				</view>
       </navigator>
     </view>

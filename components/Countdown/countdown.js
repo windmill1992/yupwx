@@ -14,6 +14,9 @@ Component({
 	ready: function () {
 		this._countDown();
 	},
+	detached: function () {
+		clearInterval(this.data.timer);
+	},
   methods: {
 		_countDown: function () {
 			const that = this;

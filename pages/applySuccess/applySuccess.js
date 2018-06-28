@@ -81,8 +81,8 @@ Page({
 		if(uid){
 			this.setData({ userId: uid });
 			this.getIsApply();
-			this.getUserYup();
 		}
+		this.getUserYup();
 	},
   getProDetail: function() {
     wx.request({
@@ -211,8 +211,8 @@ Page({
 			data: { proIdList: [pid] },
 			success: res => {
 				if (res.data.resultCode == 200) {
-					if (res.data.resultData[0]) {
-						this.setData({ isApply: res.data.resultData[0][pid] });
+					if (res.data.resultData) {
+						this.setData({ isApply: res.data.resultData[pid] });
 					}
 				} else if (res.data.resultCode == 4002) {
 					this.showToast('登录已失效');
@@ -246,7 +246,7 @@ Page({
 			},
 			success: res => {
 				if (res.data.resultCode == 200) {
-					if (code == 'SIGN') {
+					if (code == 'SIGN' || code == 'SHARE_FRIENDS') {
 						let num = this.data.myYup;
 						let add = res.data.resultData | 0;
 						num += add;
@@ -572,6 +572,17 @@ Page({
       }
     })
   },
+	navToDetail: function() {
+		if (this.data.isApply) {
+			wx.redirectTo({
+				url: '/pages/applySuccess/applySuccess?id='+ this.data.id + '&apply=1'
+			})
+		} else {
+			wx.redirectTo({
+				url: '/pages/productDetail/productDetail?id='+ this.data.id
+			})
+		}
+	},
   showDialog: function(e) {
     let name = e.currentTarget.dataset.name;
     this.setData({ [name]: true });

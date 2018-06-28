@@ -7,7 +7,7 @@ const api = {
 }
 Page({
 	data: {
-		tab: 0,
+		tab: 1,
 		hasmore: 0,
 		trialList: [],
 		page: 1,
@@ -55,9 +55,6 @@ Page({
 					}
 					if (!r.trialProgressVOList){
 						r.trialProgressVOList = [];
-					}
-					for (let i = 0; i < r.trialProgressVOList.length;i++){
-						r.trialProgressVOList[i].endTime = 1529413331730;
 					}
 					this.setData({ trialList: r.trialProgressVOList, hasmore: more });
 				} else {
@@ -156,7 +153,6 @@ Page({
 			that.getProgress(1, 10);
 		}, 500);
 	},
-
 	onShareAppMessage: function () {
 
 	},
