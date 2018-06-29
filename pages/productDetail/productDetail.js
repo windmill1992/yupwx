@@ -10,7 +10,6 @@ const api = {
 Page({
 	data: {
 		state: true,
-		restTime: '',
 		height: 500,
 		isShare: false,
 		isApply: false
@@ -59,11 +58,8 @@ Page({
 			success: res => {
 				if (res.data.resultCode == 200) {
 					let r = res.data.resultData;
-					this.setData({ proInfo: r, endTime: r.proEndTime, state: r.proStatus });
+					this.setData({ proInfo: r, state: r.proStatus });
 					if (this.data.isLogin) {
-						if (this.data.state < 2) {
-							this.countDown();
-						}
 						let boo = false;
 						for (let i = 0; i < r.winningUserList.length; i++) {
 							if (r.winningUserList[i] == this.data.userAvatar) {
@@ -182,11 +178,13 @@ Page({
 		})
 	},
 	imgLoad: function (e) {
-		let winw = wx.getSystemInfoSync().windowWidth;
-		let w = e.detail.width;
-		let h = e.detail.height;
-		let H = parseFloat(winw * h / w).toFixed(2);
-		this.setData({ height: H });
+		if (e.currentTarget.dataset.idx == 0) {
+			let winw = wx.getSystemInfoSync().windowWidth;
+			let w = e.detail.width;
+			let h = e.detail.height;
+			let H = parseFloat(winw * h / w).toFixed(2);
+			this.setData({ height: H });
+		}
 	},
 	preview: function (e) {
 		let src = e.currentTarget.dataset.src;
@@ -228,60 +226,6 @@ Page({
 				app.header.userId = null;
 			}
 		})
-	},
-	toApply2: function () {
-		wx.getStorage({
-			key: 'hasPhone',
-			success: res => {
-				if (!res.data) {
-					wx.navigateTo({
-						url: '/pages/bindPhone/bindPhone?form=pro&id=1'
-					});
-				} else {
-					wx.navigateTo({
-						url: '/pages/apply/apply?id=1'
-					});
-				}
-			}, fail: res => {
-				wx.navigateTo({
-					url: '/pages/bindPhone/bindPhone?form=pro&id=1'
-				});
-			}
-		})
-	},
-	countDown: function () {
-		const that = this;
-		let time = this.data.endTime - Date.now();
-		if (time <= 0) {
-			this.setData({ restTime: 0, state: 2 });
-			return;
-		}
-		this.getTime(time);
-		let timer = setInterval(function () {
-			time -= 60000;
-			if (time <= 0) {
-				clearInterval(that.timer);
-				that.setData({ timer: null, restTime: 0, state: 2 });
-			} else {
-				that.getTime(time);
-			}
-		}, 60000);
-	},
-	getTime: function (time) {
-		let day = parseInt(time / 1000 / 60 / 60 / 24);
-		let hh = parseInt(time / 1000 / 60 / 60 % 24);
-		let mm = parseInt(time / 1000 / 60 % 60);
-		let arr = [day, hh, mm].map(this.formatNum);
-		let str = arr[0] + '天' + arr[1] + '小时' + arr[2] + '分';
-		this.setData({ restTime: str });
-	},
-	formatNum: function (n) {
-		if (n) {
-			n = n.toString();
-			return n[1] ? n : '0' + n;
-		} else {
-			return 0;
-		}
 	},
 	onShareAppMessage: function () {
 		let dd = this.data;

@@ -118,9 +118,11 @@ Page({
 					let r = res.data.resultData;
 					if (r.inProcessProList && r.inProcessProList.length > 0) {
 						let arr = [];
-						for (let i = 0; i < r.inProcessProList.length; i++) {
-							arr.push(r.inProcessProList[i].proId);
-							r.inProcessProList[i].endTime = 1529413331730
+						for (let i of r.inProcessProList) {
+							arr.push(i.proId);
+						}
+						for (let v of r.endProList) {
+							arr.push(v.proId);
 						}
 						this.setData({ ids: arr, hasInprocess: true });
 					}

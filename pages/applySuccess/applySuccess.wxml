@@ -61,7 +61,7 @@
     </view>
 		<view class='op-list1' wx:elif='{{isSelf && userStatus.trialProgressType == 2}}'>
 			<view class='txt'>恭喜你中奖啦~奖品将在7个工作日内发出。关注公众号发送：中奖，即可获得物流信息</view>
-			<view class='btn' bindtap='showDialog' data-name='showCare'>
+			<view class='btn' bindtap='showDialog' data-name='showTip'>
 				<block wx:if='{{userStatus.followVipcn}}'>已关注 去获得物流信息</block>
 				<block wx:else>关注YUP新潮公众号</block>
 			</view>

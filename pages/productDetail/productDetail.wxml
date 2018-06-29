@@ -7,7 +7,7 @@
 		</view>
     <swiper class='banner' indicator-dots indicator-color='#606060' indicator-active-color='#fff'  circular style='height: {{height}}px'>
       <swiper-item class='item' wx:for='{{proInfo.bannerImgList}}' wx:key='banner'>
-        <image src='{{item}}' data-src='{{item}}' mode='{{index == 0 ? "widthFix" : "aspectFill"}}' bindload='imgLoad' catchtap='preview' style='height: {{height}}px'></image>
+        <image src='{{item}}' data-idx='{{index}}' data-src='{{item}}' mode='{{index == 0 ? "widthFix" : "aspectFill"}}' bindload='imgLoad' catchtap='preview' style='height: {{height}}px'></image>
       </swiper-item>
     </swiper>
 		<navigator url='/pages/index/index' open-type='switchTab' class='nav' wx:if='{{isShare2}}'>返回首页</navigator>
