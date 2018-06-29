@@ -4,6 +4,7 @@ const util = require('./../../utils/util.js');
 const api = {
 	proDetail: app.baseUrl + '/yup/yup-rest/pro-detail',		//商品详情
 	login: app.baseUrl + '/yup/yup-rest/login',							//登录	
+	apply: app.baseUrl + '/yup/yup-rest/apply-pro',					//申请产品
 	isApply: app.baseUrl + '/yup/yup-rest/user-is-apply'		//是否已申请
 }
 Page({
@@ -108,6 +109,19 @@ Page({
 			}
 		})
 	},
+	getCoupons: function (e) {
+		let url = e.currentTarget.dataset.url;
+		wx.setClipboardData({
+			data: url,
+			success: res => {
+				wx.showModal({
+					title: '领取成功',
+					content: '已成功复制优惠券链接，打开手机淘宝即可查看优惠券',
+					showCancel: false
+				})
+			}
+		})
+	},
 	getUserInfo: function (e) {
 		if (e.detail.userInfo) {
 			let user = e.detail.userInfo;
@@ -182,9 +196,38 @@ Page({
 		})
 	},
 	toApply: function () {
-		wx.navigateTo({
-			url: '/pages/apply/apply?id=' + this.data.id
-		});
+		const dd = this.data;
+		app.header.userId = wx.getStorageSync('user').userId;
+		wx.request({
+			url: api.apply,
+			method: 'POST',
+			header: app.header,
+			data: {
+				note: '',
+				proId: Number(dd.id),
+				userAddressId: 0
+			},
+			success: res => {
+				if (res.data.resultCode == 200) {
+					wx.showToast({
+						title: '申请成功'
+					});
+					setTimeout(function () {
+						wx.redirectTo({
+							url: '/pages/applySuccess/applySuccess?id=' + dd.id
+						})
+					}, 1000);
+				} else {
+					this.showToast(res.data.resultMsg);
+				}
+			},
+			fail: () => {
+				this.showToast('申请失败！');
+			},
+			complete: () => {
+				app.header.userId = null;
+			}
+		})
 	},
 	toApply2: function () {
 		wx.getStorage({

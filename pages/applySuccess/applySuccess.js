@@ -2,13 +2,15 @@
 const app = getApp().globalData;
 const api = {
   proDetail: app.baseUrl + '/yup/yup-rest/pro-detail', 							//商品详情
-  qrcode: app.baseUrl + '/yup/yup-rest/pro-wechat-code', 						//获取小程序码
+  // qrcode: app.baseUrl + '/yup/yup-rest/pro-wechat-code', 						//获取小程序码
+	qrcode: app.baseUrl + '/yup/yup-rest/pro-user-wechat-code', 			//获取小程序码
 	login: app.baseUrl + '/yup/yup-rest/login',												//登录
 	isApply: app.baseUrl + '/yup/yup-rest/user-is-apply',							//是否已申请
 	takeUserYup: app.baseUrl + '/yup/yup-rest/take-user-pro-yup',			//获取yup值
 	userYup: app.baseUrl + '/yup/yup-rest/user-pro-yup',							//获取用户yup值
 	recommendList: app.baseUrl + '/yup/yup-rest/pro-recommend-list',	//推荐商品列表
-	userYupList: app.baseUrl + '/yup/yup-rest/user-yup-list'					//yup获取记录
+	userYupList: app.baseUrl + '/yup/yup-rest/user-yup-list',					//yup获取记录
+	userProStatus: app.baseUrl + '/yup/yup-rest/user-pro-status'			//查询用户商品状态
 }
 const util = require('./../../utils/util.js');
 Page({
@@ -27,7 +29,8 @@ Page({
 		showRecord: false,
 		showZan: false,
     preview: false,
-		isLogin: false
+		isLogin: false,
+		userStatus: {}
   },
   onLoad: function(options) {
 		console.log(options);
@@ -59,10 +62,13 @@ Page({
 			}
 		}
 		if (wx.getStorageSync('user').userId) {
-			this.setData({ isLogin: true });
+			this.setData({ isLogin: true, userId: wx.getStorageSync('user').userId });
 		}
     this.getProDetail();
-    // this.getQRCode();
+		if (this.data.isSelf) {
+    	this.getQRCode();
+			this.getUserProStatus();
+		}
 		this.getUserYupList();
 		this.getRecommendList();
 
@@ -83,6 +89,7 @@ Page({
 			this.getIsApply();
 		}
 		this.getUserYup();
+		this.getUserYupList();
 	},
   getProDetail: function() {
     wx.request({
@@ -112,9 +119,11 @@ Page({
     });
   },
   getQRCode: function() {
+		app.header.userId = this.data.userId;
     wx.request({
       url: api.qrcode,
       method: 'GET',
+			header: app.header,
       data: {
         proId: this.data.id
       },
@@ -133,6 +142,26 @@ Page({
       }
     })
   },
+	getUserProStatus: function () {
+		app.header.userId = this.data.userId;
+		wx.request({
+			url: api.userProStatus,
+			method: 'GET',
+			header: app.header,
+			data: { proId: this.data.id },
+			success: res => {
+				if (res.data.resultCode == 200) {
+					this.setData({ userStatus: res.data.resultData });
+				} else {
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('查询中奖状态错误');
+					}
+				}
+			}
+		})
+	},
 	getUserInfo: function (e) {
 		if (e.detail.userInfo) {
 			let user = e.detail.userInfo;
@@ -251,6 +280,7 @@ Page({
 						let add = res.data.resultData | 0;
 						num += add;
 						this.setData({ addSignYup: add, myYup: num });
+						this.getUserYup();
 					}
 				} else {
 					if (res.data.resultMsg) {
@@ -264,21 +294,25 @@ Page({
 	},
 	getUserYup: function() {
 		let uid = this.data.isSelf ? wx.getStorageSync('user').userId : this.data.shareUserId;
+		app.header.userId = uid;
 		wx.request({
 			url: api.userYup,
 			method: 'GET',
-			header: { userId: uid },
+			header: app.header,
 			data: { proId: this.data.id },
 			success: res => {
 				if (res.data.resultCode == 200) {
 					let r = res.data.resultData;
 					let { myYup, maxYup, userProYupInfoList: yupList, yupListInfoVO: yupBoard } = r;
-					this.setData({ myYup: myYup, maxYup: maxYup, yupList: yupList, yupBoard: yupBoard });
 					for (let v of yupList) {
 						if (v.yupTypeCode == 'SHARE_FRIENDS') {
 							this.setData({ friendYup: v.yup });
 						}
 					}
+					for (let v of yupBoard.yupList) {
+						v.userName = v.userName.substr(0, 1) + '**';
+					}
+					this.setData({ myYup: myYup, maxYup: maxYup, yupList: yupList, yupBoard: yupBoard });
 				} else {
 					if (res.data.resultMsg) {
 						this.showToast(res.data.resultMsg);

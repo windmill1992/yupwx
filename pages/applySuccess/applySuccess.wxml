@@ -29,7 +29,7 @@
       <view class='min'>当前获奖最低YUP值：{{maxYup}}</view>
       <view class='get' bindtap='showDialog' data-name='showRecord'>获取记录</view>
     </view>
-    <view class='op-list' wx:if='{{isSelf}}'>
+    <view class='op-list' wx:if='{{isSelf && userStatus.trialProgressType == 1}}'>
        <view class='item flex fcen spb' wx:for='{{yupList}}' wx:key='yup{{index}}'>
         <view>
           <view class='title'>{{item.yupTypeName}}</view>
@@ -59,6 +59,17 @@
 				</block>
       </view> 
     </view>
+		<view class='op-list1' wx:elif='{{isSelf && userStatus.trialProgressType == 2}}'>
+			<view class='txt'>恭喜你中奖啦~奖品将在7个工作日内发出。关注公众号发送：中奖，即可获得物流信息</view>
+			<view class='btn' bindtap='showDialog' data-name='showCare'>
+				<block wx:if='{{userStatus.followVipcn}}'>已关注 去获得物流信息</block>
+				<block wx:else>关注YUP新潮公众号</block>
+			</view>
+		</view>
+		<view class='op-list1' wx:elif='{{isSelf && userStatus.trialProgressType == 3}}'>
+			<view class='txt'>很遗憾，差一点点就成功了，送你一张优惠券，再接再厉</view>
+			<view class='btn' bindtap='getCoupons' data-url='{{userStatus.tbCouponUrl}}'>领取优惠券</view>
+		</view>
     <view class='op-list2' wx:else>
 			<block wx:if='{{isLogin}}'>
       	<view class='btn1' wx:if='{{!zaned}}' bindtap='handleZan'>帮TA点赞，加速获奖</view>
@@ -78,41 +89,22 @@
         <view>YUP值</view>
       </view>
       <view class='rank-list'>
-        <view class='item flex spb fcen'>
+        <view class='item flex spb fcen' wx:for='{{yupBoard.yupList}}' wx:key='board{{index}}' wx:if='{{index < 5}}'>
           <view class='flex fcen'>
             <image src='../../img/first.png' class='img1'></image>
-            <image src='../../img/group.png' class='img2'></image>
-            <view class='nick'>小**</view>
+            <image src='{{item.userAvatar}}' class='img2'></image>
+            <view class='nick'>{{item.userName}}</view>
           </view>
-          <view>1234YUP值</view>
+          <view>{{item.userYup}}YUP值</view>
         </view>
-        <view class='item flex spb fcen'>
-          <view class='flex fcen'>
-            <image src='../../img/second.png' class='img1'></image>
-            <image src='../../img/group.png' class='img2'></image>
-            <view class='nick'>小**</view>
+				<view class='self item flex spb fcen' wx:if='{{yupBoard.myYupRanking > 5}}'>
+					<view class='flex fcen'>
+            <image src='../../img/first.png' class='img1'></image>
+            <image src='{{yupBoard.yupList[yupBoard.myYupRanking - 1].userAvatar}}' class='img2'></image>
+            <view class='nick'>{{yupBoard.yupList[yupBoard.myYupRanking - 1].userName}}</view>
           </view>
-          <view>1234YUP值</view>
-        </view>
-        <view class='item flex spb fcen'>
-          <view class='flex fcen'>
-            <image src='../../img/third.png' class='img1'></image>
-            <image src='../../img/group.png' class='img2'></image>
-            <view class='nick'>小**</view>
-          </view>
-          <view>1234YUP值</view>
-        </view>
-        <view class='item flex spb fcen'>
-          <view class='flex fcen'>
-            <view class='img1'>
-              <image src='../../img/rank_bg.png'></image>
-              <view class='txt1'>4</view>
-            </view>
-            <image src='../../img/group.png' class='img2'></image>
-            <view class='nick'>小**</view>
-          </view>
-          <view>1234YUP值</view>
-        </view>
+          <view>{{yupBoard.yupList[yupBoard.myYupRanking - 1].userYup}}YUP值</view>
+				</view>
       </view>
     </view>
     <view class='recomend'>
@@ -129,7 +121,10 @@
   </view>
   <view class='foot'>
     <countdown wx:if='{{proInfo.proStatus < 2}}' time='{{proInfo.proEndTime}}' my-class='c-ae985b'>距开奖还有：</countdown>
-		<view wx:else class='end'>已结束</view>
+		<view wx:else class='end'>
+			<block wx:if='{{userStatus.trialProgressType == 2}}'>已中奖</block>
+			<block wx:else>未中奖</block>
+		</view>
   </view>
   <view class='dialog pic-d {{showPic ? "show":""}}'>
     <view class='mask'></view>
@@ -160,7 +155,7 @@
   <view class='dialog care-d {{showCare ? "show" : ""}}'>
     <view class='mask'></view>
     <view class='dialog_inner'>
-      <view class='txt1'>关注金主公众号获得25YUP值</view>
+      <view class='txt1'>关注金主公众号获得50YUP值</view>
       <image src='../../img/wx.png' data-src='/img/wx.png' class='pic' bindlongpress='save2photo'></image>
       <view class='txt1 txt2'>截图或长按保存-打开微信扫一扫-关注</view>
       <view class='close' bindtap='closeDialog' data-name='showCare'>

@@ -93,6 +93,15 @@
 	color: #000;
 }
 
+.prog-list .btn{
+	text-align: center;
+	font-size: 28rpx;
+	color: #fff;
+	line-height: 88rpx;
+	height: 88rpx;
+	background: #3d3bee;
+}
+
 .loadmore {
   text-align: center;
   font-size: 26rpx;

@@ -113,10 +113,10 @@
 					"query": "id=1"
 				},
 				{
-					"id": -1,
+					"id": 13,
 					"name": "applySuc",
 					"pathName": "pages/applySuccess/applySuccess",
-					"query": "id=1&apply=1",
+					"query": "id=2&apply=1",
 					"scene": "1011"
 				}
 			]

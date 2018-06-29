@@ -9,7 +9,7 @@
   <block wx:if='{{isLogin}}'>
     <view class='prog-list'>
       <navigator url='/pages/productDetail/productDetail?id={{item.proId}}' class='item' wx:for='{{trialList}}' wx:key='proId'>
-        <countdown time='{{item.proEndTime}}' class='times' wx:if='{{item.proStatus < 3}}'>距结束还有：</countdown>
+        <countdown time='{{item.proEndTime}}' class='times' wx:if='{{item.trialProgressType == 1}}'>距结束还有：</countdown>
 				<view class='times' wx:else>
 					<block wx:if='{{item.trialProgressType == 2}}'>已中奖</block>
 					<block wx:elif='{{item.trialProgressType == 3}}'>未中奖</block>
@@ -25,9 +25,15 @@
 						</view>
 					</view>
 				</view>
-				<view class='flex spb'>
+				<view class='flex spb' wx:if='{{item.trialProgressType == 1}}'>
 					<view class='txt'>当前YUP值：{{item.myYup}}</view>
 					<view class='txt'>最低获奖YUP值：{{item.maxYup}}</view>
+				</view>
+				<view wx:elif='{{item.trialProgressType == 2}}'>
+					<view class='btn'>关注公众号查看物流</view>
+				</view>
+				<view wx:elif='{{item.trialProgressType == 3}}'>
+					<view class='btn' catchtap='getCoupons' data-url='{{item.tbCouponUrl}}'>领取优惠券购买</view>
 				</view>
       </navigator>
     </view>

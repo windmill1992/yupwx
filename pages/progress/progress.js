@@ -7,7 +7,7 @@ const api = {
 }
 Page({
 	data: {
-		tab: 1,
+		tab: 0,
 		hasmore: 0,
 		trialList: [],
 		page: 1,
@@ -127,6 +127,19 @@ Page({
 			},
 			complete: () => {
 				wx.hideLoading()
+			}
+		})
+	},
+	getCoupons: function (e) {
+		let url = e.currentTarget.dataset.url;
+		wx.setClipboardData({
+			data: url,
+			success: res => {
+				wx.showModal({
+					title: '领取成功',
+					content: '已成功复制优惠券链接，打开手机淘宝即可查看优惠券',
+					showCancel: false
+				})
 			}
 		})
 	},
