@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "申请成功",
-  "enablePullDownRefresh": false,
+  "enablePullDownRefresh": true,
 	"usingComponents": {
 		"countdown": "/components/Countdown/countdown"
 	}

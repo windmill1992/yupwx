@@ -8,8 +8,10 @@
   </view>
   <block wx:if='{{isLogin}}'>
     <view class='prog-list'>
-      <navigator url='/pages/productDetail/productDetail?id={{item.proId}}' class='item' wx:for='{{trialList}}' wx:key='proId'>
-        <countdown time='{{item.proEndTime}}' class='times' wx:if='{{item.trialProgressType == 1}}'>距结束还有：</countdown>
+      <navigator url='/pages/applySuccess/applySuccess?id={{item.proId}}' class='item' wx:for='{{trialList}}' wx:key='proId'>
+        <view class='times' wx:if='{{item.trialProgressType == 1}}'>
+					<countdown time='{{item.proEndTime}}'>距结束还有：</countdown>
+				</view>
 				<view class='times' wx:else>
 					<block wx:if='{{item.trialProgressType == 2}}'>已中奖</block>
 					<block wx:elif='{{item.trialProgressType == 3}}'>未中奖</block>
@@ -30,7 +32,8 @@
 					<view class='txt'>最低获奖YUP值：{{item.maxYup}}</view>
 				</view>
 				<view wx:elif='{{item.trialProgressType == 2}}'>
-					<view class='btn'>关注公众号查看物流</view>
+					<view class='btn' catchtap='showTip' wx:if='{{!item.followVipcn}}'>关注公众号查看物流</view>
+					<view class='btn' catchtap='showTip' wx:else>进入公众号查看物流</view>
 				</view>
 				<view wx:elif='{{item.trialProgressType == 3}}'>
 					<view class='btn' catchtap='getCoupons' data-url='{{item.tbCouponUrl}}'>领取优惠券购买</view>
@@ -44,6 +47,26 @@
   </block>
   <view class='btn-wrapper' wx:else>
     <button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='login-btn'>授权登录</button>
+  </view>
+	<view class='dialog tip-d {{showTip ? "show" : ""}}'>
+    <view class='mask'></view>
+    <view class='dialog_inner'>
+      <view class='txt1'>关注公众号立刻获得25YUP值</view>
+      <view class='txtL'>
+        <view class='txt2 flex fcen'>1.点击右上角更多
+          <image src='../../img/menu.png' mode='widthFix'></image>按钮</view>
+        <view class='txt2'>2.选择关于YUP新潮</view>
+        <view class='txt2 flex fcen'>3.选择相关公众号：
+          <image src='../../img/group.png'></image>YUP新潮</view>
+        <view class='txt2'>4.关注后进入公众号即可</view>
+      </view>
+      <view class='close' bindtap='closeTip' data-name='showTip'>
+        <image src='../../img/close.png'></image>
+      </view>
+    </view>
+    <view class='hand'>
+      <image src='../../img/hand.png'></image>
+    </view>
   </view>
 </view>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

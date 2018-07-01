@@ -78,7 +78,14 @@
     </view>
   </view>
   <view class='btn flex' wx:if='{{state >= 2}}'>
-		<view class='btn1' bindtap='getCoupons' data-url='{{proInfo.tbCouponUrl}}'>领优惠去购买</view>
+		<view class='btn1 flex fcen spc' bindtap='getCoupons' data-url='{{proInfo.tbCouponUrl}}'>
+			<view>领优惠去购买</view>
+			<view class='icon'>
+				<image src='../../img/rect.png' class='arr'></image>
+				<image src='../../img/dot.png' class='dot'></image>
+				<text>领券</text>
+			</view>
+		</view>
 		<block wx:if='{{isLogin}}'>
     	<view class='nav-btn'>已结束（<block wx:if='{{isPrized}}'>已中奖</block><block wx:else>未中奖</block>）</view>
 		</block>
@@ -87,11 +94,20 @@
 		</block>
   </view>
   <view class='btn flex' wx:elif='{{state < 2}}'>
-		<view class='btn1' bindtap='getCoupons' data-url='{{proInfo.tbCouponUrl}}'>领优惠去购买</view>
+		<view class='btn1 flex fcen spc' bindtap='getCoupons' data-url='{{proInfo.tbCouponUrl}}'>
+			<view>领优惠去购买</view>
+			<view class='icon'>
+				<image src='../../img/rect.png' class='arr'></image>
+				<image src='../../img/dot.png' class='dot'></image>
+				<text>领券</text>
+			</view>
+		</view>
 		<block wx:if='{{isLogin}}'>
 			<button open-type='share' class='nav-btn' wx:if='{{!isShare && !isApply}}'>分享免费申请</button>
 			<view class='nav-btn no' wx:elif='{{isApply}}'>已申请</view>
-			<view class='nav-btn' bindtap='toApply' wx:else>立即申请</view>
+			<form report-submit='true' bindsubmit='toApply' wx:else>
+				<button class='nav-btn' form-type='submit'>立即申请</button>
+			</form>
 		</block>
 		<block wx:else>
 			<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='nav-btn'>登录可申请</button>

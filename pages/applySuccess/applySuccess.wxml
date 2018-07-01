@@ -24,7 +24,7 @@
   </view>
   <view class='body'>
     <view class='yup-box'>
-      <view class='txt1'>我的当前YUP值</view>
+      <view class='txt1'><block wx:if='{{isSelf}}'>我</block><block wx:else>TA</block>的当前YUP值</view>
       <view class='num'>{{myYup}}</view>
       <view class='min'>当前获奖最低YUP值：{{maxYup}}</view>
       <view class='get' bindtap='showDialog' data-name='showRecord'>获取记录</view>
@@ -70,7 +70,7 @@
 			<view class='txt'>很遗憾，差一点点就成功了，送你一张优惠券，再接再厉</view>
 			<view class='btn' bindtap='getCoupons' data-url='{{userStatus.tbCouponUrl}}'>领取优惠券</view>
 		</view>
-    <view class='op-list2' wx:else>
+    <view class='op-list2' wx:elif='{{!isSelf}}'>
 			<block wx:if='{{isLogin}}'>
       	<view class='btn1' wx:if='{{!zaned}}' bindtap='handleZan'>帮TA点赞，加速获奖</view>
 				<view class='btn1 ed' wx:else>已点赞</view>
@@ -90,11 +90,21 @@
       </view>
       <view class='rank-list'>
         <view class='item flex spb fcen' wx:for='{{yupBoard.yupList}}' wx:key='board{{index}}' wx:if='{{index < 5}}'>
-          <view class='flex fcen'>
-            <image src='../../img/first.png' class='img1'></image>
+          <view class='flex fcen' wx:if='{{index < 3}}'>
+            <image src='../../img/first.png' wx:if='{{index == 0}}' class='img1'></image>
+            <image src='../../img/second.png' wx:elif='{{index == 1}}' class='img1'></image>
+            <image src='../../img/third.png' wx:elif='{{index == 2}}' class='img1'></image>
             <image src='{{item.userAvatar}}' class='img2'></image>
             <view class='nick'>{{item.userName}}</view>
           </view>
+					<view class='flex fcen' wx:else>
+						<view class='img1'>
+							<image src='../../img/rank_bg.png'></image>
+							<view class='txt1'>{{index + 1}}</view>
+						</view>
+						<image src='{{item.userAvatar}}' class='img2'></image>
+						<view class='nick'>{{item.userName}}</view>
+					</view>
           <view>{{item.userYup}}YUP值</view>
         </view>
 				<view class='self item flex spb fcen' wx:if='{{yupBoard.myYupRanking > 5}}'>
@@ -128,18 +138,28 @@
   </view>
   <view class='dialog pic-d {{showPic ? "show":""}}'>
     <view class='mask'></view>
+		<view class='pic-bg'>
+			<image src='../../img/share-bg.png'></image>
+		</view>
     <view class='dialog_inner'>
       <view class='pic'>
         <image src='{{proInfo.coverImg}}' mode='aspectFill'></image>
       </view>
-      <view class='footer flex spb fcen'>
+      <view class='footer'>
         <view class='adv'>
-          <view class='txt'>我正在YUP新潮申请试用「{{proInfo.proName}}」你也来一起参与领取吧</view>
-          <view class='tip'>扫描小程序码免费领取！</view>
+          <view class='txt'>我正在YUP新潮申请试用：{{proInfo.proName}}，你也来一起参与领取吧</view>
         </view>
+				<view class='middle'>
+					<text># 全球潮牌 免费申请 #</text>
+				</view>
+				<view class='big-txt'>
+					<view class='txt11'>免费的</view>
+					<view class='txt12'>了解一下</view>
+				</view>
         <view class='qrcode'>
           <image src='{{qrCode}}' class='{{isPreview ? "big" : ""}}' bindtap='preview'></image>
         </view>
+				<view class='tip'>扫描小程序码免费领取！</view>
       </view>
       <view class='close' bindtap='closeDialog' data-name='showPic'>
         <image src='../../img/close.png'></image>
@@ -189,7 +209,7 @@
       <view class='txt1'>YUP值</view>
       <view class='txt2'>+{{addSignYup}}</view>
       <view class='txt1'>明天还要再来获取更多YUP值哦</view>
-      <view class='btn'>距下次签到还有 {{signTime}}</view>
+      <view class='btn' bindtap='closeDialog' data-name='showSign'>我知道了</view>
       <view class='close' bindtap='closeDialog' data-name='showSign'>
         <image src='../../img/close.png'></image>
       </view>
@@ -213,7 +233,7 @@
     <view class='dialog_inner'>
       <view class='txt2'>领取成功</view>
       <view class='txt1'>已成功复制优惠券领取链接，打开手机淘宝/手机浏览器即可查看优惠券，并购买相关商品哦</view>
-      <view class='btn'>我知道了</view>
+      <view class='btn' bindtap='closeDialog' data-name='showGet'>我知道了</view>
       <view class='close' bindtap='closeDialog' data-name='showGet'>
         <image src='../../img/close.png'></image>
       </view>

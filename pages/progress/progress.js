@@ -11,7 +11,8 @@ Page({
 		hasmore: 0,
 		trialList: [],
 		page: 1,
-		isLogin: false
+		isLogin: false,
+		showTip: false
 	},
 	onLoad: function (options) {
 		// this.getProgress(1, 10);
@@ -147,6 +148,12 @@ Page({
 		let t = e.target.dataset.tab;
 		this.setData({ tab: t, page: 1, hasmore: -1 });
 		this.getProgress(1, 10);
+	},
+	showTip: function () {
+		this.setData({ showTip: true });
+	},
+	closeTip: function () {
+		this.setData({ showTip: false });
 	},
 	onReachBottom: function () {
 		const dd = this.data;

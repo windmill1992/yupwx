@@ -1,5 +1,5 @@
 /* pages/progress/progress.wxss */
-
+@import './../applySuccess/dialog.wxss';
 .nav {
   width: 100%;
   height: 88rpx;
@@ -126,4 +126,53 @@
   font-size: 28rpx;
   color: #fff;
   background: #3d3bee; 
+}
+
+.dialog .close {
+  position: absolute;
+  width: 70rpx;
+  height: 70rpx;
+  left: 50%;
+  bottom: -110rpx;
+  transform: translate3d(-50%, 0, 0);
+}
+
+.dialog .close image {
+  width: 100%;
+  height: 100%;
+  vertical-align: top;
+}
+
+.dialog .txt1 {
+  font-size: 26rpx;
+  color: #000;
+}
+
+.tip-d .txt1 {
+  margin-bottom: 50rpx;
+}
+
+.tip-d .txt2 {
+  font-size: 26rpx;
+  color: #000;
+  margin-bottom: 30rpx;
+}
+
+.tip-d .txt2 image {
+  width: 36rpx;
+  height: 36rpx;
+  margin: 0 10rpx;
+}
+
+.tip-d .hand {
+  position: absolute;
+  top: 20rpx;
+  right: 140rpx;
+  width: 60rpx;
+  height: 78rpx;
+}
+
+.tip-d .hand image {
+  width: 100%;
+  height: 100%;
 }

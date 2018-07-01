@@ -193,7 +193,7 @@ Page({
 			current: src
 		})
 	},
-	toApply: function () {
+	toApply: function (e) {
 		const dd = this.data;
 		app.header.userId = wx.getStorageSync('user').userId;
 		wx.request({
@@ -201,6 +201,7 @@ Page({
 			method: 'POST',
 			header: app.header,
 			data: {
+				formId: e.detail.formId,
 				note: '',
 				proId: Number(dd.id),
 				userAddressId: 0

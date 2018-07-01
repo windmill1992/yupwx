@@ -19,7 +19,6 @@ Page({
     canIUse: false,
     qrCode: '../../img/qrcode.jpg',
     isSelf: true,
-    signTime: 0,
     showCare: false,
     showJinzhu: false,
     showTip: false,
@@ -35,9 +34,9 @@ Page({
   onLoad: function(options) {
 		console.log(options);
 		this.setData({ id: options.id, canIUse: app.canIUse });
-		if(options.userId){
+		if (options.userId) {
 			this.setData({ shareUserId: options.userId });
-			if(options.userId != wx.getStorageSync('user').userId){
+			if (options.userId != wx.getStorageSync('user').userId) {
 				this.setData({ isSelf: false });
 				wx.setNavigationBarTitle({
 					title: '为TA加速'
@@ -81,10 +80,11 @@ Page({
 				this.setData({ refuseAuth: true });
 			}
 		})
+		
   },
 	onShow: function(){
 		let uid = wx.getStorageSync('user').userId;
-		if(uid){
+		if (uid) {
 			this.setData({ userId: uid });
 			this.getIsApply();
 		}
@@ -282,6 +282,7 @@ Page({
 						this.setData({ addSignYup: add, myYup: num });
 						this.getUserYup();
 					}
+					this.getUserYupList();
 				} else {
 					if (res.data.resultMsg) {
 						this.showToast(res.data.resultMsg);
@@ -295,6 +296,9 @@ Page({
 	getUserYup: function() {
 		let uid = this.data.isSelf ? wx.getStorageSync('user').userId : this.data.shareUserId;
 		app.header.userId = uid;
+		wx.showLoading({
+			title: '加载中...'
+		})
 		wx.request({
 			url: api.userYup,
 			method: 'GET',
@@ -320,6 +324,9 @@ Page({
 						this.showToast('服务器错误！');
 					}
 				}
+			},
+			complete: () => {
+				wx.hideLoading();
 			}
 		})
 	},
@@ -375,35 +382,17 @@ Page({
 		let id = Number.parseInt(data.id);
 		let code = data.code;
 		this.takeUserYup(id, code);
-    let dd = new Date();
-    dd.setHours(23);
-    dd.setMinutes(59);
-    dd.setSeconds(59);
-    let signTimes = dd.getTime() - Date.now();
     this.setData({ showSign: true });
-    if (signTimes > 0) {
-      this.countdown(signTimes);
-      let timer = setInterval(() => {
-        if (signTimes > 1000) {
-          signTimes -= 1000;
-          this.countdown(signTimes);
-        } else {
-          clearInterval(timer);
-          this.setData({ showSign: false })
-        }
-      }, 1000);
-    }
   },
-  countdown: function(t) {
-    let h = parseInt(t / 1000 / 60 / 60);
-    let m = parseInt(t / 1000 / 60 % 60);
-    let s = parseInt(t / 1000 % 60);
-    h = h < 10 ? '0' + h : h;
-    m = m < 10 ? '0' + m : m;
-    s = s < 10 ? '0' + s : s;
-    let time = h + ':' + m + ':' + s;
-    this.setData({ signTime: time });
-  },
+	getCoupons: function (e) {
+		let url = e.currentTarget.dataset.url;
+		wx.setClipboardData({
+			data: url,
+			success: res => {
+				this.setData({ showGet: true });
+			}
+		})
+	},
 	openSetting: function(e) {
 		console.log(e);
 		const that = this;
@@ -533,43 +522,63 @@ Page({
 
     function exec() {
       let name = dd.proInfo.proName;
-      name = name.length > 13 ? (name.substr(0, 13) + '...') : name;
       let r = wx.getSystemInfoSync().windowWidth / 375;
-      let w = 550 * r;
-      let h = 750 * r;
-      let imgWidth = dd.imgW / dd.imgH * 550;
-      let imgX = (550 - imgWidth) * r / 2;
+      let w = 630 * r;
+      let h = 1200 * r;
+      let imgWidth = dd.imgW / dd.imgH * 400;
+      let imgX = (630 * r - imgWidth) * r / 2;
       imgX = imgX < 0 ? 0 : imgX;
       let ctx = wx.createCanvasContext('cv', that);
 
       ctx.beginPath();
+			ctx.drawImage('../../img/share-bg.png', 0, 0, w, h);
+      ctx.closePath();
+
+      ctx.beginPath();
       ctx.setFillStyle('#F5F7F6');
-      ctx.fillRect(0, 0, w, 550 * r);
+      ctx.fillRect(imgX, 30, imgWidth, imgWidth);
       ctx.closePath();
 
       ctx.beginPath();
-      ctx.drawImage(img, imgX, 0, imgWidth, 550 * r);
-      ctx.setFillStyle('#ffffff');
-      ctx.fillRect(0, 550 * r, w, 250 * r);
+      ctx.drawImage(img, imgX, 30, imgWidth, imgWidth);
       ctx.closePath();
 
       ctx.beginPath();
-      ctx.setFontSize(24 * r);
+      ctx.setFontSize(22 * r);
       ctx.setTextBaseline('top');
       ctx.setFillStyle('#262628');
-      ctx.fillText('我正在YUP新潮申请试用', 20, 580 * r);
-      ctx.fillText('「' + name + '」', 20, 614 * r);
-      ctx.fillText('你也来一起参与领取吧', 20, 648 * r);
+      ctx.fillText('我正在YUP新潮申请试用：'+ name.substr(0, 8), imgX, imgWidth + 50, imgWidth);
+			ctx.fillText(name.substr(8, 22), imgX, imgWidth + 90, imgWidth);
+			ctx.fillText(name.substr(22) + '你也来一起参与领取吧', imgX, imgWidth + 130);
+      ctx.closePath();
+
+			ctx.beginPath();
+			ctx.setFontSize(22 * r);
+			ctx.setFillStyle('#9b9b9b');
+			ctx.fillText('# 全球潮牌 免费申请 #', 103 * r * 2, h / 2 + 40);
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.setFontSize(56 * r);
+			ctx.font = 'bold';
+			ctx.setFillStyle('#000000');
+			ctx.fillText('免费的', 113 * r * 2, h / 2 + 120);
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.setFontSize(56 * r);
+			ctx.setFillStyle('#FF5850');
+			ctx.fillText('了解一下', 97 * r * 2, h / 2 + 200);
+			ctx.closePath();
+
+      ctx.beginPath();
+      ctx.drawImage(code, (w - 160 * r) / 2, h / 2 + 320, 160 * r, 160 * r);
       ctx.closePath();
 
       ctx.beginPath();
-      ctx.setFontSize(20 * r);
-      ctx.setFillStyle('rgba(0,0,0,0.5)');
-      ctx.fillText('扫描小程序码免费领取！', 20, 690 * r);
-      ctx.closePath();
-
-      ctx.beginPath();
-      ctx.drawImage(code, 352 * r + 20, 570 * r, 158 * r, 158 * r);
+      ctx.setFontSize(22 * r);
+      ctx.setFillStyle('#9b9b9b');
+			ctx.fillText('长按扫码免费领潮牌', 105 * r * 2, h - 80);
       ctx.closePath();
 
       ctx.draw(true, setTimeout(() => {
@@ -579,8 +588,8 @@ Page({
           y: 0,
           width: w,
           height: h,
-          destWidth: 1100,
-          destHeight: 1500,
+          destWidth: 1260,
+          destHeight: 2400,
           success: res => {
             wx.hideLoading();
             that.setData({ making: false });
@@ -635,10 +644,10 @@ Page({
 			uid = wx.getStorageSync('user').userId;
 		}
 		let query = '?id=' + dd.proId;
-		if(uid){
+		if (uid) {
 			query += '&userId=' + uid;
 		}
-		if(isSelf){
+		if (isSelf) {
 			let yupId = 0;
 			for(let v of this.data.yupList) {
 				if (v.yupTypeCode == 'SHARE_FRIENDS') {
@@ -654,6 +663,12 @@ Page({
       imageUrl: dd.coverImg
     }
   },
+	onPullDownRefresh: function () {
+		wx.stopPullDownRefresh();
+		this.getUserYup();
+		this.getUserYupList();
+		this.getUserProStatus();
+	},
   showToast: function(txt) {
     const that = this;
     let obj = {};
