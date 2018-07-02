@@ -1,6 +1,21 @@
 //app.js
 App({
 	onLaunch: function () {
+		//判断运行环境
+		{
+			let url = this.globalData.baseUrl;
+			if (url.includes('dev')) {
+				if (wx.getStorageSync('prod')) {
+					wx.clearStorage();
+				}
+				wx.setStorageSync('dev', true);
+			} else {
+				if (wx.getStorageSync('dev')) {
+					wx.clearStorage();
+				}
+				wx.setStorageSync('prod', true);
+			}
+		}
 		// 获取用户信息
 		wx.getSetting({
 			success: res => {

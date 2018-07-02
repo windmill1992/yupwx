@@ -2,7 +2,7 @@
 const app = getApp().globalData;
 const api = {
   proDetail: app.baseUrl + '/yup/yup-rest/pro-detail', 							//商品详情
-  // qrcode: app.baseUrl + '/yup/yup-rest/pro-wechat-code', 						//获取小程序码
+  // qrcode: app.baseUrl + '/yup/yup-rest/pro-wechat-code', 						//获取小程序码1
 	qrcode: app.baseUrl + '/yup/yup-rest/pro-user-wechat-code', 			//获取小程序码
 	login: app.baseUrl + '/yup/yup-rest/login',												//登录
 	isApply: app.baseUrl + '/yup/yup-rest/user-is-apply',							//是否已申请

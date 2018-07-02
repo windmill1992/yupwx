@@ -33,7 +33,7 @@
 
 .prog-list .item .times{
 	font-size: 24rpx;
-	color: #000;
+	color: #3d3bee;
 }
 
 .prog-list .item .goods{
