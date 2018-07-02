@@ -29,47 +29,54 @@
       <view class='min'>当前获奖最低YUP值：{{maxYup}}</view>
       <view class='get' bindtap='showDialog' data-name='showRecord'>获取记录</view>
     </view>
-    <view class='op-list' wx:if='{{isSelf && userStatus.trialProgressType == 1}}'>
-       <view class='item flex fcen spb' wx:for='{{yupList}}' wx:key='yup{{index}}'>
-        <view>
-          <view class='title'>{{item.yupTypeName}}</view>
-          <view class='txt'>{{item.yupTypeDesc}}</view>
-        </view>
-				<block wx:if='{{item.yupTypeCode == "SIGN"}}'>
-					<view class='btn' bindtap='signIn' data-id='{{item.yupTypeId}}' data-code='{{item.yupTypeCode}}' wx:if='{{!item.get}}'>去签到</view>
-					<view class='btn ed' wx:else>已签到</view>
-				</block>
-				<block wx:elif='{{item.yupTypeCode == "FOLLOW_VIPCN_OTHER"}}'>
-					<view class='btn' bindtap='showDialog' data-name='showCare' wx:if='{{!item.get}}'>去关注</view>
-					<view class='btn ed'wx:else>已关注</view>
-				</block>
-				<block wx:elif='{{item.yupTypeCode == "FOLLOW_VIPCN"}}'>
-					<view class='btn' bindtap='showDialog' data-name='showTip' wx:if='{{!item.get}}'>去关注</view>
-					<view class='btn ed'wx:else>已关注</view>
-				</block>
-				<block wx:elif='{{item.yupTypeCode == "SHARE_FRIENDS"}}'>
-					<button open-type='share' class='btn'>去分享</button>
-				</block>
-				<block wx:if='{{item.yupTypeCode == "SHARE_MOMENTS"}}'>
-					<view class='btn' bindtap='showDialog' data-name='showPic'>去分享</view>
-				</block>
-				<block wx:if='{{item.yupTypeCode == "ADDRESS"}}'>
-					<view class='btn ed' wx:if='{{item.get}}'>已完成</view>
-        	<navigator class='btn' url='/pages/address/address?yupTypeId={{item.yupTypeId}}' wx:else>去填写</navigator>
-				</block>
-      </view> 
-    </view>
-		<view class='op-list1' wx:elif='{{isSelf && userStatus.trialProgressType == 2}}'>
-			<view class='txt'>恭喜你中奖啦~奖品将在7个工作日内发出。关注公众号发送：中奖，即可获得物流信息</view>
-			<view class='btn' bindtap='showDialog' data-name='showTip'>
-				<block wx:if='{{userStatus.followVipcn}}'>已关注 去获得物流信息</block>
-				<block wx:else>关注YUP新潮公众号</block>
+		<block wx:if='{{isSelf && isLogin}}'>
+			<view class='op-list' wx:if='{{userStatus.trialProgressType == 1}}'>
+				<view class='item flex fcen spb' wx:for='{{yupList}}' wx:key='yup{{index}}'>
+					<view>
+						<view class='title'>{{item.yupTypeName}}</view>
+						<view class='txt'>{{item.yupTypeDesc}}</view>
+					</view>
+					<block wx:if='{{item.yupTypeCode == "SIGN"}}'>
+						<view class='btn' bindtap='signIn' data-id='{{item.yupTypeId}}' data-code='{{item.yupTypeCode}}' wx:if='{{!item.get}}'>去签到</view>
+						<view class='btn ed' wx:else>已签到</view>
+					</block>
+					<block wx:elif='{{item.yupTypeCode == "FOLLOW_VIPCN_OTHER"}}'>
+						<view class='btn' bindtap='showDialog' data-name='showCare' wx:if='{{!item.get}}'>去关注</view>
+						<view class='btn ed'wx:else>已关注</view>
+					</block>
+					<block wx:elif='{{item.yupTypeCode == "FOLLOW_VIPCN"}}'>
+						<view class='btn' bindtap='showDialog' data-name='showTip' wx:if='{{!item.get}}'>去关注</view>
+						<view class='btn ed'wx:else>已关注</view>
+					</block>
+					<block wx:elif='{{item.yupTypeCode == "SHARE_FRIENDS"}}'>
+						<button open-type='share' class='btn'>去分享</button>
+					</block>
+					<block wx:if='{{item.yupTypeCode == "SHARE_MOMENTS"}}'>
+						<view class='btn' bindtap='showDialog' data-name='showPic'>去分享</view>
+					</block>
+					<block wx:if='{{item.yupTypeCode == "ADDRESS"}}'>
+						<view class='btn ed' wx:if='{{item.get}}'>已完成</view>
+						<navigator class='btn' url='/pages/address/address?yupTypeId={{item.yupTypeId}}' wx:else>去填写</navigator>
+					</block>
+				</view> 
 			</view>
-		</view>
-		<view class='op-list1' wx:elif='{{isSelf && userStatus.trialProgressType == 3}}'>
-			<view class='txt'>很遗憾，差一点点就成功了，送你一张优惠券，再接再厉</view>
-			<view class='btn' bindtap='getCoupons' data-url='{{userStatus.tbCouponUrl}}'>领取优惠券</view>
-		</view>
+			<view class='op-list1' wx:elif='{{userStatus.trialProgressType == 2}}'>
+				<view class='txt'>恭喜你中奖啦~奖品将在7个工作日内发出。关注公众号发送：中奖，即可获得物流信息</view>
+				<view class='btn' bindtap='showDialog' data-name='showTip'>
+					<block wx:if='{{userStatus.followVipcn}}'>已关注 去获得物流信息</block>
+					<block wx:else>关注YUP新潮公众号</block>
+				</view>
+			</view>
+			<view class='op-list1' wx:elif='{{userStatus.trialProgressType == 3}}'>
+				<view class='txt'>很遗憾，差一点点就成功了，送你一张优惠券，再接再厉</view>
+				<view class='btn' bindtap='getCoupons' data-url='{{userStatus.tbCouponUrl}}'>领取优惠券</view>
+			</view>
+		</block>
+		<block wx:elif='{{isSelf && !isLogin}}'>
+			<view class='op-list'>
+				<button class='login-btn' open-type='getUserInfo' bindgetuserinfo='getUserInfo'>授权登录</button>
+			</view>
+		</block>
     <view class='op-list2' wx:elif='{{!isSelf}}'>
 			<block wx:if='{{isLogin}}'>
       	<view class='btn1' wx:if='{{!zaned}}' bindtap='handleZan'>帮TA点赞，加速获奖</view>
@@ -219,7 +226,7 @@
     <view class='mask'></view>
     <view class='dialog_inner'>
       <view class='txt1'>YUP值</view>
-      <view class='txt2'>+{{friendYup}}</view>
+      <view class='txt2'>+{{addSignYup}}</view>
       <view class='txt1'>成功帮好友增加了YUP值</view>
 			<view class='btn' bindtap='navToDetail' wx:if='{{!isApply}}'>我也要免费申请</view>
 			<view class='btn' bindtap='navToDetail' wx:else>我的申请</view>

@@ -42,7 +42,7 @@ Component({
 			let hh = parseInt(time / 1000 / 60 / 60 % 24);
 			let mm = parseInt(time / 1000 / 60 % 60);
 			let arr = [day, hh, mm].map(this._formatNum);
-			let str = arr[0] + '天' + arr[1] + '小时' + arr[2] + '分';
+			let str = arr[0] + '天' + arr[1] + '时' + arr[2] + '分';
 			this.setData({ restTime: str });
 		},
 		_formatNum: function (n) {

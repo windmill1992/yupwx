@@ -178,6 +178,21 @@
   background: #ccc;
 }
 
+.btn .nav-btn button{
+	display: inline;
+	outline: none;
+	border: none;
+	font-size: 28rpx;
+	color: #fff;
+	background: none;
+	border-radius: 0;
+}
+
+.btn .nav-btn button::after{
+	outline: none;
+	border: none;
+}
+
 .btn .btn1 {
   width: 100%;
   height: 88rpx;

@@ -105,8 +105,8 @@
 		<block wx:if='{{isLogin}}'>
 			<button open-type='share' class='nav-btn' wx:if='{{!isShare && !isApply}}'>分享免费申请</button>
 			<view class='nav-btn no' wx:elif='{{isApply}}'>已申请</view>
-			<form report-submit='true' bindsubmit='toApply' wx:else>
-				<button class='nav-btn' form-type='submit'>立即申请</button>
+			<form report-submit='true' bindsubmit='toApply' class='nav-btn' wx:else>
+				<button form-type='submit'>立即申请</button>
 			</form>
 		</block>
 		<block wx:else>

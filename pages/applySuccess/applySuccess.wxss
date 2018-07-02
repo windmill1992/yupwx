@@ -92,10 +92,27 @@
   font-size: 24rpx;
   right: 30rpx;
   top: 30rpx;
+	color: #3d3bee;
 }
 
 .op-list {
   padding: 30rpx;
+}
+
+.op-list .login-btn {
+	width: 400rpx;
+	height: 88rpx;
+	line-height: 88rpx;
+	font-size: 32rpx;
+	background: #3d3bee;
+	color: #fff;
+	border-radius: 0;
+	border: none;
+	outline: none;
+}
+
+.op-list .login-btn::after {
+	outline: none;
 }
 
 .op-list .item {
@@ -605,6 +622,12 @@
 	font-size: 20rpx;
 }
 
+.login-d .dialog_inner .btn{
+	font-size: 32rpx;
+	color: #fff;
+	background: #3d3bee;
+}
+
 .preview {
   position: fixed;
   width: 100%;
@@ -623,16 +646,16 @@
 }
 
  .canvas {
-  width: 1260rpx;
-  height: 2400rpx;
+  width: 1500rpx;
+  height: 2668rpx;
   position: fixed;
   top: 0;
   left: -10000px;
 } 
 
 /* .canvas {
-  width: 630rpx;
-  height: 1200rpx;
+  width: 750rpx;
+  height: 1334rpx;
   position: fixed;
   top: 0;
 	left: -10000px;  

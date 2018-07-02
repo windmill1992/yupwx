@@ -33,18 +33,30 @@ Page({
   },
   onLoad: function(options) {
 		console.log(options);
-		this.setData({ id: options.id, canIUse: app.canIUse });
-		if (options.userId) {
-			this.setData({ shareUserId: options.userId });
-			if (options.userId != wx.getStorageSync('user').userId) {
+		if (options.scene) {
+			let id = 0, userId = 0;
+			let arr = options.scene.split('&');
+			let arr1 = arr[0].split('_');
+			let arr2 = arr[1].split('_');
+			if (arr1[0] == 'proId') {
+				id = arr1[1];
+				userId = arr2[1];
+			} else {
+				id = arr2[1];
+				userId = arr1[1];
+			}
+			this.setData({ id: id, shareUserId: userId, shareOnline: true });
+			if (userId != wx.getStorageSync('user').userId) {
 				this.setData({ isSelf: false });
 				wx.setNavigationBarTitle({
 					title: '为TA加速'
 				})
 				if (options.yupTypeId) {
 					this.setData({ shareTypeId: options.yupTypeId });
+				} else {
+					this.setData({ shareTypeId: 5 });
 				}
-			}else{
+			} else {
 				this.setData({ isSelf: true });
 				if (options.apply == 1) {
 					wx.setNavigationBarTitle({
@@ -52,35 +64,61 @@ Page({
 					})
 				}
 			}
-		}else{
-			this.setData({ isSelf: true });
-			if (options.apply == 1){
+		} else {
+			this.setData({ id: options.id, canIUse: app.canIUse });
+			if (options.isPush && options.isPush == 1) {
+				this.setData({ isSelf: true, shareUserId: options.userId, isPush: true });
 				wx.setNavigationBarTitle({
 					title: '我的申请'
 				})
+			} else {
+				if (options.userId) {
+					this.setData({ shareUserId: options.userId });
+					if (options.userId != wx.getStorageSync('user').userId) {
+						this.setData({ isSelf: false });
+						wx.setNavigationBarTitle({
+							title: '为TA加速'
+						})
+						if (options.yupTypeId) {
+							this.setData({ shareTypeId: options.yupTypeId });
+						}
+					}else{
+						this.setData({ isSelf: true });
+						if (options.apply == 1) {
+							wx.setNavigationBarTitle({
+								title: '我的申请'
+							})
+						}
+					}
+				}else{
+					this.setData({ isSelf: true });
+					if (options.apply == 1){
+						wx.setNavigationBarTitle({
+							title: '我的申请'
+						})
+					}
+					wx.authorize({
+						scope: 'scope.writePhotosAlbum',
+						success: () => {
+							this.setData({ refuseAuth: false });
+						},
+						fail: () => {
+							this.setData({ refuseAuth: true });
+						}
+					})
+				}
 			}
 		}
 		if (wx.getStorageSync('user').userId) {
 			this.setData({ isLogin: true, userId: wx.getStorageSync('user').userId });
 		}
     this.getProDetail();
-		if (this.data.isSelf) {
+		if (this.data.isSelf && this.data.isLogin) {
     	this.getQRCode();
 			this.getUserProStatus();
 		}
 		this.getUserYupList();
 		this.getRecommendList();
-
-		wx.authorize({
-			scope: 'scope.writePhotosAlbum',
-			success: () => {
-				this.setData({ refuseAuth: false });
-			},
-			fail: () => {
-				this.setData({ refuseAuth: true });
-			}
-		})
-		
   },
 	onShow: function(){
 		let uid = wx.getStorageSync('user').userId;
@@ -196,8 +234,21 @@ Page({
 							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
 							this.showToast('登录成功！');
 							this.getIsApply();
-							this.handleZan();
 							this.getUserYup();
+							this.getUserProStatus();
+							if (!this.data.isPush) {
+								this.handleZan();
+							} else {
+								wx.authorize({
+									scope: 'scope.writePhotosAlbum',
+									success: () => {
+										this.setData({ refuseAuth: false });
+									},
+									fail: () => {
+										this.setData({ refuseAuth: true });
+									}
+								})
+							}
 						} else {
 							this.setData({ isLogin: false });
 							wx.showModal({
@@ -227,7 +278,11 @@ Page({
 		this.setData({ showZan: true, zaned: true });
 		let id = this.data.shareTypeId;
 		if (id) {
-			this.takeUserYup(id, 'SHARE_FRIENDS');
+			if (this.data.shareOnline) {
+				this.takeUserYup(id, 'SHARE_MOMENTS');
+			} else {
+				this.takeUserYup(id, 'SHARE_FRIENDS');
+			}
 		}
 	},
 	getIsApply: function () {
@@ -262,7 +317,7 @@ Page({
 	},
 	takeUserYup: function(id, code) {
 		let userId = wx.getStorageSync('user').userId;
-		let uid = this.data.isSelf ? userId : this.data.shareUserId;
+		let uid = (this.data.isSelf && userId) ? userId : this.data.shareUserId;
 		let tuid = userId;
 		wx.request({
 			url: api.takeUserYup,
@@ -281,6 +336,9 @@ Page({
 						num += add;
 						this.setData({ addSignYup: add, myYup: num });
 						this.getUserYup();
+						if (code == 'SHARE_FRIENDS' && add == 0) {
+							this.showToast('您已点过赞了哦~');
+						}
 					}
 					this.getUserYupList();
 				} else {
@@ -294,7 +352,8 @@ Page({
 		})
 	},
 	getUserYup: function() {
-		let uid = this.data.isSelf ? wx.getStorageSync('user').userId : this.data.shareUserId;
+		let userId = wx.getStorageSync('user').userId;
+		let uid = (this.data.isSelf && userId) ? userId : this.data.shareUserId;
 		app.header.userId = uid;
 		wx.showLoading({
 			title: '加载中...'
@@ -308,11 +367,6 @@ Page({
 				if (res.data.resultCode == 200) {
 					let r = res.data.resultData;
 					let { myYup, maxYup, userProYupInfoList: yupList, yupListInfoVO: yupBoard } = r;
-					for (let v of yupList) {
-						if (v.yupTypeCode == 'SHARE_FRIENDS') {
-							this.setData({ friendYup: v.yup });
-						}
-					}
 					for (let v of yupBoard.yupList) {
 						v.userName = v.userName.substr(0, 1) + '**';
 					}
@@ -331,7 +385,8 @@ Page({
 		})
 	},
 	getUserYupList: function() {
-		let uid = this.data.isSelf ? wx.getStorageSync('user').userId : this.data.shareUserId;
+		let userId = wx.getStorageSync('user').userId;
+		let uid = (this.data.isSelf && userId) ? userId : this.data.shareUserId;
 		wx.request({
 			url: api.userYupList,
 			method: 'GET',
@@ -475,6 +530,7 @@ Page({
     }
   },
   makeShareImg: function() {
+		
     if (this.data.making) return;
     this.setData({ making: true, showPic: true });
     wx.showLoading({
@@ -523,52 +579,59 @@ Page({
     function exec() {
       let name = dd.proInfo.proName;
       let r = wx.getSystemInfoSync().windowWidth / 375;
-      let w = 630 * r;
-      let h = 1200 * r;
+      let w = 750 * r;
+      let h = 1334 * r;
+			let x = 60 * r;
+			let y = 67 * r;
       let imgWidth = dd.imgW / dd.imgH * 400;
-      let imgX = (630 * r - imgWidth) * r / 2;
+			let imgX = (w - imgWidth * r) / 2;
       imgX = imgX < 0 ? 0 : imgX;
       let ctx = wx.createCanvasContext('cv', that);
+			
+			ctx.beginPath();
+			ctx.setFillStyle('#3d3bee');
+			ctx.fillRect(0, 0, w, h);
+			ctx.closePath();
 
       ctx.beginPath();
-			ctx.drawImage('../../img/share-bg.png', 0, 0, w, h);
+			ctx.drawImage('../../img/share-bg.png', x, y, w - 120 * r, h - 134 * r);
       ctx.closePath();
 
       ctx.beginPath();
       ctx.setFillStyle('#F5F7F6');
-      ctx.fillRect(imgX, 30, imgWidth, imgWidth);
+      ctx.fillRect(imgX, 30 + y, imgWidth, imgWidth);
       ctx.closePath();
 
       ctx.beginPath();
-      ctx.drawImage(img, imgX, 30, imgWidth, imgWidth);
+			ctx.drawImage(img, imgX, 30 + y, imgWidth, imgWidth);
       ctx.closePath();
 
       ctx.beginPath();
       ctx.setFontSize(22 * r);
       ctx.setTextBaseline('top');
       ctx.setFillStyle('#262628');
-      ctx.fillText('我正在YUP新潮申请试用：'+ name.substr(0, 8), imgX, imgWidth + 50, imgWidth);
-			ctx.fillText(name.substr(8, 22), imgX, imgWidth + 90, imgWidth);
-			ctx.fillText(name.substr(22) + '你也来一起参与领取吧', imgX, imgWidth + 130);
+			ctx.fillText('我正在YUP新潮申请试用：' + name.substr(0, 8), imgX, imgWidth + 50 + y, imgWidth);
+			ctx.fillText(name.substr(8, 22), imgX, imgWidth + 90 + y, imgWidth);
+			ctx.fillText(name.substr(22) + '你也来一起参与领取吧', imgX, imgWidth + 130 + y);
       ctx.closePath();
 
 			ctx.beginPath();
 			ctx.setFontSize(22 * r);
 			ctx.setFillStyle('#9b9b9b');
-			ctx.fillText('# 全球潮牌 免费申请 #', 103 * r * 2, h / 2 + 40);
+			ctx.fillText('# 全球潮牌 免费申请 #', 103 * r * 2 + x, h / 2 + 40);
 			ctx.closePath();
 
 			ctx.beginPath();
 			ctx.setFontSize(56 * r);
 			ctx.font = 'bold';
 			ctx.setFillStyle('#000000');
-			ctx.fillText('免费的', 113 * r * 2, h / 2 + 120);
+			ctx.fillText('免费的', 113 * r * 2 + x, h / 2 + 120);
 			ctx.closePath();
 
 			ctx.beginPath();
 			ctx.setFontSize(56 * r);
 			ctx.setFillStyle('#FF5850');
-			ctx.fillText('了解一下', 97 * r * 2, h / 2 + 200);
+			ctx.fillText('了解一下', 97 * r * 2 + x, h / 2 + 200);
 			ctx.closePath();
 
       ctx.beginPath();
@@ -578,7 +641,7 @@ Page({
       ctx.beginPath();
       ctx.setFontSize(22 * r);
       ctx.setFillStyle('#9b9b9b');
-			ctx.fillText('长按扫码免费领潮牌', 105 * r * 2, h - 80);
+			ctx.fillText('长按扫码免费领潮牌', 106 * r * 2 + x, h - 80 - y);
       ctx.closePath();
 
       ctx.draw(true, setTimeout(() => {
@@ -658,7 +721,7 @@ Page({
 			query += '&apply=1&yupTypeId='+ yupId;
 		}
     return {
-      title: dd.proName,
+			title: '拜托帮我点一下，马上可以免费得【' + dd.proName + '】了',
 			path: 'pages/applySuccess/applySuccess' + query,
       imageUrl: dd.coverImg
     }
