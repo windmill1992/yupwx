@@ -3,15 +3,23 @@ App({
 	onLaunch: function () {
 		//判断运行环境
 		{
-			let url = this.globalData.baseUrl;
-			if (url.includes('dev')) {
-				if (wx.getStorageSync('prod')) {
-					wx.clearStorage();
+			let env = this.globalData.env;
+			if (env.includes('dev')) {
+				let url = this.globalData.baseUrl;
+				if (url.includes('dev')) {
+					if (wx.getStorageSync('prod') || !wx.getStorageSync('dev')) {
+						wx.clearStorageSync();
+					}
+					wx.setStorageSync('dev', true);
+				} else {
+					if (wx.getStorageSync('dev') || !wx.getStorageSync('prod')) {
+						wx.clearStorageSync();
+					}
+					wx.setStorageSync('prod', true);	
 				}
-				wx.setStorageSync('dev', true);
 			} else {
-				if (wx.getStorageSync('dev')) {
-					wx.clearStorage();
+				if (wx.getStorageSync('dev') || !wx.getStorageSync('prod')) {
+					wx.clearStorageSync();
 				}
 				wx.setStorageSync('prod', true);
 			}
@@ -78,12 +86,13 @@ App({
 	},
 	globalData: {
 		userInfo: null,
-		// baseUrl: 'https://api.yupfashion.cn',
-		baseUrl: 'http://apidev.yupfashion.cn',
+		baseUrl: 'https://api.yupfashion.cn',
+		// baseUrl: 'http://apidev.yupfashion.cn',
 		header: {
 			'content-type': 'application/json',
 		},
 		imgHost: 'https://pic.yupfashion.cn',			//小程序码
-		imgHost2: 'https://propic.yupfashion.cn'	//封面图
+		imgHost2: 'https://propic.yupfashion.cn',	//封面图
+		env: 'dev'
 	}
 })

@@ -35,7 +35,7 @@ Page({
 		console.log(options);
 		if (options.scene) {
 			let id = 0, userId = 0;
-			let arr = options.scene.split('&');
+			let arr = decodeURIComponent(options.scene).split('&');
 			let arr1 = arr[0].split('_');
 			let arr2 = arr[1].split('_');
 			if (arr1[0] == 'proId') {
@@ -613,7 +613,7 @@ Page({
       ctx.setFillStyle('#262628');
 			ctx.fillText('我正在YUP新潮申请试用：' + name.substr(0, 8), imgX, imgWidth + 50 + y, imgWidth);
 			ctx.fillText(name.substr(8, 22), imgX, imgWidth + 90 + y, imgWidth);
-			ctx.fillText(name.substr(22) + '你也来一起参与领取吧', imgX, imgWidth + 130 + y);
+			ctx.fillText(name.substr(22) + '，你也来一起参与领取吧', imgX, imgWidth + 130 + y);
       ctx.closePath();
 
 			ctx.beginPath();
