@@ -96,7 +96,7 @@
         <view>YUP值</view>
       </view>
       <view class='rank-list'>
-        <view class='item flex spb fcen' wx:for='{{yupBoard.yupList}}' wx:key='board{{index}}' wx:if='{{index < 5}}'>
+        <view class='item flex spb fcen {{item.userId == userId ? "self" : ""}}' wx:for='{{yupBoard.yupList}}' wx:key='board{{index}}' wx:if='{{index < 5}}'>
           <view class='flex fcen' wx:if='{{index < 3}}'>
             <image src='../../img/first.png' wx:if='{{index == 0}}' class='img1'></image>
             <image src='../../img/second.png' wx:elif='{{index == 1}}' class='img1'></image>
@@ -114,14 +114,17 @@
 					</view>
           <view>{{item.userYup}}YUP值</view>
         </view>
-				<view class='self item flex spb fcen' wx:if='{{yupBoard.myYupRanking > 5}}'>
+				<view class='self item flex spb fcen' wx:if='{{yupBoard.myYupRanking > 5 && isLogin}}'>
 					<view class='flex fcen'>
-            <image src='../../img/first.png' class='img1'></image>
-            <image src='{{yupBoard.yupList[yupBoard.myYupRanking - 1].userAvatar}}' class='img2'></image>
-            <view class='nick'>{{yupBoard.yupList[yupBoard.myYupRanking - 1].userName}}</view>
+            <view class='img1'>
+							<image src='../../img/rank_bg.png'></image>
+							<view class='txt1'>{{yupBoard.myYupRanking}}</view>
+						</view>
+            <image src='{{userAvatar}}' class='img2'></image>
+            <view class='nick'>{{nickName}}</view>
           </view>
-          <view>{{yupBoard.yupList[yupBoard.myYupRanking - 1].userYup}}YUP值</view>
-				</view>
+          <view>{{myYup}}YUP值</view>
+				</view> 
       </view>
     </view>
     <view class='recomend'>

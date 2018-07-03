@@ -110,7 +110,13 @@ Page({
 			}
 		}
 		if (wx.getStorageSync('user').userId) {
-			this.setData({ isLogin: true, userId: wx.getStorageSync('user').userId });
+			let user = wx.getStorageSync('user');
+			this.setData({ 
+				isLogin: true, 
+				userId: user.userId,
+				userAvatar: user.avatarUrl,
+				nickName: user.nickName
+			});
 		}
     this.getProDetail();
 		if (this.data.isSelf && this.data.isLogin) {
@@ -228,9 +234,15 @@ Page({
 					success: res1 => {
 						if (res1.data.resultCode == 200) {
 							let r = res1.data.resultData;
-							this.setData({ isLogin: true, userId: r.userId });
-							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
-							wx.setStorageSync('user', obj)
+							let userInfo = wx.getStorageSync('userInfo');
+							this.setData({ 
+								isLogin: true, 
+								userId: r.userId, 
+								userAvatar: userInfo.avatarUrl, 
+								nickName: userInfo.nickName,
+							});
+							let obj = Object.assign({}, { userId: r.userId, token: r.token }, userInfo);
+							wx.setStorageSync('user', obj);
 							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
 							this.showToast('登录成功！');
 							this.getIsApply();
@@ -369,7 +381,9 @@ Page({
 					let r = res.data.resultData;
 					let { myYup, maxYup, userProYupInfoList: yupList, yupListInfoVO: yupBoard } = r;
 					for (let v of yupBoard.yupList) {
-						v.userName = [...v.userName][0] + '**';
+						if (v.userId != this.data.userId) {
+							v.userName = [...v.userName][0] + '**';
+						}
 					}
 					this.setData({ myYup: myYup, maxYup: maxYup, yupList: yupList, yupBoard: yupBoard });
 				} else {
