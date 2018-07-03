@@ -235,6 +235,7 @@ Page({
 							this.showToast('登录成功！');
 							this.getIsApply();
 							this.getUserYup();
+							this.getQRCode();
 							this.getUserProStatus();
 							if (!this.data.isPush) {
 								this.handleZan();
@@ -368,7 +369,7 @@ Page({
 					let r = res.data.resultData;
 					let { myYup, maxYup, userProYupInfoList: yupList, yupListInfoVO: yupBoard } = r;
 					for (let v of yupBoard.yupList) {
-						v.userName = v.userName.substr(0, 1) + '**';
+						v.userName = [...v.userName][0] + '**';
 					}
 					this.setData({ myYup: myYup, maxYup: maxYup, yupList: yupList, yupBoard: yupBoard });
 				} else {
@@ -737,15 +738,11 @@ Page({
     let obj = {};
     obj.show = true;
     obj.title = txt;
-    this.setData({
-      toast: obj
-    });
+    this.setData({ toast: obj });
     setTimeout(function() {
       obj.show = false;
       obj.title = '';
-      that.setData({
-        toast: obj
-      });
+      that.setData({ toast: obj });
     }, 2000);
   }
 })
