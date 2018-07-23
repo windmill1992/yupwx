@@ -13,7 +13,8 @@
     "pages/about/about",
     "pages/merchant/merchant",
     "pages/entryApply/entryApply",
-    "pages/entrySuccess/entrySuccess"
+    "pages/entrySuccess/entrySuccess",
+    "pages/test/test"
   ],
   "window": {
     "backgroundTextStyle": "dark",

@@ -197,6 +197,10 @@ Page({
 					url: '/pages/productDetail/productDetail?id=' + data.id + '&state=' + data.state
 				})
 			}
+		} else if (data.state == 2) {
+			wx.navigateTo({
+				url: '/pages/productDetail/productDetail?id=' + data.id + '&state=' + data.state
+			})
 		}
 	},
 	toDetail: function (e) {

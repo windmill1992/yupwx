@@ -2,10 +2,11 @@
 const app = getApp().globalData;
 const util = require('./../../utils/util.js');
 const api = {
-	proDetail: app.baseUrl + '/yup/yup-rest/pro-detail',		//商品详情
-	login: app.baseUrl + '/yup/yup-rest/login',							//登录	
-	apply: app.baseUrl + '/yup/yup-rest/apply-pro',					//申请产品
-	isApply: app.baseUrl + '/yup/yup-rest/user-is-apply'		//是否已申请
+	proDetail: app.baseUrl + '/yup/yup-rest/pro-detail',							//商品详情
+	login: app.baseUrl + '/yup/yup-rest/login',												//登录	
+	apply: app.baseUrl + '/yup/yup-rest/apply-pro',										//申请产品
+	isApply: app.baseUrl + '/yup/yup-rest/user-is-apply',							//是否已申请
+	userProStatus: app.baseUrl + '/yup/yup-rest/user-pro-status'			//查询用户商品状态
 }
 Page({
 	data: {
@@ -60,14 +61,7 @@ Page({
 					let r = res.data.resultData;
 					this.setData({ proInfo: r, state: r.proStatus });
 					if (this.data.isLogin) {
-						let boo = false;
-						for (let i = 0; i < r.winningUserList.length; i++) {
-							if (r.winningUserList[i] == this.data.userAvatar) {
-								boo = true;
-								break;
-							}
-						}
-						this.setData({ isPrized: boo });
+						this.getUserProStatus();
 						this.getIsApply();
 					}
 				} else {
@@ -75,6 +69,26 @@ Page({
 				}
 			}, fail: () => {
 				this.showToast('未知错误！');
+			}
+		})
+	},
+	getUserProStatus: function () {
+		const header = Object.assign({}, app.header, { userId: this.data.userId });
+		wx.request({
+			url: api.userProStatus,
+			method: 'GET',
+			header: header,
+			data: { proId: this.data.id },
+			success: res => {
+				if (res.data.resultCode == 200) {
+					this.setData({ isPrized: res.data.resultData.trialProgressType == 2 });
+				} else {
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('查询中奖状态错误');
+					}
+				}
 			}
 		})
 	},
