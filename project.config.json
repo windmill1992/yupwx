@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 14,
+			"current": 6,
 			"list": [
 				{
 					"id": -1,
@@ -73,7 +73,7 @@
 					"id": 6,
 					"name": "applySuc",
 					"pathName": "pages/applySuccess/applySuccess",
-					"query": "id=6&apply=1",
+					"query": "id=15&apply=1",
 					"scene": "1011"
 				},
 				{

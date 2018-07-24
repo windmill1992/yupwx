@@ -146,6 +146,7 @@ Page({
       success: res => {
         if (res.data.resultCode == 200) {
           let r = res.data.resultData;
+					r.sellingPrice = Number.parseFloat(r.sellingPrice).toFixed(2);
           this.setData({ proInfo: r });
         } else {
           this.showToast(res.data.resultMsg);
