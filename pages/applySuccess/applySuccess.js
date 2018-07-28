@@ -453,8 +453,41 @@ Page({
 		let id = Number.parseInt(data.id);
 		let code = data.code;
 		this.takeUserYup(id, code);
-    this.setData({ showSign: true });
+		let dd = new Date();
+		dd.setHours(23);
+		dd.setMinutes(59);
+		dd.setSeconds(59);
+		let signTimes = dd.getTime() - Date.now();
+		this.setData({
+			showSign: true,
+			signed: true
+		});
+		if (signTimes > 0) {
+			this.countdown(signTimes);
+			let timer = setInterval(() => {
+				if (signTimes > 1000) {
+					signTimes -= 1000;
+					this.countdown(signTimes);
+				} else {
+					clearInterval(timer);
+					this.setData({
+						showSign: false,
+						signed: false
+					})
+				}
+			}, 1000);
+		}
   },
+	countdown: function (t) {
+		let h = parseInt(t / 1000 / 60 / 60);
+		let m = parseInt(t / 1000 / 60 % 60);
+		let s = parseInt(t / 1000 % 60);
+		h = h < 10 ? '0' + h : h;
+		m = m < 10 ? '0' + m : m;
+		s = s < 10 ? '0' + s : s;
+		let time = h + ':' + m + ':' + s;
+		this.setData({ signTime: time });
+	},
 	getCoupons: function (e) {
 		let url = e.currentTarget.dataset.url;
 		wx.setClipboardData({

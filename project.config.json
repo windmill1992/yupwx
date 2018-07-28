@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 6,
+			"current": 15,
 			"list": [
 				{
 					"id": -1,
@@ -123,6 +123,13 @@
 					"id": -1,
 					"name": "test",
 					"pathName": "pages/test/test",
+					"query": "",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "like",
+					"pathName": "pages/myLikes/myLikes",
 					"query": "",
 					"scene": "1011"
 				}

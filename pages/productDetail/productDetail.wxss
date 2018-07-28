@@ -26,7 +26,7 @@
   font-size: 26rpx;
   right: 0;
   bottom: 10%;
-  background: #3d3bee;
+  background: #fc2441;
   border-top-left-radius: 52rpx;
   border-bottom-left-radius: 52rpx;
   z-index: 99;
@@ -47,20 +47,36 @@
 }
 
 .cloth-info .name {
-  font-size: 36rpx;
+	text-align: center;
+  font-size: 48rpx;
   font-family: 'PingFangSC-Medium';
-  color: #262628;
+  color: #202020;
   font-weight: 600;
+	padding: 40rpx;
+}
+
+.cloth-info .nav-btn{
+	width: 216rpx;
+	height: 216rpx;
+	border-radius: 100%;
+	color: #fff;
+	font-size: 30rpx;
+	text-align: center;
+	display: block;
+	line-height: 216rpx;
+	background: #fc2441;
 }
 
 .cloth-info .infos {
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 24rpx;
-  margin-top: 20rpx;
+  font-size: 28rpx;
+  margin-top: 30rpx;
+	text-align: center;
+	color: #202020;
 }
 
-.cloth-info .infos text {
+.cloth-info .infos .txt1 {
   margin-right: 30rpx;
+	color: #c5c5c5;
 }
 
 .wrapper {
@@ -81,12 +97,12 @@
   margin-top: 20rpx;
   flex-wrap: nowrap;
   overflow: hidden;
-  height: 56rpx;
+  height: 64rpx;
 }
 
 .wrapper .apply-list .item {
-  width: 56rpx;
-  height: 56rpx;
+  width: 64rpx;
+  height: 64rpx;
   border-radius: 100%;
   margin-right: 16rpx;
 }

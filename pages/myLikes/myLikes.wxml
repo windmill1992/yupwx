@@ -1,0 +1,41 @@
+<!--pages/myLikes/myLikes.wxml-->
+<view class='container'>
+	<view class='ml-wrap'>
+		<view class='item'>
+			<view class='cover'>
+				<image src='../../img/share.png' mode='widthFix'></image>
+			</view>
+			<view class='title'>为什么我只能有在喝醉了的时候才有勇气去找你？</view>
+			<view class='info flex spb fcen flex1'>
+				<view class='user flex fcen'>
+					<image src='../../img/group.png' class='fshrink0'></image>
+					<view class='nick'>撩妹达人的撒打算打算的撒大所大所多大萨达撒大事的</view>
+				</view>
+				<view class='op flex fcen fshrink0'>
+					<image src='../../img/share-icon.png' mode='widthFix'></image>
+					<view class='num'>123</view>
+					<image src='../../img/zan.png' mode='widthFix' style='margin-left: 40rpx;'></image>
+					<view class='num'>2222</view>
+				</view>
+			</view>
+		</view>
+		<view class='item'>
+			<view class='cover'>
+				<image src='../../img/share.png' mode='widthFix'></image>
+			</view>
+			<view class='title'>为什么我只能有在喝醉了的时候才有勇气去找你？</view>
+			<view class='info flex spb fcen flex1'>
+				<view class='user flex fcen'>
+					<image src='../../img/group.png' class='fshrink0'></image>
+					<view class='nick'>撩妹达人的撒打算打算的撒大所大所多大萨达撒大事的</view>
+				</view>
+				<view class='op flex fcen fshrink0'>
+					<image src='../../img/share-icon.png' mode='widthFix'></image>
+					<view class='num'>123</view>
+					<image src='../../img/zan.png' mode='widthFix' style='margin-left: 40rpx;'></image>
+					<view class='num'>2222</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</view>

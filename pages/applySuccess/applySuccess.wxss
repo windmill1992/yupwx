@@ -421,11 +421,38 @@
   height: 100%;
 }
 
-.sign-d .txt2 {
+.sign-d .dialog_inner{
+	background: #d5cbc5;
+	border-radius: 24rpx;
+	width: 670rpx;
+	height: 700rpx;
+	padding: 60rpx 40rpx;
+}
+
+.sign-d .txt1{
+	color: #fff;
+	font-size: 26rpx;
+	letter-spacing: 2prx;
+}
+
+.sign-d .yup-box{
+	margin: 50rpx 0;
+	border: 8rpx solid #202020;
+	border-radius: 24rpx;
+	background: #fff;
+}
+
+.sign-d .yup-box .txt2{
+	font-size: 26rpx;
+	color: #202020;
+}
+
+.sign-d .txt3 {
   font-size: 96rpx;
   font-family: PingFangSC-Semibold;
   font-weight: 600;
-  margin: 20rpx 0;
+  margin: 30rpx 0 20rpx;
+	color: #000;
 }
 
 .sign-d .btn, .get-d .btn {
@@ -435,7 +462,8 @@
   color: #fff;
   height: 88rpx;
   line-height: 88rpx;
-  background: #3d3bee;
+  background: #fc2441;
+	border-radius: 88rpx;
 }
 
 .get-d .txt2 {

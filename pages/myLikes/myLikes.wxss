@@ -1,0 +1,55 @@
+/* pages/myLikes/myLikes.wxss */
+
+.ml-wrap .item{
+	padding: 40rpx;
+}
+
+.ml-wrap .item .cover{
+	box-shadow:0 0 24px 0 rgba(0, 0, 0, 0.12);
+	border-radius: 16rpx;
+	overflow: hidden;
+}
+
+.ml-wrap .item .cover image{
+	width: 100%;
+	border-radius: inherit;
+}
+
+.ml-wrap .item .title{
+	font-size: 44rpx;
+	color: #202020;
+	font-family:PingFangSC-Medium;
+	margin-top: 10rpx;
+	line-height: 64rpx;
+}
+
+.ml-wrap .item .info{
+	margin-top: 20rpx;
+	color: #c5c5c5;
+	font-size: 22rpx;
+}
+
+.ml-wrap .item .user{
+	width: auto;
+	overflow: hidden;
+	margin-right: 20rpx;
+}
+
+.ml-wrap .item .user image{
+	width: 40rpx;
+	height: 40rpx;
+	border-radius: 100%;
+	margin-right: 20rpx;
+}
+
+.ml-wrap .item .user .nick{
+	letter-spacing: 3rpx;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ml-wrap .item .op image{
+	width: 30rpx;
+	margin-right: 10rpx;
+}
