@@ -93,12 +93,12 @@ page {
   overflow: hidden;
 }
 
-.hide {
-  display: none;
+.hide1 {
+  display: none!important;
 }
 
 .show {
-  display: block;
+  display: block!important;
 }
 
 .back::before, .more::after {

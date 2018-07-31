@@ -1,0 +1,53 @@
+<!--pages/comment/comment.wxml-->
+<scroll-view class='container' scroll-y bindscrolltolower='loadmore'>
+	<view class='c-list'>
+		<view class='item flex' wx:for='{{10}}' wx:key='comment'>
+			<view class='fshrink0 avatar'>
+				<image src='../../img/group.png' ></image>
+			</view>
+			<view class='info flex1'>
+				<view class='nick'>厉害的超超</view>
+				<view class='time'>30分钟前</view>
+				<view class='word'>请问大腿怎么卖？</view>
+			</view>
+		</view>
+		<view class='item flex'>
+			<view class='fshrink0 avatar'>
+				<image src='../../img/group.png' ></image>
+			</view>
+			<view class='info flex1'>
+				<view class='nick'>厉害的超超</view>
+				<view class='time'>30分钟前</view>
+				<view class='word'>请问大腿怎么卖？请问大腿怎么卖？请问大腿怎么卖？请问大腿怎么卖？请问大腿怎么卖？</view>
+			</view>
+		</view>
+		<view class='item flex'>
+			<view class='fshrink0 avatar'>
+				<image src='../../img/group.png' ></image>
+			</view>
+			<view class='info flex1'>
+				<view class='nick'>厉害的超超厉害的超超厉害的超超厉害的超超厉害的超超厉害的超超</view>
+				<view class='time'>30分钟前</view>
+				<view class='word'>请问大腿怎么卖？</view>
+			</view>
+		</view>
+	</view>
+
+	<view class='c-ft'>
+		<view class='btn' bindtap='leaveword'>我也要留言</view>
+	</view>
+</scroll-view>
+
+<view class='dialog {{dialogShow ? "show" : ""}}'>
+	<view class='mask'></view>
+</view>
+<view class='word-box {{dialogShow ? "show" : ""}}'>
+	<view class='top flex spb fcen'>
+		<view class='cancel' bindtap='dialogHide'>取消</view>
+		<view class='pub' bindtap='publish'>发布</view>
+	</view>
+	<view class='mid'>
+		<textarea bindinput='getContent' placeholder='说点你想说的吧' placeholder-style='color: #c9c9c9;' auto-height></textarea>
+	</view>
+</view>
+<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

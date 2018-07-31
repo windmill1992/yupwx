@@ -38,29 +38,26 @@
       </view>
     </view>
     <view class='wrapper'>
-      <view class='goods-info flex'>
-        <view class='item' wx:for='{{proInfo.proInfo.join(",")}}' wx:key='info'>{{item}}</view>
-      </view>
       <view class='other-info'>
-        <view class='item flex spb fcen'>
-          <view>活动规则</view>
-          <view>¥{{proInfo.proDescribe}}</view>
-        </view>
-        <view class='item flex spb fcen'>
-          <view>参考价格</view>
-          <view>¥{{proInfo.consultPrice}}</view>
-        </view>
-        <view class='item flex spb fcen'>
-          <view>品牌</view>
-          <view>{{proInfo.brand}}</view>
-        </view>
-        <view class='item flex spb fcen'>
-          <view>品类</view>
-          <view>{{proInfo.category}}</view>
+        <view class='item flex spb'>
+          <view class='left'>活动规则</view>
+          <view class='right'>{{proInfo.proDescribe}}</view>
         </view>
         <view class='item flex spb'>
-          <view>材质详情</view>
-          <view>{{proInfo.material}}</view>
+          <view class='left'>活动时间</view>
+          <view class='right flex fcen' wx:if='{{proInfo.proStatus < 2}}'>
+						<view>距开奖还有：</view>
+						<countdown time='{{proInfo.endTime}}'></countdown>
+					</view>
+					<view class='right'>已结束</view>
+        </view>
+        <view class='item flex spb fcen'>
+          <view class='left'>商品品牌</view>
+          <view class='right'>{{proInfo.brand}}</view>
+        </view>
+        <view class='item flex spb fcen'>
+          <view class='left'>参考价格</view>
+          <view class='right'>¥{{proInfo.consultPrice}}元起</view>
         </view>
       </view>
       <view class='pics'>
@@ -70,7 +67,25 @@
       </view>
     </view>
   </view>
-  <view class='btn flex' wx:if='{{state >= 2}}'>
+	<view class='ft flex spb'>
+		<view class='share flex fcen'>
+			<button open-type='share' class='icon'>
+				<image src='../../img/share-icon-6.png' mode='aspectFit'></image>
+			</button>
+			<view class='num'>123</view>
+		</view>
+		<view class='zan flex fcen'>
+			<view class='icon'></view>
+			<view class='num'>1234</view>
+		</view>
+		<view class='verify flex fcen'>
+			<view class='icon'></view>
+			<view class='num'>123</view>
+		</view>
+		<view class='buy'>优惠购买</view>
+	</view>
+
+  <!-- <view class='btn flex' wx:if='{{state >= 2}}'>
 		<view class='btn1 flex fcen spc' bindtap='getCoupons' data-url='{{proInfo.tbCouponUrl}}'>
 			<view>领优惠去购买</view>
 			<view class='icon'>
@@ -105,6 +120,6 @@
 		<block wx:else>
 			<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='nav-btn'>登录可申请</button>
 		</block>
-  </view>
+  </view> -->
 </view>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

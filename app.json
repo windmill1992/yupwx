@@ -15,7 +15,8 @@
     "pages/entryApply/entryApply",
     "pages/entrySuccess/entrySuccess",
     "pages/test/test",
-    "pages/myLikes/myLikes"
+    "pages/myLikes/myLikes",
+    "pages/comment/comment"
   ],
   "window": {
     "backgroundTextStyle": "dark",

@@ -151,9 +151,21 @@
 
 .wrapper .other-info .item {
   padding: 28rpx 0;
-  font-size: 24rpx;
+  font-size: 28rpx;
   color: #000;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.wrapper .other-info .left{
+	color: #c5c5c5;
+	white-space: nowrap;
+	margin-right: 40rpx;
+}
+
+.wrapper .other-info .right{
+	color: #202020;
+	word-break: break-all;
+	line-height: 1.5;
 }
 
 .wrapper .pics {
@@ -166,6 +178,56 @@
 
 .wrapper .pics .pic-box image {
   width: 100%;
+}
+
+.ft{
+	position: fixed;
+	bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 108rpx;
+	box-shadow:0 0 24px 0 rgba(0, 0, 0, 0.10);
+	background: #fff;
+	padding: 0 30rpx;
+	box-sizing: border-box;
+}
+
+.ft .icon{
+	margin-right: 10rpx;
+	padding: 0;
+	border-radius: 0;
+	background: none;
+	border: none;
+	outline: none;
+	line-height: 1;
+	width: 40rpx;
+}
+
+.ft .icon::after{
+	border: none;
+}
+
+.ft .icon image{
+	width: 28rpx;
+	height: 30rpx;
+	display: inline-block;
+}
+
+.ft .num{
+	color: #202020;
+	font-size: 26rpx;
+}
+
+.ft .buy{
+	width: 240rpx;
+	height: 80rpx;
+	background: #fc2441;
+	color: #fff;
+	font-size: 30rpx;
+	line-height: 80rpx;
+	text-align: center;
+	border-radius: 80rpx;
+	margin-top: 14rpx;
 }
 
 .btn {
