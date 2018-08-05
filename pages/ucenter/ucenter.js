@@ -100,6 +100,15 @@ Page({
 	noLogin: function () {
 		this.showToast('未登录');
 	},
+	signIn: function () {
+		this.setData({ showSign: true });
+	},
+	closeDialog: function (e) {
+		this.setData({ hideSign: true });
+		setTimeout( () => {
+			this.setData({ showSign: false, hideSign: false });
+		}, 400);
+	},
 	onShareAppMessage: function () {
 		return {
 			title: '免费领取，跟我一起来拿潮流好物',

@@ -1,0 +1,98 @@
+<!--pages/discovery/discovery.wxml-->
+<view class='container'>
+	<view class='d-hd'>
+		<view class='big'>发现</view>
+		<view class='txt'>发现更多潮流商品</view>
+	</view>
+	<view class='d-bd'>
+		<view class='title flex spb fcen'>
+			<view class='txt'>这里东西免费送</view>
+			<navigator url='' class='more flex fcen'>更多</navigator>
+		</view>
+		<view class='wrapper'>
+			<view class='list flex fnowrap'>
+				<view class='item'>
+					<view class='pic'>
+						<image src='../../img/share.png' mode='aspectFill'></image>
+					</view>
+					<view class='name'>NIKE联名款限量版卫衣免费送</view>
+					<view class='apply'>123456人申请</view>
+				</view>
+				<view class='item'>
+					<view class='pic'>
+						<image src='../../img/share.png' mode='aspectFill'></image>
+					</view>
+					<view class='name'>NIKE联名款限量版卫衣免费送</view>
+					<view class='apply'>123456人申请</view>
+				</view>
+				<view class='item'>
+					<view class='pic'>
+						<image src='../../img/share.png' mode='aspectFill'></image>
+					</view>
+					<view class='name'>NIKE联名款限量版卫衣免费送</view>
+					<view class='apply'>123456人申请</view>
+				</view>
+			</view>
+		</view>
+
+		<view class='title flex spb fcen'>
+			<view class='txt'>新奇的玩意儿</view>
+			<navigator url='' class='more flex fcen'>更多</navigator>
+		</view>
+		<view class='wrapper'>
+			<view class='list flex fnowrap'>
+				<view class='item item2'>
+					<view class='pic'>
+						<image src='../../img/share.png' mode='aspectFill'></image>
+					</view>
+					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
+					<view class='apply'>123456人申请</view>
+				</view>
+				<view class='item item2'>
+					<view class='pic'>
+						<image src='../../img/share.png' mode='aspectFill'></image>
+					</view>
+					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
+					<view class='apply'>123456人申请</view>
+				</view>
+				<view class='item item2'>
+					<view class='pic'>
+						<image src='../../img/share.png' mode='aspectFill'></image>
+					</view>
+					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
+					<view class='apply'>123456人申请</view>
+				</view>
+			</view>
+		</view>
+
+		<view class='title flex spb fcen'>
+			<view class='txt'>新奇的玩意儿</view>
+			<navigator url='' class='more flex fcen'>更多</navigator>
+		</view>
+		<view class='wrapper'>
+			<view class='list flex fnowrap'>
+				<view class='item item2'>
+					<view class='pic'>
+						<image src='../../img/share.png' mode='aspectFill'></image>
+					</view>
+					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
+					<view class='apply'>123456人申请</view>
+				</view>
+				<view class='item item2'>
+					<view class='pic'>
+						<image src='../../img/share.png' mode='aspectFill'></image>
+					</view>
+					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
+					<view class='apply'>123456人申请</view>
+				</view>
+				<view class='item item2'>
+					<view class='pic'>
+						<image src='../../img/share.png' mode='aspectFill'></image>
+					</view>
+					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
+					<view class='apply'>123456人申请</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</view>

@@ -1,0 +1,35 @@
+<!--pages/guideDetail/guideDetail.wxml-->
+<view class='container'>
+	<view class='gd-hd'>
+		<image src='../../img/share.png' mode='widthFix' class='cover'></image>
+		<view class='title'>为什么我只能有在喝醉了的时候才有勇气去找你？</view>
+		<view class='user flex fcen'>
+			<image src='../../img/group.png'></image>
+			<view class='nick'>撩妹达人</view>
+		</view>
+	</view>
+	<view class='gd-bd'>
+		<view class='txt'>炎热的日子太难熬，闷热的环境让野马哥的脾气也变得很差，冰镇的饮料喝下去的瞬间虽然很爽快但是年纪大了难免胃不好，有时候反而会让肚子有灼烧的感觉</view>
+		<view class='txt'>炎热的日子太难熬，闷热的环境让野马哥的脾气也变得很差，冰镇的饮料喝下去的瞬间虽然很爽快但是年纪大了难免胃不好，有时候反而会让肚子有灼烧的感觉</view>
+		<view class='pic'>
+			<image src='../../img/share.png' mode='widthFix'></image>
+		</view>
+	</view>
+	<view class='gd-ft flex spb'>
+		<view class='share flex fcen'>
+			<button open-type='share' class='icon'>
+				<image src='../../img/share-icon-6.png' mode='aspectFit'></image>
+			</button>
+			<view class='num'>123</view>
+		</view>
+		<view class='zan flex fcen'>
+			<view class='icon'></view>
+			<view class='num'>1234</view>
+		</view>
+		<view class='verify flex fcen'>
+			<view class='icon'></view>
+			<view class='num'>123</view>
+		</view>
+		<view class='buy'>10件商品</view>
+	</view>
+</view>

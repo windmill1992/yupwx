@@ -1,33 +1,82 @@
 <!--pages/ucenter/ucenter.wxml-->
 <view class='container'>
-  <view class='user-info' wx:if='{{!isLogin}}'>
-    <button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='login-btn'>授权登录</button>
-  </view>
-  <view class='user-info' wx:else>
+  <view class='user-info flex fcen' wx:if='{{!isLogin}}'>
+		<view class='avatar'>
+			<image src='../../img/group.png'></image>
+		</view>
+		<view class='info'>
+			<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='login-btn'>授权登录</button>
+			<view class='txt'></view>
+		</view>
+	</view>
+  <view class='user-info flex fcen' wx:else>
     <view class='avatar'>
       <image src='{{userAvatar}}'></image>
     </view>
-    <view class='nick'>{{nickName}}</view>
+		<view class='info'>
+			<view class='nick'>{{nickName}}</view>
+			<view class='txt'>你已经来到YUP新潮12345天了</view>
+		</view>
   </view>
-  <view class='menu'>
-    <view class='item'>
-      <view wx:if='{{!isLogin}}' class='nav' bindtap='noLogin'>我的地址</view>
-      <navigator wx:else url='/pages/myAddress/myAddress' class='nav'>我的地址</navigator>
-    </view>
-    <view class='item'>
-      <button class='btn' open-type='share'>邀请好友</button>
-    </view>
-    <view class='item'>
-			<view wx:if='{{!isLogin}}' class='nav' bindtap='noLogin'>商家入驻</view>
-      <navigator wx:else url='/pages/merchant/merchant' class='nav'>商家入驻</navigator>
-    </view>
-    <view class='item'>
-      <navigator url='/pages/about/about' class='nav'>关于我们</navigator>
+  <view class='menu fcol spa'>
+    <button class='item btn flex spb fcen' bindtap='signIn'>
+      <view class='flex fcen'>
+				<image src='../../img/sign.png' mode='widthFix'></image>
+				<view class='txt'>签到打卡</view>
+			</view>
+			<view class='more'></view>
+    </button>
+    <navigator url='/pages/myLikes/myLikes' class='item flex spb fcen'>
+      <view class='flex fcen'>
+				<image src='../../img/like.png' mode='widthFix'></image>
+				<view class='txt'>我喜欢的</view>
+			</view>
+			<view class='more'></view>
+    </navigator>
+    <navigator url='/pages/progress/progress' class='item flex spb fcen'>
+      <view class='flex fcen'>
+				<image src='../../img/notice.png' mode='widthFix'></image>
+				<view class='txt'>试用进展</view>
+			</view>
+			<view class='more'></view>
+    </navigator>
+    <navigator url='/pages/merchant/merchant' class='item flex spb fcen'>
+      <view class='flex fcen'>
+				<image src='../../img/recruit.png' mode='widthFix'></image>
+				<view class='txt'>官方招募</view>
+			</view>
+			<view class='more flex fcen'><view class='inner'>福利</view></view>
+    </navigator>
+    <navigator url='/pages/about/about' class='item flex spb fcen'>
+      <view class='flex fcen'>
+				<image src='../../img/about.png' mode='widthFix'></image>
+				<view class='txt'>关于我们</view>
+			</view>
+			<view class='more'></view>
+    </navigator>
+  </view>
+	<view class='dialog sign-d {{showSign ? "show" : ""}} {{hideSign ? "hide" : ""}}'>
+    <view class='mask'></view>
+    <view class='dialog_inner'>
+      <view class='txt1 txtC'>您已经连续签到10天了，继续加油哦</view>
+			<view class='yup-box'>
+				<view class='txt2'>2018.09.09</view>
+      	<view class='txt3'>眼不卧蚕处扫一点散粉，眼线就不会晕开了。</view>
+				<view class='logo flex fcen'>
+					<image src='../../img/logo.png'></image>
+					<view>YUP新潮</view>
+				</view>
+			</view>
+      <view class='txt1 txtC'>“分享支持一下吧”</view>
+			<view class='btns flex spb'>
+      	<view class='btn btn1'>分享给好友</view>
+      	<view class='btn btn2'>分享到朋友圈</view>
+			</view>
+      <view class='close' bindtap='closeDialog'>
+        <image src='../../img/close.png'></image>
+      </view>
     </view>
   </view>
-
-  <!-- <view class='gift'>
-    <image src='../../img/liwu.png'></image>
-  </view> -->
 </view>
+
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

@@ -1,97 +1,161 @@
 /* pages/ucenter/ucenter.wxss */
+@import '../applySuccess/dialog.wxss';
 
 .container {
   overflow: hidden;
 }
 
 .user-info {
-  margin-top: 60rpx;
-  text-align: center;
+	padding: 40rpx;
 }
 
 .login-btn {
   display: inline-block;
   height: 80rpx;
   line-height: 80rpx;
-  margin-top: 45rpx;
-  background: #3d3bee;
+  background: #fc2441;
   color: #fff;
 }
 
 .avatar {
-  margin: 0 auto;
-  width: 182rpx;
-  height: 182rpx;
+  width: 144rpx;
+  height: 144rpx;
   border-radius: 100%;
   overflow: hidden;
+	margin-right: 40rpx;
+	box-shadow:0 0 24px 0 rgba(0, 0, 0, 0.15);
 }
 
 .avatar image {
   width: 100%;
   height: 100%;
-  border-radius: 100%;
+  border-radius: inherit;
 }
 
 .nick {
-  margin-top: 36rpx;
-  font-size: 40rpx;
-  color: #000;
-  font-family: 'PingFangSC-Medium';
-  /* font-weight: 600; */
+  font-size: 60rpx;
+  color: #202020;
+  font-family: 'PingFangSC-Semibold';
+  font-weight: 600;
+	letter-spacing: 1px;
 }
 
-.menu {
-  margin-top: 70rpx;
-  text-align: center;
+.info .txt{
+	line-height: 40rpx;
+	color: #c9c9c9;
+	font-size: 26rpx;
+	margin-top: 10rpx;
 }
 
 .item {
-  text-align: center;
-  font-size: 30rpx;
-  color: #000;
+  font-size: 32rpx;
+  color: #202020;
+	padding: 50rpx 40rpx;
+	line-height: 48rpx;
 }
 
-.item .nav {
-  display: inline-block;
-  padding: 30rpx;
-  line-height: 1;
-  vertical-align: top;
-}
-
-.item .btn {
-  display: inline-block;
-  padding: 30rpx;
-  margin: 0;
-  line-height: 1;
+.item.btn {
   border-radius: 0;
   background-color: transparent;
   outline: none;
   border: none;
-  font-size: 30rpx;
-  color: #000;
   vertical-align: top;
+	margin: 0;
 }
 
-.item .btn::after {
+.item.btn::after {
   border: none;
 }
 
-.item .btn.button-hover {
+.item.btn.button-hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.gift {
-  position: fixed;
-  bottom: 30rpx;
-  right: 30rpx;
-  width: 144rpx;
-  height: 144rpx;
-  border-radius: 100%;
-  overflow: hidden;
+.item	image{
+	width: 32rpx;
+	height: 28rpx;
+	margin-right: 20rpx;
 }
 
-.gift image {
-  width: 100%;
-  height: 100%;
-  border-radius: 100%;
+.item .inner{
+	width: 80rpx;
+	height: 44rpx;
+	line-height: 44rpx;
+	text-align: center;
+	color: #fff;
+	font-size: 22rpx;
+	background: #fc2441;
+	border-radius: 44rpx;
+	margin-right: 20rpx;
+	letter-spacing: 1px;
+}
+
+.sign-d .dialog_inner{
+	background: #d5cbc5;
+	border-radius: 24rpx;
+	width: 670rpx;
+	padding: 60rpx 40rpx;
+	text-align: left;
+	margin-top: -30rpx;
+}
+
+.sign-d .txt1{
+	color: #fff;
+	font-size: 26rpx;
+	letter-spacing: 2prx;
+}
+
+.sign-d .yup-box{
+	margin: 50rpx 0;
+	border: 8rpx solid #202020;
+	border-radius: 24rpx;
+	background: #fff;
+	padding: 40rpx 30rpx;
+}
+
+.sign-d .yup-box .txt2{
+	font-size: 26rpx;
+	color: #202020;
+}
+
+.sign-d .txt3 {
+  font-size: 30rpx;
+  font-family: PingFangSC-Semibold;
+  font-weight: 600;
+  margin: 30rpx 0 20rpx;
+	color: #202020;
+	line-height: 1.8;
+	min-height: 200rpx;
+}
+
+.sign-d .logo{
+	font-size: 18rpx;
+	color: #202020;
+	font-family: 'PingFangSC-Light';
+}
+
+.sign-d .logo image{
+	width: 48rpx;
+	height: 48rpx;
+	border-radius: 100%;
+	margin-right: 10rpx;
+}
+
+.sign-d .btn {
+	width: 48%;
+  margin-top: 40rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #fff;
+  height: 88rpx;
+  line-height: 88rpx;
+	border-radius: 88rpx;
+}
+
+.sign-d .btn.btn1{
+	background:rgba(255, 255, 255, 0.30);
+}
+
+.sign-d .btn.btn2{
+	background: #fc2441;
 }

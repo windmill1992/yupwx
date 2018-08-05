@@ -16,7 +16,11 @@
     "pages/entrySuccess/entrySuccess",
     "pages/test/test",
     "pages/myLikes/myLikes",
-    "pages/comment/comment"
+    "pages/comment/comment",
+    "pages/relations/relations",
+    "pages/guideDetail/guideDetail",
+    "pages/discovery/discovery",
+		"pages/index2/index2"
   ],
   "window": {
     "backgroundTextStyle": "dark",
@@ -34,13 +38,13 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "试用",
+        "text": "推荐",
         "iconPath": "img/recommend.png",
         "selectedIconPath": "img/recommend2.png"
       },
       {
-        "pagePath": "pages/progress/progress",
-        "text": "进展",
+        "pagePath": "pages/discovery/discovery",
+        "text": "发现",
         "iconPath": "img/progress.png",
         "selectedIconPath": "img/progress2.png"
       },

@@ -1,0 +1,44 @@
+<!--pages/relations/relations.wxml-->
+<view class='container'>
+	<view class='r-list'>
+		<view class='item flex fcen'>
+			<view class='pic fshrink0'>
+				<image src='../../img/share.png' mode='aspectFill'></image>
+			</view>
+			<view class='info flex1 fcol spb'>
+				<view class='title'>陈冠希同款CLOT潮牌白色限量版卫衣</view>
+				<view class='price-box flex fcen spb'>
+					<view class='price'>2499.00</view>
+					<view class='btn'>优惠购买</view>
+					<view class='ori-price'>5555.00</view>
+				</view>
+			</view>
+		</view>
+		<view class='item flex fcen'>
+			<view class='pic fshrink0'>
+				<image src='../../img/share.png' mode='aspectFill'></image>
+			</view>
+			<view class='info flex1 fcol spb'>
+				<view class='title'>陈冠希同款CLOT潮牌白色限量版卫衣</view>
+				<view class='price-box flex fcen spb'>
+					<view class='price'>2499.00</view>
+					<view class='btn'>优惠购买</view>
+					<view class='ori-price'>5555.00</view>
+				</view>
+			</view>
+		</view>
+		<view class='item flex fcen'>
+			<view class='pic fshrink0'>
+				<image src='../../img/share.png' mode='aspectFill'></image>
+			</view>
+			<view class='info flex1 fcol spb'>
+				<view class='title'>陈冠希同款CLOT潮牌白色限量版卫衣陈冠希同款CLOT潮牌白色限量版卫衣</view>
+				<view class='price-box flex fcen spb'>
+					<view class='price'>2499.00</view>
+					<view class='btn'>优惠购买</view>
+					<view class='ori-price'>5555.00</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</view>

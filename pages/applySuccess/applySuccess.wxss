@@ -362,21 +362,6 @@
 	background: #fc2441;
 }
 
-.dialog .close {
-  position: absolute;
-  width: 70rpx;
-  height: 70rpx;
-  left: 50%;
-  bottom: -110rpx;
-  transform: translate3d(-50%, 0, 0);
-}
-
-.dialog .close image {
-  width: 100%;
-  height: 100%;
-  vertical-align: top;
-}
-
 .dialog .txt1 {
   font-size: 26rpx;
   color: #000;

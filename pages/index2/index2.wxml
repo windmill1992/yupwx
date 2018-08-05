@@ -1,0 +1,63 @@
+ <!--index.wxml-->
+<view class="container">
+  <view class='goods-wrapper' wx:if='{{state == 1 && hasInprocess}}'>
+    <view class='state'>正在进行</view>
+    <view class='tip'>今日上新{{todayNewProCount}}件单品</view>
+    <view class='goods-list'>
+      <view data-id='{{item.proId}}' data-state='{{item.proStatus}}' bindtap='navToDetail' class='goods-item' wx:for='{{inProcessProList}}' wx:key='proId'>
+        <view class='pic' catchtap='{{!isLogin ? "toDetail":""}}' data-id='{{item.proId}}' data-state='{{item.proStatus}}'>
+          <image src='{{item.coverImg}}' mode='widthFix' lazy-load='{{index > 1}}'></image>
+        </view>
+				<countdown wx:if='{{item.proStatus < 2}}' time='{{item.proEndTime}}' my-class='c-ae985b default'>距结束还有</countdown>
+				<view wx:else class='end'>已结束,领优惠购买</view>
+        <view class='name'>{{item.proName}}</view>
+        <view class='infos'>
+          <text>售价：{{item.sellingPrice}}元</text>
+          <text>数量：{{item.proCount}}件</text>
+        </view>
+        <view class='apply-box flex fcen'>
+          <view class='apply-list flex'>
+            <view class='item' wx:for='{{item.applyUserList}}' wx:for-item='au' wx:key='user'>
+              <image src='{{au}}'></image>
+            </view>
+          </view>
+          <view class='apply-num'>{{item.peopleNum}}人申请</view>
+          <view wx:if='{{isLogin}}' class='apply-btn'>
+						<block wx:if='{{!isApplys[item.proId]}}'>免费申请</block>
+						<block wx:else>已申请</block>
+					</view>
+          <button open-type='getUserInfo' bindgetuserinfo='getUserInfo' wx:else class='apply-btn' data-id='{{item.proId}}' data-state='{{item.proStatus}}'>免费申请</button>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='goods-wrapper' wx:if='{{state == 1}}'>
+    <view class='state'>已经结束</view>
+    <view class='tip'>共{{allProCount}}件单品</view>
+    <view class='goods-list'>
+      <view data-id='{{item.proId}}' data-state='{{item.proStatus}}' bindtap='navToDetail' class='goods-item' wx:for='{{endProList}}' wx:key='proId'>
+        <view class='pic'>
+          <image src='{{item.coverImg}}' mode='widthFix' lazy-load='{{index > 1}}'></image>
+        </view>
+        <view class='name'>{{item.proName}}</view>
+        <view class='infos'>
+          <text>售价：{{item.sellingPrice}}元</text>
+          <text>数量：{{item.proCount}}件</text>
+        </view>
+        <view class='apply-box flex fcen'>
+          <view class='apply-list flex'>
+            <view class='item' wx:for='{{item.applyUserList}}' wx:for-item='avatar' wx:key='au'>
+              <image src='{{avatar}}'></image>
+            </view>
+          </view>
+          <view class='apply-num'>{{item.peopleNum}}人申请</view>
+          <view class='apply-btn look-btn' wx:if='{{!isApplys[item.proId]}}'>查看详情</view>
+          <view class='apply-btn look-btn' wx:else>已申请</view>
+        </view>
+      </view>
+    </view>
+		<view class='loadmore' wx:if='{{hasmore == 1}}'>没有更多数据了</view>
+		<view class='loadmore' wx:elif='{{hasmore == 0}}'>暂无已结束的商品~</view>
+  </view>
+</view>
+<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

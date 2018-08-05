@@ -1,1 +1,8 @@
 /* pages/test/test.wxss */
+
+navigator{
+	line-height: 3;
+	color: #fc2441;
+	font-size: 28rpx;
+	text-align: center;
+}

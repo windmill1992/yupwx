@@ -3,25 +3,9 @@ App({
 	onLaunch: function () {
 		//判断运行环境
 		{
-			let env = this.globalData.env;
-			if (env.includes('dev')) {
-				let url = this.globalData.baseUrl;
-				if (url.includes('dev')) {
-					if (wx.getStorageSync('prod') || !wx.getStorageSync('dev')) {
-						wx.clearStorageSync();
-					}
-					wx.setStorageSync('dev', true);
-				} else {
-					if (wx.getStorageSync('dev') || !wx.getStorageSync('prod')) {
-						wx.clearStorageSync();
-					}
-					wx.setStorageSync('prod', true);	
-				}
-			} else {
-				if (wx.getStorageSync('dev') || !wx.getStorageSync('prod')) {
-					wx.clearStorageSync();
-				}
-				wx.setStorageSync('prod', true);
+			if (!wx.getStorageSync('prod001')) {
+				wx.clearStorageSync();
+				wx.setStorageSync('prod001', '1');
 			}
 		}
 		// 获取用户信息

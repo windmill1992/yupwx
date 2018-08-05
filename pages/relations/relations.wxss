@@ -1,0 +1,73 @@
+/* pages/relations/relations.wxss */
+
+.r-list{
+	border-top: 1px solid #f2f2f2;
+	padding: 0 40rpx;
+}
+
+.r-list .item{
+	padding: 40rpx 0;
+	border-bottom: 1px solid #f2f2f2;
+}
+
+.r-list .item .pic{
+	width: 216rpx;
+	height: 216rpx;
+	overflow: hidden;
+	border-radius: 8rpx;
+	margin-right: 30rpx;
+}
+
+.r-list .item .pic image{
+	width: 100%;
+	height: 100%;
+	border-radius: inherit;
+}
+
+.r-list .item .info{
+	height: 216rpx;
+	overflow: hidden;
+}
+
+.r-list .item .title{
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+	font-size: 32rpx;
+	color: #202020;
+	line-height: 48rpx;
+	font-family: 'PingFangSC-Medium';
+}
+
+.r-list .item .price-box{
+	position: relative;
+
+}
+
+.r-list .item .price{
+	color: #fc2441;
+	font-size: 44rpx;
+	line-height: 48rpx;
+	font-family: 'PingFangSC-Medium';
+}
+
+.r-list .item .btn{
+	width: 160rpx;
+	height: 60rpx;
+	color: #fff;
+	font-size: 24rpx;
+	text-align: center;
+	line-height: 60rpx;
+	background: #fc2441;
+	border-radius: 60rpx;
+}
+
+.r-list .item .ori-price{
+	color: #c9c9c9;
+	font-size: 22rpx;
+	position: absolute;
+	top: -30rpx;
+	left: 0;
+	text-decoration: line-through;
+}

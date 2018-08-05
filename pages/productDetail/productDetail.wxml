@@ -12,7 +12,7 @@
     <view class='cloth-info'>
       <view class='name'>{{proInfo.proName}}</view>
 			<view class='btn-wrap'>
-				<block wx:if='{{state < 2}}'>
+				<block wx:if='{{state <= 2}}'>
 					<block wx:if='{{isLogin}}'>
 						<form report-submit='true' bindsubmit='toApply'>
 							<button form-type='submit' class='nav-btn'>免费申请</button>

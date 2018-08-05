@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 16,
+			"current": 19,
 			"list": [
 				{
 					"id": -1,
@@ -136,7 +136,25 @@
 				{
 					"id": -1,
 					"name": "comment",
-					"pathName": "pages/comment/comment"
+					"pathName": "pages/comment/comment",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "relation",
+					"pathName": "pages/relations/relations",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "guideDetail",
+					"pathName": "pages/guideDetail/guideDetail",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "discovery",
+					"pathName": "pages/discovery/discovery"
 				}
 			]
 		}

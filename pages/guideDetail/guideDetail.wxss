@@ -1,0 +1,114 @@
+/* pages/guideDetail/guideDetail.wxss */
+
+.container{
+	padding-bottom: 100rpx;
+}
+.gd-hd{
+	position: relative;
+	background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+}
+
+.gd-hd .cover{
+	width: 100%;
+	height: 400rpx;
+}
+
+.gd-hd .title{
+	font-size: 44rpx;
+	color: #fff;
+	font-family: 'PingFangSC-Medium';
+	line-height: 64rpx;
+	padding: 0 40rpx;
+	position: absolute;
+	bottom: 120rpx;
+	left: 0;
+	vertical-align: bottom;
+}
+
+.gd-hd .user{
+	padding: 0 40rpx;
+	color: #fff;
+	font-size: 26rpx;
+	position: absolute;
+	left: 0;
+	bottom: 40rpx;
+}
+
+.gd-hd .user image{
+	width: 48rpx;
+	height: 48rpx;
+	border-radius: 100%;
+	margin-right: 20rpx;
+}
+
+.gd-bd{
+	padding: 40rpx;
+}
+
+.gd-bd .txt{
+	font-size: 30rpx;
+	color: #212121;
+	letter-spacing: .5rpx;
+	line-height: 2;
+	margin-bottom: 40rpx;
+}
+
+.gd-bd .pic{
+	margin-bottom: 40rpx;
+}
+
+.gd-bd .pic image{
+	widows: 100%;
+	height: 400rpx;
+}
+
+
+.gd-ft{
+	position: fixed;
+	bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 108rpx;
+	box-shadow:0 0 24px 0 rgba(0, 0, 0, 0.10);
+	background: #fff;
+	padding: 0 30rpx;
+	box-sizing: border-box;
+}
+
+.gd-ft .icon{
+	margin-right: 10rpx;
+	padding: 0;
+	border-radius: 0;
+	background: none;
+	border: none;
+	outline: none;
+	line-height: 1;
+	width: 40rpx;
+}
+
+.gd-ft .icon::after{
+	border: none;
+}
+
+.gd-ft .icon image{
+	width: 28rpx;
+	height: 30rpx;
+	display: inline-block;
+}
+
+.gd-ft .num{
+	color: #202020;
+	font-size: 26rpx;
+}
+
+.gd-ft .buy{
+	width: 240rpx;
+	height: 80rpx;
+	background: #fc2441;
+	color: #fff;
+	font-size: 30rpx;
+	line-height: 80rpx;
+	text-align: center;
+	border-radius: 80rpx;
+	margin-top: 14rpx;
+}
