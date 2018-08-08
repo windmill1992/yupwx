@@ -70,8 +70,8 @@ App({
 	},
 	globalData: {
 		userInfo: null,
-		baseUrl: 'https://api.yupfashion.cn',
-		// baseUrl: 'http://apidev.yupfashion.cn',
+		// baseUrl: 'https://api.yupfashion.cn',
+		baseUrl: 'http://apidev.yupfashion.cn',
 		header: {
 			'content-type': 'application/json',
 		},

@@ -63,3 +63,4 @@
 		</view>
 	</view>
 </view>
+<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

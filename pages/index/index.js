@@ -1,66 +1,56 @@
 // pages/index/index.js
+const app = getApp().globalData;
+const api = {
+	recommendList: app.baseUrl + '/yup/yup-rest/info-list',		//推荐列表
+}
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
   
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-  
+		this.getRecommendList(1, 10);
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
+	getRecommendList: function (pn, ps) {
+		wx.showLoading({
+			title: '加载中...',
+			mask: true,
+		})
+		wx.request({
+			url: api.recommendList,
+			method: 'POST',
+			header: app.header,
+			data: {
+				pageIndex: pn, 
+				pageSize: ps,
+				labelId: 0,
+				title: '',
+				infoStatus: 2,
+			},
+			success: res => {
+					console.log(res.data); 
+				if (res.data.resultCode == 200 && res.data.resultData) {
+				} else {
+					this.showToast(res.data.resultMsg);
+				}
+			},
+			complete: () => {
+				wx.hideLoading()
+			}
+		})
+	},
   onShareAppMessage: function () {
   
-  }
+  },
+	showToast: function (txt) {
+		const that = this;
+		let obj = {};
+		obj.show = true;
+		obj.title = txt;
+		this.setData({ toast: obj });
+		setTimeout(function () {
+			obj.show = false;
+			obj.title = '';
+			that.setData({ toast: obj });
+		}, 2000);
+	}
 })
