@@ -6,9 +6,9 @@
 				<image src='{{item.userAvatar}}' ></image>
 			</view>
 			<view class='info flex1'>
-				<view class='nick'>{{item.userName}}</view>
+				<view class='nick' bindtap='reply' data-uid='{{item.userId}}' data-uname='{{item.userName}}'>{{item.userName}}</view>
 				<view class='time'>{{item.createTime}}</view>
-				<view class='word'>{{item.comment}}</view>
+				<view class='word'><text>{{item.comment}}</text></view>
 			</view>
 		</view>
 	</view>
@@ -22,7 +22,7 @@
 </scroll-view>
 
 <view class='dialog {{dialogShow ? "show" : ""}}'>
-	<view class='mask'></view>
+	<view class='mask' bindtap='dialogHide'></view>
 </view>
 <view class='word-box {{dialogShow ? "show" : ""}}'>
 	<view class='top flex spb fcen'>
@@ -30,7 +30,7 @@
 		<view class='pub' bindtap='publish'>发布</view>
 	</view>
 	<view class='mid'>
-		<textarea bindinput='getContent' placeholder='说点你想说的吧' placeholder-style='color: #c9c9c9;' auto-height></textarea>
+		<textarea bindinput='getContent' placeholder='{{replyName}}' placeholder-style='color: #c9c9c9;' auto-height></textarea>
 	</view>
 </view>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

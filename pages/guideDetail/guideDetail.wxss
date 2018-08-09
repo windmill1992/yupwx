@@ -53,15 +53,10 @@
 	margin-bottom: 40rpx;
 }
 
-.gd-bd .pic{
-	margin-bottom: 40rpx;
-}
-
-.gd-bd .pic image{
-	widows: 100%;
+.gd-bd .txt image{
+	max-width: 100%;
 	height: 400rpx;
 }
-
 
 .gd-ft{
 	position: fixed;

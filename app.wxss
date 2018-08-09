@@ -132,3 +132,14 @@ page {
   border-radius: 10rpx;
 	z-index: 9999;
 }
+
+.loadmore {
+	font-size: 26rpx;
+	color: #fc2441;
+	text-align: center;
+	line-height: 80rpx;
+}
+
+.loadmore.no {
+	color: #c9c9c9;
+}

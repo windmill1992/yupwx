@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 19,
+			"current": 18,
 			"list": [
 				{
 					"id": -1,
@@ -134,10 +134,11 @@
 					"scene": "1011"
 				},
 				{
-					"id": -1,
+					"id": 16,
 					"name": "comment",
 					"pathName": "pages/comment/comment",
-					"query": ""
+					"query": "relatedId=1",
+					"scene": "1011"
 				},
 				{
 					"id": -1,
@@ -146,15 +147,17 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 18,
 					"name": "guideDetail",
 					"pathName": "pages/guideDetail/guideDetail",
-					"query": ""
+					"query": "id=25",
+					"scene": "1011"
 				},
 				{
 					"id": -1,
 					"name": "discovery",
-					"pathName": "pages/discovery/discovery"
+					"pathName": "pages/discovery/discovery",
+					"query": ""
 				}
 			]
 		}

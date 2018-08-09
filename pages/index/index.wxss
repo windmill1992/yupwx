@@ -1,7 +1,9 @@
 /* pages/index/index.wxss */
 @import '../myLikes/myLikes.wxss';
 
-
+.container{
+	height: 100%;
+}
 .i-hd{
 	padding: 0 40rpx;
 }

@@ -5,9 +5,10 @@ const api = {
 }
 Page({
   data: {
-  
+		list: [],
   },
   onLoad: function (options) {
+		this.page = 1;
 		this.getRecommendList(1, 10);
   },
 	getRecommendList: function (pn, ps) {
@@ -24,19 +25,38 @@ Page({
 				pageSize: ps,
 				labelId: 0,
 				title: '',
-				infoStatus: 2,
+				infoStatus: 0,
 			},
 			success: res => {
-					console.log(res.data); 
 				if (res.data.resultCode == 200 && res.data.resultData) {
+					let { hasNextPage, list, total } = res.data.resultData;
+					let more = -1;
+					if (hasNextPage) {
+						more = 2;
+					} else {
+						more = 1;
+					}
+					if (total == 0) {
+						more = 0;
+					}
+					let arr = [...this.data.list, ...list];
+					this.setData({ list: arr, hasmore: more });
 				} else {
 					this.showToast(res.data.resultMsg);
 				}
 			},
 			complete: () => {
-				wx.hideLoading()
+				wx.hideLoading();
+				this.flag = false;
 			}
 		})
+	},
+	loadmore: function () {
+		if (this.data.hasmore == 2 && !this.flag) {
+			this.page++;
+			this.flag = true;
+			this.getRecommendList(this.page, 10);
+		}
 	},
   onShareAppMessage: function () {
   

@@ -12,6 +12,12 @@ Page({
 		isLogin: false,
   },
   onLoad: function (options) {
+		if (options.relatedId) {
+			this.setData({ relatedId: options.relatedId });
+		} else {
+			wx.navigateBack();
+			return;
+		}
 		this.page = 1;
 		this.getCommentList(1, 20);
 		let uid = wx.getStorageSync('user').userId;
@@ -114,24 +120,55 @@ Page({
 	},
 	getUserInfo: function (e) {
 		let user = e.detail.userInfo;
-		wx.setStorageSync('userInfo', user);
-		this.login(user);
+		if (user) {
+			wx.setStorageSync('userInfo', user);
+			this.login(user);
+		} else {}
 	},
 	getContent: function (e) {
 		this.setData({ con: e.detail.value });
 	},
 	leaveword: function () {
-		this.setData({ dialogShow: true });
+		this.setData({ dialogShow: true, commenteeId: 0, replyName: '说点你想说的吧' });
 	},
 	dialogHide: function () {
 		this.setData({ dialogShow: false });
 	},
 	publish: function () {
-		if (!this.data.con) {
+		const dd = this.data;
+		if (!dd.con) {
 			this.showToast('留言不能为空！');
 			return;
 		}
-		this.setData({ dialogShow: false });
+		wx.request({
+			url: api.comment,
+			method: 'POST',
+			data: {
+				comment: dd.con,
+				commenteeId: dd.commenteeId ? dd.commenteeId : 0,
+				relatedId: dd.relatedId,
+				relatedType: 1,
+				userId: dd.userId,
+			},
+			success: res => {
+				console.log(res.data);
+				if (res.data.resultCode == 200 && res.data.resultData) {
+					wx.showToast({
+						title: '评论成功',
+					})
+					this.setData({ dialogShow: false });
+					this.page = 1;
+					this.getCommentList(this.page, 20);
+				} else {
+					this.showToast(res.data.resultMsg);
+				}
+			}
+		})
+	},
+	reply: function (e) {
+		let data = e.currentTarget.dataset;
+		let { uid, uname } = data;
+		this.setData({ commenteeId: uid, replyName: '@'+ uname, dialogShow: true });
 	},
   onPullDownRefresh: function () {
 		wx.stopPullDownRefresh();

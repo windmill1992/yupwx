@@ -18,9 +18,10 @@
 .ml-wrap .item .title{
 	font-size: 44rpx;
 	color: #202020;
-	font-family:PingFangSC-Medium;
+	font-family: 'PingFangSC-Medium';
 	margin-top: 10rpx;
 	line-height: 64rpx;
+	text-align: justify;
 }
 
 .ml-wrap .item .info{
