@@ -1,0 +1,3 @@
+/* pages/labelList/labelList.wxss */
+
+@import '../index/index.wxss';

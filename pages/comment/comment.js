@@ -13,7 +13,7 @@ Page({
   },
   onLoad: function (options) {
 		if (options.relatedId) {
-			this.setData({ relatedId: options.relatedId });
+			this.setData({ relatedId: options.relatedId, relatedType: options.type });
 		} else {
 			wx.navigateBack();
 			return;
@@ -36,8 +36,8 @@ Page({
 			data: {
 				pageIndex: pn,
 				pageSize: ps,
-				relatedId: 1,
-				relatedType: 1,
+				relatedId: dd.relatedId,
+				relatedType: dd.relatedType,
 			},
 			success: res => {
 				console.log(res.data);

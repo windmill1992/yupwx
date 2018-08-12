@@ -247,7 +247,7 @@ Page({
 							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
 							this.showToast('登录成功！');
 							this.getIsApply();
-							this.getUserYup();
+							// this.getUserYup();
 							this.getQRCode();
 							this.getUserProStatus();
 							if (!this.data.isPush) {
@@ -579,15 +579,15 @@ Page({
     }
   },
   makeShareImg: function() {
-		
     if (this.data.making) return;
-    this.setData({ making: true, showPic: true });
+    this.setData({ making: true, showPic: true, showCV: true });
     wx.showLoading({
       title: '正在保存...'
     })
     let dd = this.data;
     let img = dd.proInfo.coverImg;
     let code = dd.qrCode;
+		let avatar = dd.userAvatar;
     img = img.replace('http://', '');
     img = img.replace(img.split('/')[0], app.imgHost2);
     code = code.replace('http://', '');
@@ -600,7 +600,13 @@ Page({
           url: code,
           success: res1 => {
             code = res1.tempFilePath;
-            exec();
+						wx.downloadFile({
+							url: avatar,
+							success: res2 => {
+								avatar = res2.tempFilePath;
+								exec();
+							}
+						})
           },
           fail: res1 => {
             wx.hideLoading();
@@ -630,68 +636,60 @@ Page({
       let r = wx.getSystemInfoSync().windowWidth / 375;
       let w = 750 * r;
       let h = 1334 * r;
-			let x = 60 * r;
-			let y = 67 * r;
-      let imgWidth = dd.imgW / dd.imgH * 400;
+      let imgWidth = dd.imgW / dd.imgH * 580;
 			let imgX = (w - imgWidth * r) / 2;
       imgX = imgX < 0 ? 0 : imgX;
       let ctx = wx.createCanvasContext('cv', that);
-			
+
 			ctx.beginPath();
-			ctx.setFillStyle('#3d3bee');
-			ctx.fillRect(0, 0, w, h);
+			ctx.setFillStyle('#000000');
+			ctx.setFontSize(26 * r);
+			ctx.fillText(dd.nickName + '邀请你参与抽奖', 108 * r, 75 * r, 480 * r);
 			ctx.closePath();
 
-      ctx.beginPath();
-			ctx.drawImage('../../img/share-bg.png', x, y, w - 120 * r, h - 134 * r);
-      ctx.closePath();
+			ctx.beginPath();
+			ctx.setFillStyle('#ffffff');
+			ctx.setFontSize(26 * r);
+			ctx.drawImage('../../img/red_bg.png', 606 * r, 40 * r, 144 * r, 48 * r);
+			ctx.fillText('限时免费', 626 * r, 75 * r);
+			ctx.closePath();
 
       ctx.beginPath();
       ctx.setFillStyle('#F5F7F6');
-      ctx.fillRect(imgX, 30 + y, imgWidth, imgWidth);
+      ctx.fillRect(imgX, 108 * r, imgWidth, imgWidth);
       ctx.closePath();
 
       ctx.beginPath();
-			ctx.drawImage(img, imgX, 30 + y, imgWidth, imgWidth);
+			ctx.drawImage(img, imgX, 108 * r, imgWidth, imgWidth);
       ctx.closePath();
 
       ctx.beginPath();
-      ctx.setFontSize(22 * r);
+      ctx.setFontSize(40 * r);
       ctx.setTextBaseline('top');
-      ctx.setFillStyle('#262628');
-			ctx.fillText('我正在YUP新潮申请试用：' + name.substr(0, 8), imgX, imgWidth + 50 + y, imgWidth);
-			ctx.fillText(name.substr(8, 22), imgX, imgWidth + 90 + y, imgWidth);
-			ctx.fillText(name.substr(22) + '，你也来一起参与领取吧', imgX, imgWidth + 130 + y);
-      ctx.closePath();
-
-			ctx.beginPath();
-			ctx.setFontSize(22 * r);
-			ctx.setFillStyle('#9b9b9b');
-			ctx.fillText('# 全球潮牌 免费申请 #', 103 * r * 2 + x, h / 2 + 40);
-			ctx.closePath();
-
-			ctx.beginPath();
-			ctx.setFontSize(56 * r);
-			ctx.font = 'bold';
-			ctx.setFillStyle('#000000');
-			ctx.fillText('免费的', 113 * r * 2 + x, h / 2 + 120);
-			ctx.closePath();
-
-			ctx.beginPath();
-			ctx.setFontSize(56 * r);
-			ctx.setFillStyle('#FF5850');
-			ctx.fillText('了解一下', 97 * r * 2 + x, h / 2 + 200);
-			ctx.closePath();
-
-      ctx.beginPath();
-      ctx.drawImage(code, (w - 160 * r) / 2, h / 2 + 320, 160 * r, 160 * r);
+      ctx.setFillStyle('#202020');
+			ctx.setTextAlign('center');
+			ctx.fillText(name.substr(0, 10), w / 2, imgWidth + 148 * r, imgWidth);
+			ctx.fillText(name.substr(10) + '免费送', w / 2, imgWidth + 198 * r, imgWidth);
       ctx.closePath();
 
       ctx.beginPath();
-      ctx.setFontSize(22 * r);
-      ctx.setFillStyle('#9b9b9b');
-			ctx.fillText('长按扫码免费领潮牌', 106 * r * 2 + x, h - 80 - y);
+      ctx.drawImage(code, (w - 176 * r) / 2, h / 2 + 320, 176 * r, 176 * r);
       ctx.closePath();
+
+      ctx.beginPath();
+      ctx.setFontSize(26 * r);
+			ctx.setTextAlign('center');
+      ctx.setFillStyle('#000000');
+			ctx.fillText('扫码参与抽奖', w / 2 , h - 80);
+      ctx.closePath();
+
+			ctx.save();
+			ctx.beginPath();
+			ctx.arc(64 * r, 64 * r, 24 * r, 0, Math.PI * 2);
+			ctx.clip();
+			ctx.drawImage(avatar, 40 * r, 40 * r, 48 * r, 48 * r);
+			ctx.closePath();
+			ctx.restore();
 
       ctx.draw(true, setTimeout(() => {
         wx.canvasToTempFilePath({

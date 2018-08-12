@@ -1,66 +1,82 @@
 // pages/myLikes/myLikes.js
+const app = getApp().globalData;
+const api = {
+	infoList: app.baseUrl + '/yup/yup-rest/my-like-info-list',		//我喜欢的资讯列表
+}
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-  
+		list: [],
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-  
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			this.setData({ userId: uid });
+			this.page = 1;
+			this.getInfoList(1, 15);
+		} else {
+			wx.navigateBack()
+		}
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  }
+	getInfoList: function (pn, ps) {
+		wx.showLoading({
+			title: '加载中...',
+			mask: true,
+		})
+		wx.request({
+			url: api.infoList,
+			method: 'GET',
+			header: { userId: this.data.userId },
+			data: {
+				pageIndex: pn, 
+				pageSize: ps,
+			},
+			success: res => {
+				if (res.data.resultCode == 200 && res.data.resultData) {
+					let { hasNextPage, list, total } = res.data.resultData;
+					if (list == null) {
+						list = [];
+					}
+					let more = -1;
+					if (hasNextPage) {
+						more = 2;
+					} else {
+						more = 1;
+					}
+					if (total == 0) {
+						more = 0;
+					}
+					if (pn == 1) {
+						this.setData({ list: [] });
+					}
+					let arr = [...this.data.list, ...list];
+					this.setData({ list: arr, hasmore: more });
+				} else {
+					this.showToast(res.data.resultMsg);
+				}
+			},
+			complete: () => {
+				wx.hideLoading();
+				this.flag = false;
+			}
+		})
+	},
+	loadmore: function () {
+		if (this.data.hasmore == 2 && !this.flag) {
+			this.page++;
+			this.flag = true;
+			this.getInfoList(this.page, 15);
+		}
+	},
+	showToast: function (txt) {
+		const that = this;
+		let obj = {};
+		obj.show = true;
+		obj.title = txt;
+		this.setData({ toast: obj });
+		setTimeout(function () {
+			obj.show = false;
+			obj.title = '';
+			that.setData({ toast: obj });
+		}, 2000);
+	}
 })

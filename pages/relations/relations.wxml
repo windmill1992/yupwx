@@ -1,44 +1,19 @@
 <!--pages/relations/relations.wxml-->
 <view class='container'>
-	<view class='r-list'>
-		<view class='item flex fcen'>
+	<view class='r-list' wx:if='{{list.length > 0}}'>
+		<navigator url='/pages/productDetail/productDetail?id={{item.proId}}' class='item flex fcen' wx:for='{{list}}' wx:key='pro'>
 			<view class='pic fshrink0'>
-				<image src='../../img/share.png' mode='aspectFill'></image>
+				<image src='{{item.coverImg}}' mode='aspectFill'></image>
 			</view>
 			<view class='info flex1 fcol spb'>
-				<view class='title'>陈冠希同款CLOT潮牌白色限量版卫衣</view>
+				<view class='title'>{{item.proName}}</view>
 				<view class='price-box flex fcen spb'>
-					<view class='price'>2499.00</view>
-					<view class='btn'>优惠购买</view>
-					<view class='ori-price'>5555.00</view>
+					<view class='price'>{{item.consultPrice}}</view>
+					<view class='btn' catchtap='buy'>优惠购买</view>
+					<view class='ori-price'>{{item.sellingPrice}}</view>
 				</view>
 			</view>
-		</view>
-		<view class='item flex fcen'>
-			<view class='pic fshrink0'>
-				<image src='../../img/share.png' mode='aspectFill'></image>
-			</view>
-			<view class='info flex1 fcol spb'>
-				<view class='title'>陈冠希同款CLOT潮牌白色限量版卫衣</view>
-				<view class='price-box flex fcen spb'>
-					<view class='price'>2499.00</view>
-					<view class='btn'>优惠购买</view>
-					<view class='ori-price'>5555.00</view>
-				</view>
-			</view>
-		</view>
-		<view class='item flex fcen'>
-			<view class='pic fshrink0'>
-				<image src='../../img/share.png' mode='aspectFill'></image>
-			</view>
-			<view class='info flex1 fcol spb'>
-				<view class='title'>陈冠希同款CLOT潮牌白色限量版卫衣陈冠希同款CLOT潮牌白色限量版卫衣</view>
-				<view class='price-box flex fcen spb'>
-					<view class='price'>2499.00</view>
-					<view class='btn'>优惠购买</view>
-					<view class='ori-price'>5555.00</view>
-				</view>
-			</view>
-		</view>
+		</navigator>
 	</view>
+	<view class='no-data' wx:else>暂无相关商品~</view>
 </view>

@@ -19,24 +19,25 @@
 			<button open-type='share' class='icon'>
 				<image src='../../img/share-icon-6.png' mode='aspectFit'></image>
 			</button>
-			<view class='num'>{{info.forwardNum}}</view>
+			<view class='num'>{{forwardNum}}</view>
 		</view>
 		<view class='zan flex fcen'>
 			<view class='icon' bindtap='like' wx:if='{{isLogin}}'>
-				<image src='../../img/share-icon-6.png' mode='aspectFit'></image>
+				<image src='../../img/zan-6.png' mode='aspectFit' wx:if='{{!isZan}}'></image>
+				<image src='../../img/zan-red.png' mode='aspectFit' wx:else></image>
 			</view>
 			<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='icon' wx:else>
-				<image src='../../img/share-icon-6.png' mode='aspectFit'></image>
+				<image src='../../img/zan-6.png' mode='aspectFit'></image>
 			</button>
-			<view class='num'>{{info.likeNum}}</view>
+			<view class='num'>{{likeNum}}</view>
 		</view>
 		<view class='verify flex fcen'>
 			<view class='icon' bindtap='comment'>
-				<image src='../../img/share-icon-6.png' mode='aspectFit'></image>
+				<image src='../../img/verify-6.png' mode='aspectFit'></image>
 			</view>
 			<view class='num'>{{info.commentNum}}</view>
 		</view>
-		<view class='buy'>{{info.relatedProIdList.length}}件商品</view>
+		<navigator url='/pages/relations/relations?ids={{ids}}' class='buy'>{{info.relatedProIdList.length}}件商品</navigator>
 	</view>
 </view>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
