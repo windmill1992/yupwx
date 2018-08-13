@@ -1,7 +1,7 @@
 <!--pages/relations/relations.wxml-->
 <view class='container'>
 	<view class='r-list' wx:if='{{list.length > 0}}'>
-		<navigator url='/pages/productDetail/productDetail?id={{item.proId}}' class='item flex fcen' wx:for='{{list}}' wx:key='pro'>
+		<view class='item flex fcen' wx:for='{{list}}' wx:key='pro'>
 			<view class='pic fshrink0'>
 				<image src='{{item.coverImg}}' mode='aspectFill'></image>
 			</view>
@@ -13,7 +13,7 @@
 					<view class='ori-price'>{{item.sellingPrice}}</view>
 				</view>
 			</view>
-		</navigator>
+		</view>
 	</view>
 	<view class='no-data' wx:else>暂无相关商品~</view>
 </view>

@@ -4,7 +4,7 @@
 		<view class='ml-wrap'>
 			<navigator url='/pages/guideDetail/guideDetail?id={{item.infoId}}&share={{item.forwardNum}}&like={{item.likeNum}}' class='item' wx:for='{{list}}' wx:key='recommend'>
 				<view class='cover'>
-					<image src='{{item.cover}}' mode='widthFix'></image>
+					<image src='{{item.cover}}' mode='aspectFill'></image>
 				</view>
 				<view class='title'>{{item.title}}</view>
 				<view class='info flex spb fcen flex1'>

@@ -39,6 +39,9 @@ Page({
 					if (total == 0) {
 						more = 0;
 					}
+					if (this.page == 1) {
+						this.setData({ list: [] });
+					}
 					let arr = [...this.data.list, ...list];
 					this.setData({ list: arr, hasmore: more });
 				} else {
@@ -51,7 +54,7 @@ Page({
 			}
 		})
 	},
-	loadmore: function () {
+	onReachBottom: function () {
 		if (this.data.hasmore == 2 && !this.flag) {
 			this.page++;
 			this.flag = true;
@@ -59,8 +62,19 @@ Page({
 		}
 	},
   onShareAppMessage: function () {
-  
+		return {
+			title: '',
+			path: '',
+			imageUrl: '',
+		}
   },
+	onPullDownRefresh: function () {
+		setTimeout(() => {
+			wx.stopPullDownRefresh();
+			this.page = 1;
+			this.getRecommendList(this.page, 10);
+		}, 400);
+	},
 	showToast: function (txt) {
 		const that = this;
 		let obj = {};

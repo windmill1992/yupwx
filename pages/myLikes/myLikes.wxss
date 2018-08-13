@@ -5,6 +5,7 @@
 }
 
 .ml-wrap .item .cover{
+	height: 422rpx;
 	box-shadow:0 0 24px 0 rgba(0, 0, 0, 0.12);
 	border-radius: 16rpx;
 	overflow: hidden;
@@ -12,6 +13,7 @@
 
 .ml-wrap .item .cover image{
 	width: 100%;
+	height: 422rpx;
 	border-radius: inherit;
 }
 
@@ -22,6 +24,10 @@
 	margin-top: 10rpx;
 	line-height: 64rpx;
 	text-align: justify;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
 }
 
 .ml-wrap .item .info{

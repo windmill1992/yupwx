@@ -19,7 +19,7 @@
 		</view>
   </view>
   <view class='menu fcol spa'>
-    <button class='item btn flex spb fcen' bindtap='signIn' wx:if='{{isLogin}}'>
+    <!-- <button class='item btn flex spb fcen' bindtap='signIn' wx:if='{{isLogin}}'>
       <view class='flex fcen'>
 				<image src='../../img/sign.png' mode='widthFix'></image>
 				<view class='txt'>签到打卡</view>
@@ -32,7 +32,7 @@
 				<view class='txt'>签到打卡</view>
 			</view>
 			<view class='more'></view>
-    </button>
+    </button> -->
     <navigator url='/pages/myLikes/myLikes' class='item flex spb fcen' wx:if='{{isLogin}}'>
       <view class='flex fcen'>
 				<image src='../../img/like.png' mode='widthFix'></image>
