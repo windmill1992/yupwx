@@ -1,4 +1,4 @@
-// pages/index/index.js
+// pages/labelList/labelList.js
 const app = getApp().globalData;
 const api = {
 	recommendList: app.baseUrl + '/yup/yup-rest/info-list',		//推荐列表
@@ -8,10 +8,14 @@ Page({
 		list: [],
   },
   onLoad: function (options) {
-		this.page = 1;
-		this.getRecommendList(1, 10);
+		if (options.labelId) {
+			this.page = 1;
+			this.getRecommendList(options.labelId, 1, 15);
+		} else {
+			wx.navigateBack();
+		}
   },
-	getRecommendList: function (pn, ps) {
+	getRecommendList: function (id, pn, ps) {
 		wx.showLoading({
 			title: '加载中...',
 			mask: true,
@@ -21,11 +25,11 @@ Page({
 			method: 'POST',
 			header: app.header,
 			data: {
-				pageIndex: pn, 
+				pageIndex: pn,
 				pageSize: ps,
-				labelId: 0,
+				labelId: id,
 				title: '',
-				infoStatus: 2,
+				infoStatus: null,
 			},
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {
@@ -38,6 +42,9 @@ Page({
 					}
 					if (total == 0) {
 						more = 0;
+					}
+					if (pn == 1) {
+						this.setData({ list: [] });
 					}
 					let arr = [...this.data.list, ...list];
 					this.setData({ list: arr, hasmore: more });
@@ -55,12 +62,12 @@ Page({
 		if (this.data.hasmore == 2 && !this.flag) {
 			this.page++;
 			this.flag = true;
-			this.getRecommendList(this.page, 10);
+			this.getRecommendList(this.page, 15);
 		}
 	},
-  onShareAppMessage: function () {
-  
-  },
+	onShareAppMessage: function () {
+
+	},
 	showToast: function (txt) {
 		const that = this;
 		let obj = {};

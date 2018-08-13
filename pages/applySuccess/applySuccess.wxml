@@ -133,35 +133,32 @@
   </view>
   <view class='dialog pic-d {{showPic ? "show":""}}'>
     <view class='mask'></view>
-		<view class='pic-bg'>
-			<image src='../../img/share-bg.png'></image>
-		</view>
     <view class='dialog_inner'>
+			<view class='d-head flex fcen spb'>
+				<view class='user flex fcen'>
+					<image src='{{userAvatar}}'></image>
+					<view class='nick'>{{nickName}}</view>
+				</view>
+				<view class='txts'>限时免费</view>
+			</view>
       <view class='pic'>
         <image src='{{proInfo.coverImg}}' mode='aspectFill'></image>
       </view>
       <view class='footer'>
         <view class='adv'>
-          <view class='txt'>我正在YUP新潮申请试用：{{proInfo.proName}}，你也来一起参与领取吧</view>
+          <view class='txt'>{{proInfo.proName}}免费领</view>
         </view>
-				<view class='middle'>
-					<text># 全球潮牌 免费申请 #</text>
-				</view>
-				<view class='big-txt'>
-					<view class='txt11'>免费的</view>
-					<view class='txt12'>了解一下</view>
-				</view>
         <view class='qrcode'>
           <image src='{{qrCode}}' class='{{isPreview ? "big" : ""}}' bindtap='preview'></image>
         </view>
-				<view class='tip'>扫描小程序码免费领取！</view>
+				<view class='tip'>扫码参与抽奖</view>
       </view>
       <view class='close' bindtap='closeDialog' data-name='showPic'>
         <image src='../../img/close.png'></image>
       </view>
 			<view class='save-btn'>
 				<button class='btn' open-type='openSetting' bindopensetting='openSetting' wx:if='{{canIUse && refuseAuth}}'>保存图片</button>
-        <view class='btn' bindtap='makeShareImg' wx:else>保存图片</view>
+        <view class='btn' bindtap='makeShareImg' wx:else>保存图片到相册</view>
 			</view>
     </view>
   </view>
@@ -256,4 +253,4 @@
   </view>
 </view>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
-<canvas canvas-id='cv' class='canvas'></canvas>
+<canvas canvas-id='cv' class='canvas {{showCV ? "cv1" : ""}}'></canvas>

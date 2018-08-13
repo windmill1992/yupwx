@@ -20,7 +20,8 @@
     "pages/relations/relations",
     "pages/guideDetail/guideDetail",
     "pages/discovery/discovery",
-		"pages/index2/index2"
+    "pages/index2/index2",
+    "pages/labelList/labelList"
   ],
   "window": {
     "backgroundTextStyle": "dark",

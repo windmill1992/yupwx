@@ -2,13 +2,17 @@
 const app = getApp();
 const util = require('./../../utils/util.js');
 const api = {
-	login: app.globalData.baseUrl + '/yup/yup-rest/login',	//登录
+	login: app.globalData.baseUrl + '/yup/yup-rest/login',							//登录
+	sign: app.globalData.baseUrl + '/yup/yup-rest/sign',								//签到
+	signDays: app.globalData.baseUrl + '/yup/yup-rest/user-sign-days',	//连续签到天数
+	regDays: app.globalData.baseUrl + '/yup/yup-rest/user-registry-days',//注册天数
 }
 Page({
 	data: {
 		isLogin: false,
 		userAvatar: '',
 		nickName: '',
+		regDays: 0,
 	},
 	onLoad: function (options) {
 		const user = wx.getStorageSync('user');
@@ -33,11 +37,20 @@ Page({
 		} else {
 			if(util.check('validTime')){
 				this.setData({ userAvatar: user.avatarUrl, nickName: user.nickName, isLogin: true, userId: user.userId });
+				this.getRegDays();
 			}else{
 				this.setData({ isLogin: false });
 				this.showToast('登录已失效');
 			}
 		}
+		let dd = new Date();
+		let y = dd.getFullYear();
+		let m = dd.getMonth() + 1;
+		let d = dd.getDate();
+		m = m < 10 ? '0' + m : m;
+		d = d < 10 ? '0' + d : d;
+		let day = y + '.' + m + '.' + d;
+		this.setData({ today: day });
 	},
 	getUserInfo: function (e) {
 		if (e.detail.userInfo) {
@@ -46,11 +59,9 @@ Page({
 			wx.setStorageSync('userInfo', user);
 			this.setData({
 				userAvatar: user.avatarUrl,
-				nickName: user.nickName
+				nickName: user.nickName,
 			});
 			this.login()
-		} else {
-			this.showToast('拒绝授权！')
 		}
 	},
 	login: function () {
@@ -101,7 +112,51 @@ Page({
 		this.showToast('未登录');
 	},
 	signIn: function () {
-		this.setData({ showSign: true });
+		wx.request({
+			url: api.sign,
+			method: 'POST',
+			header: { userId: this.data.userId },
+			data: {},
+			success: res => {
+				if (res.data.resultCode == 200 && res.data.resultData) {
+					this.setData({ copyWrite: res.data.resultData });
+					this.getSignDays();
+				} else {
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('签到失败！');
+					}
+				}
+			}
+		})
+	},
+	getSignDays: function () {
+		wx.request({
+			url: api.signDays,
+			method: 'GET',
+			header: { userId: this.data.userId },
+			success: res => {
+				if (res.data.resultCode == 200 && res.data.resultData) {
+					this.setData({ signDays: res.data.resultData, showSign: true });
+				} else {
+					this.showToast('获取连续签到天数失败');
+				}
+			}
+		})
+	},
+	getRegDays: function () {
+		wx.request({
+			url: api.regDays,
+			method: 'GET',
+			header: { userId: this.data.userId },
+			data: {},
+			success: res => {
+				if (res.data.resultCode == 200 && res.data.resultData) {
+					this.setData({ regDays: res.data.resultData });
+				}
+			}
+		})
 	},
 	closeDialog: function (e) {
 		this.setData({ hideSign: true });

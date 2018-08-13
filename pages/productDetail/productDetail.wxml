@@ -12,11 +12,12 @@
     <view class='cloth-info'>
       <view class='name'>{{proInfo.proName}}</view>
 			<view class='btn-wrap'>
-				<block wx:if='{{state <= 2}}'>
+				<block wx:if='{{state < 2}}'>
 					<block wx:if='{{isLogin}}'>
-						<form report-submit='true' bindsubmit='toApply'>
+						<form report-submit='true' bindsubmit='toApply' wx:if='{{!isApply}}'>
 							<button form-type='submit' class='nav-btn'>免费申请</button>
 						</form>
+						<navigator url='/pages/applySuccess/applySuccess?id={{id}}&apply=1' class='nav-btn' style='margin: 0 auto;'>已申请</navigator>
 					</block>
 					<block wx:else>
 						<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='nav-btn'>免费申请</button>
@@ -47,9 +48,9 @@
           <view class='left'>活动时间</view>
           <view class='right flex fcen' wx:if='{{proInfo.proStatus < 2}}'>
 						<view>距开奖还有：</view>
-						<countdown time='{{proInfo.endTime}}'></countdown>
+						<countdown time='{{proInfo.proEndTime}}'></countdown>
 					</view>
-					<view class='right'>已结束</view>
+					<view class='right' wx:else>已结束</view>
         </view>
         <view class='item flex spb fcen'>
           <view class='left'>商品品牌</view>
@@ -67,22 +68,30 @@
       </view>
     </view>
   </view>
-	<view class='ft flex spb'>
+	<view class='pd-ft flex spb'>
 		<view class='share flex fcen'>
 			<button open-type='share' class='icon'>
 				<image src='../../img/share-icon-6.png' mode='aspectFit'></image>
 			</button>
-			<view class='num'>123</view>
+			<view class='num'>{{handelData.forwardNum}}</view>
 		</view>
 		<view class='zan flex fcen'>
-			<view class='icon'></view>
-			<view class='num'>1234</view>
+			<view class='icon' bindtap='like' wx:if='{{isLogin}}'>
+				<image src='../../img/zan-6.png' mode='aspectFit' wx:if='{{!isZan}}'></image>
+				<image src='../../img/zan-red.png' mode='aspectFit' wx:else></image>
+			</view>
+			<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='icon' wx:else>
+				<image src='../../img/zan-6.png' mode='aspectFit'></image>
+			</button>
+			<view class='num'>{{handelData.likeNum}}</view>
 		</view>
 		<view class='verify flex fcen'>
-			<view class='icon'></view>
-			<view class='num'>123</view>
+			<view class='icon' bindtap='comment'>
+				<image src='../../img/verify-6.png' mode='aspectFit'></image>
+			</view>
+			<view class='num'>{{handelData.commentNum}}</view>
 		</view>
-		<view class='buy'>优惠购买</view>
+		<view class='buy' bindtap='buy'>优惠购买</view>
 	</view>
 
   <!-- <view class='btn flex' wx:if='{{state >= 2}}'>

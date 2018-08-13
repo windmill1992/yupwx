@@ -7,92 +7,51 @@
 	<view class='d-bd'>
 		<view class='title flex spb fcen'>
 			<view class='txt'>这里东西免费送</view>
-			<navigator url='' class='more flex fcen'>更多</navigator>
+			<navigator url='/pages/index2/index2' class='more flex fcen'>更多</navigator>
 		</view>
 		<view class='wrapper'>
 			<view class='list flex fnowrap'>
-				<view class='item'>
+				<navigator url='/pages/productDetail?id={{item.proId}}' class='item' wx:for='{{proList}}' wx:key='pro' wx:if='{{index < 5}}'>
 					<view class='pic'>
-						<image src='../../img/share.png' mode='aspectFill'></image>
+						<image src='{{item.coverImg}}' mode='aspectFill'></image>
 					</view>
-					<view class='name'>NIKE联名款限量版卫衣免费送</view>
-					<view class='apply'>123456人申请</view>
-				</view>
-				<view class='item'>
-					<view class='pic'>
-						<image src='../../img/share.png' mode='aspectFill'></image>
-					</view>
-					<view class='name'>NIKE联名款限量版卫衣免费送</view>
-					<view class='apply'>123456人申请</view>
-				</view>
-				<view class='item'>
-					<view class='pic'>
-						<image src='../../img/share.png' mode='aspectFill'></image>
-					</view>
-					<view class='name'>NIKE联名款限量版卫衣免费送</view>
-					<view class='apply'>123456人申请</view>
-				</view>
+					<view class='name'>{{item.proName}}</view>
+					<view class='apply'>{{item.peopleNum}}人申请</view>
+				</navigator>
 			</view>
 		</view>
 
 		<view class='title flex spb fcen'>
 			<view class='txt'>新奇的玩意儿</view>
-			<navigator url='' class='more flex fcen'>更多</navigator>
+			<navigator url='/pages/labelList/labelList?labelId=0' class='more flex fcen'>更多</navigator>
 		</view>
 		<view class='wrapper'>
 			<view class='list flex fnowrap'>
-				<view class='item item2'>
+				<navigator url='/pages/guideDetail/guideDetail?id={{item.infoId}}&share={{item.forwardNum}}&like={{item.likeNum}}' class='item item2' wx:for='{{infoList1}}' wx:key='info1'>
 					<view class='pic'>
-						<image src='../../img/share.png' mode='aspectFill'></image>
+						<image src='{{item.cover}}' mode='aspectFill'></image>
 					</view>
-					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
-					<view class='apply'>123456人申请</view>
-				</view>
-				<view class='item item2'>
-					<view class='pic'>
-						<image src='../../img/share.png' mode='aspectFill'></image>
-					</view>
-					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
-					<view class='apply'>123456人申请</view>
-				</view>
-				<view class='item item2'>
-					<view class='pic'>
-						<image src='../../img/share.png' mode='aspectFill'></image>
-					</view>
-					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
-					<view class='apply'>123456人申请</view>
-				</view>
+					<view class='name'>{{item.title}}</view>
+					<view class='apply'>{{item.likeNum}}人浏览</view>
+				</navigator>
 			</view>
 		</view>
 
 		<view class='title flex spb fcen'>
 			<view class='txt'>新奇的玩意儿</view>
-			<navigator url='' class='more flex fcen'>更多</navigator>
+			<navigator url='/pages/labelList/labelList?labelId=1' class='more flex fcen'>更多</navigator>
 		</view>
 		<view class='wrapper'>
 			<view class='list flex fnowrap'>
-				<view class='item item2'>
+				<view class='item item2' wx:for='{{infoList2}}' wx:key='info2'>
 					<view class='pic'>
-						<image src='../../img/share.png' mode='aspectFill'></image>
+						<image src='{{item.cover}}' mode='aspectFill'></image>
 					</view>
-					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
-					<view class='apply'>123456人申请</view>
-				</view>
-				<view class='item item2'>
-					<view class='pic'>
-						<image src='../../img/share.png' mode='aspectFill'></image>
-					</view>
-					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
-					<view class='apply'>123456人申请</view>
-				</view>
-				<view class='item item2'>
-					<view class='pic'>
-						<image src='../../img/share.png' mode='aspectFill'></image>
-					</view>
-					<view class='name'>七夕送这些给男朋友才又范儿快来看</view>
-					<view class='apply'>123456人申请</view>
+					<view class='name'>{{item.title}}</view>
+					<view class='apply'>123456人浏览</view>
 				</view>
 			</view>
 		</view>
 	</view>
 </view>
+<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

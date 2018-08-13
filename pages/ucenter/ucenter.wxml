@@ -15,31 +15,52 @@
     </view>
 		<view class='info'>
 			<view class='nick'>{{nickName}}</view>
-			<view class='txt'>你已经来到YUP新潮12345天了</view>
+			<view class='txt'>你已经来到YUP新潮{{regDays}}天了</view>
 		</view>
   </view>
   <view class='menu fcol spa'>
-    <button class='item btn flex spb fcen' bindtap='signIn'>
+    <button class='item btn flex spb fcen' bindtap='signIn' wx:if='{{isLogin}}'>
       <view class='flex fcen'>
 				<image src='../../img/sign.png' mode='widthFix'></image>
 				<view class='txt'>签到打卡</view>
 			</view>
 			<view class='more'></view>
     </button>
-    <navigator url='/pages/myLikes/myLikes' class='item flex spb fcen'>
+		<button class='item btn flex spb fcen' open-type='getUserInfo' bindgetuserinfo='getUserInfo' wx:else>
+      <view class='flex fcen'>
+				<image src='../../img/sign.png' mode='widthFix'></image>
+				<view class='txt'>签到打卡</view>
+			</view>
+			<view class='more'></view>
+    </button>
+    <navigator url='/pages/myLikes/myLikes' class='item flex spb fcen' wx:if='{{isLogin}}'>
       <view class='flex fcen'>
 				<image src='../../img/like.png' mode='widthFix'></image>
 				<view class='txt'>我喜欢的</view>
 			</view>
 			<view class='more'></view>
     </navigator>
-    <navigator url='/pages/progress/progress' class='item flex spb fcen'>
+		<button class='item btn flex spb fcen' open-type='getUserInfo' bindgetuserinfo='getUserInfo' wx:else>
+      <view class='flex fcen'>
+				<image src='../../img/like.png' mode='widthFix'></image>
+				<view class='txt'>我喜欢的</view>
+			</view>
+			<view class='more'></view>
+    </button>
+    <navigator url='/pages/progress/progress' class='item flex spb fcen' wx:if='{{isLogin}}'>
       <view class='flex fcen'>
 				<image src='../../img/notice.png' mode='widthFix'></image>
 				<view class='txt'>试用进展</view>
 			</view>
 			<view class='more'></view>
     </navigator>
+		<button class='item btn flex spb fcen' open-type='getUserInfo' bindgetuserinfo='getUserInfo' wx:else>
+      <view class='flex fcen'>
+				<image src='../../img/notice.png' mode='widthFix'></image>
+				<view class='txt'>试用进展</view>
+			</view>
+			<view class='more'></view>
+    </button>
     <navigator url='/pages/merchant/merchant' class='item flex spb fcen'>
       <view class='flex fcen'>
 				<image src='../../img/recruit.png' mode='widthFix'></image>
@@ -58,10 +79,10 @@
 	<view class='dialog sign-d {{showSign ? "show" : ""}} {{hideSign ? "hide" : ""}}'>
     <view class='mask'></view>
     <view class='dialog_inner'>
-      <view class='txt1 txtC'>您已经连续签到10天了，继续加油哦</view>
+      <view class='txt1 txtC'>您已经连续签到{{signDays}}天了，继续加油哦</view>
 			<view class='yup-box'>
-				<view class='txt2'>2018.09.09</view>
-      	<view class='txt3'>眼不卧蚕处扫一点散粉，眼线就不会晕开了。</view>
+				<view class='txt2'>{{today}}</view>
+      	<view class='txt3'>{{copyWrite}}</view>
 				<view class='logo flex fcen'>
 					<image src='../../img/logo.png'></image>
 					<view>YUP新潮</view>

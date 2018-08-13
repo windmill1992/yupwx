@@ -6,7 +6,11 @@ const api = {
 	login: app.baseUrl + '/yup/yup-rest/login',												//登录	
 	apply: app.baseUrl + '/yup/yup-rest/apply-pro',										//申请产品
 	isApply: app.baseUrl + '/yup/yup-rest/user-is-apply',							//是否已申请
-	userProStatus: app.baseUrl + '/yup/yup-rest/user-pro-status'			//查询用户商品状态
+	userProStatus: app.baseUrl + '/yup/yup-rest/user-pro-status',			//查询用户商品状态
+	handel: app.baseUrl + '/yup/yup-rest/handel',											//点赞转发
+	isHandel: app.baseUrl + '/yup/yup-rest/validate-user-is-handel',	//是否点赞转发
+	handelData: app.baseUrl + '/yup/yup-rest/handel-data',						//点赞转发数量
+	recommendList: app.baseUrl + '/yup/yup-rest/pro-recommend-list',	//推荐商品列表
 }
 Page({
 	data: {
@@ -49,6 +53,8 @@ Page({
 	},
 	onShow: function () {
 		this.getProDetail();
+		this.getHandelData();
+		this.getRecommendLNum();
 	},
 	getProDetail: function () {
 		wx.request({
@@ -194,6 +200,105 @@ Page({
 			}
 		})
 	},
+	handel: function (t) {
+		const dd = this.data;
+		let query = '?relatedId=' + dd.id + '&relatedType=2&handelType=' + t;
+		wx.request({
+			url: api.handel + query,
+			method: 'POST',
+			header: { userId: dd.userId },
+			data: {},
+			success: res => {
+				if (res.data.resultCode == 200 && res.data.resultData) {
+					let d = this.data.handelData;
+					if (t == 2) {
+						this.setData({ 'handelData.forwardNum': d.forwardNum + 1 });
+					} else if (t == 1) {
+						this.setData({ 'handelData.likeNum': d.likeNum + 1, isZan: true });
+					}
+				} else { }
+			}
+		})
+	},
+	like: function () {
+		if (!this.data.isZan) {
+			this.handel(1);
+		}
+	},
+	comment: function () {
+		wx.navigateTo({
+			url: '/pages/comment/comment?type=2&relatedId=' + this.data.id,
+		})
+	},
+	isHandel: function (f) {
+		const dd = this.data;
+		let query = '?relatedId=' + dd.id + '&relatedType=1&handelType=1';
+		wx.request({
+			url: api.handel + query,
+			method: 'POST',
+			header: { userId: this.data.userId },
+			data: {},
+			success: res => {
+				if (res.data.resultCode == 200 && res.data.resultData) {
+					this.setData({ isZan: true });
+				} else {
+					this.setData({ isZan: false });
+					if (f == 1) {
+						this.handel(1);
+					}
+				}
+			}
+		})
+	},
+	getHandelData: function () {
+		const dd = this.data;
+		let query = '?relatedId=' + dd.id + '&relatedType=2&handelType=1';
+		wx.request({
+			url: api.handelData + query,
+			method: 'GET',
+			header: { userId: dd.userId },
+			data: {},
+			success: res => {
+				if (res.data.resultCode == 200 && res.data.resultData) {
+					let r = res.data.resultData;
+					this.setData({ handelData: {
+						forwardNum: r.forwardNum,
+						likeNum: r.likeNum,
+						commentNum: r.commentNum,
+					} })
+				} else {
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+
+					}
+				}
+			}
+		})
+	},
+	getRecommendLNum: function () {
+		wx.request({
+			url: api.recommendList,
+			method: 'GET',
+			data: { proId: this.data.id },
+			success: res => {
+				if (res.data.resultCode == 200 && res.data.resultData) {
+					let r = res.data.resultData;
+					let len = 0;
+					if (r && r.length > 0) {
+						len = r.length;
+					}
+					this.setData({ proNum: len });
+				} else {
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('服务器错误！');
+					}
+				}
+			}
+		})
+	},
 	imgLoad: function (e) {
 		if (e.currentTarget.dataset.idx == 0) {
 			let winw = wx.getSystemInfoSync().windowWidth;
@@ -243,6 +348,13 @@ Page({
 			complete: () => {
 				app.header.userId = null;
 			}
+		})
+	},
+	buy: function () {
+		wx.showModal({
+			title: '小提示',
+			content: '点击关注公众号：Yup新潮，即可购买',
+			showCancel: false,
 		})
 	},
 	onShareAppMessage: function () {

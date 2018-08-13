@@ -13,7 +13,7 @@ Page({
   },
   onLoad: function (options) {
 		if (options.id) {
-			this.setData({ id: options.id });
+			this.setData({ id: options.id, forwardNum: options.share, likeNum: options.like });
 			this.getDetail();
 		} else {
 			wx.redirectTo({
@@ -24,7 +24,7 @@ Page({
 	onShow: function () {
 		let uid = wx.getStorageSync('user').userId;
 		if (uid) {
-			this.setData({ userId: uid });
+			this.setData({ userId: uid, isLogin: true });
 			this.isHandel();
 		}
 	},
@@ -39,8 +39,9 @@ Page({
 			data: { infoId: this.data.id },
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {
-					WxParse.wxParse('contents', 'html', res.data.resultData.content, this);
-					this.setData({ info: res.data.resultData });
+					let r = res.data.resultData;
+					WxParse.wxParse('contents', 'html', r.content, this);
+					this.setData({ info: r, ids: r.relatedProIdList.join(',') });
 				} else {
 					if (res.data.resultMsg) {
 						wx.showModal({
@@ -85,7 +86,7 @@ Page({
 	},
 	comment: function () {
 		wx.navigateTo({
-			url: '/pages/comment/comment?relatedId='+ this.data.id,
+			url: '/pages/comment/comment?type=1&relatedId='+ this.data.id,
 		})
 	},
 	isHandel: function (f) {
@@ -93,7 +94,7 @@ Page({
 		let query = '?relatedId=' + dd.id + '&relatedType=1&handelType=1';
 		wx.request({
 			url: api.handel + query,
-			method: 'GET',
+			method: 'POST',
 			header: { userId: this.data.userId },
 			data: {},
 			success: res => {
