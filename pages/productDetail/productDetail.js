@@ -129,6 +129,9 @@ Page({
 					content: '已成功复制优惠券链接，打开手机淘宝即可查看优惠券',
 					showCancel: false
 				})
+			},
+			fail: res => {
+				console.log(res);
 			}
 		})
 	},
