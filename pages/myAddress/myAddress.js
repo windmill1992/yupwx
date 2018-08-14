@@ -10,11 +10,16 @@ Page({
 	onLoad: function (options) {
 		let user = wx.getStorageSync('user');
 		if (user) {
+			app.header.userId = user.userId;
 			this.setData({ userId: user.userId });
 			this.getAddrList();
 		}
 	},
 	onShow: function () {
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
 		this.getAddrList();
 		wx.removeStorageSync('editAddr');
 	},

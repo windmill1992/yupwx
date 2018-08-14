@@ -16,6 +16,10 @@ Page({
 	},
 	onLoad: function (options) {
 		// this.getProgress(1, 10);
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
 	},
 	onShow: function () {
 		let user = wx.getStorageSync('user');
@@ -23,6 +27,7 @@ Page({
 			this.setData({ isLogin: false });
 		} else {
 			if (util.check('validTime')) {
+				app.header.userId = user.userId;
 				this.setData({ isLogin: true, userId: user.userId });
 				this.getProgress(1, 10);
 			}else{
@@ -33,7 +38,6 @@ Page({
 	},
 	getProgress: function (pn, ps) {
 		const dd = this.data;
-		app.header.userId = dd.userId;
 		wx.showLoading({
 			title: '加载中...'
 		})
@@ -100,6 +104,7 @@ Page({
 					success: res1 => {
 						if (res1.data.resultCode == 200) {
 							let r = res1.data.resultData;
+							app.header.userId = r.userId;
 							this.setData({ isLogin: true, userId: r.userId });
 							this.getProgress(1, 10);
 							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
@@ -133,16 +138,7 @@ Page({
 	},
 	getCoupons: function (e) {
 		let url = e.currentTarget.dataset.url;
-		wx.setClipboardData({
-			data: url,
-			success: res => {
-				wx.showModal({
-					title: '领取成功',
-					content: '已成功复制优惠券链接，打开手机淘宝即可查看优惠券',
-					showCancel: false
-				})
-			}
-		})
+		
 	},
 	switchTab: function (e) {
 		let t = e.target.dataset.tab;
@@ -172,9 +168,6 @@ Page({
 			that.setData({ page: 1, hasmore: -1 });
 			that.getProgress(1, 10);
 		}, 500);
-	},
-	onShareAppMessage: function () {
-
 	},
 	showToast: function (txt) {
 		const that = this;

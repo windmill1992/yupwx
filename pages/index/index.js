@@ -8,9 +8,19 @@ Page({
 		list: [],
   },
   onLoad: function (options) {
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
 		this.page = 1;
 		this.getRecommendList(1, 10);
   },
+	onShow: function () {
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
+	},
 	getRecommendList: function (pn, ps) {
 		wx.showLoading({
 			title: '加载中...',

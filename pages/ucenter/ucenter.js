@@ -17,6 +17,7 @@ Page({
 	onLoad: function (options) {
 		const user = wx.getStorageSync('user');
 		if (user && user != null && user != '') {
+			app.globalData.header.userId = user.userId;
 			this.setData({ userAvatar: user.avatarUrl, nickName: user.nickName, isLogin: true });
 		} else {
 			// 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
@@ -36,6 +37,7 @@ Page({
 			this.setData({ isLogin: false });
 		} else {
 			if(util.check('validTime')){
+				app.globalData.header.userId = user.userId;
 				this.setData({ userAvatar: user.avatarUrl, nickName: user.nickName, isLogin: true, userId: user.userId });
 				this.getRegDays();
 			}else{
@@ -76,8 +78,9 @@ Page({
 					header: app.globalData.header,
 					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName, userAvatar: this.data.userAvatar },
 					success: res1 => {
-						if (res1.data.resultCode == 200) {
+						if (res1.data.resultCode == 200 && res1.data.resultData) {
 							let r = res1.data.resultData;
+							app.globalData.header.userId = r.userId;
 							this.setData({ isLogin: true });
 							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
 							wx.setStorageSync('user', obj)
@@ -115,7 +118,7 @@ Page({
 		wx.request({
 			url: api.sign,
 			method: 'POST',
-			header: { userId: this.data.userId },
+			header: app.globalData.header,
 			data: {},
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {
@@ -135,7 +138,7 @@ Page({
 		wx.request({
 			url: api.signDays,
 			method: 'GET',
-			header: { userId: this.data.userId },
+			header: app.globalData.header,
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {
 					this.setData({ signDays: res.data.resultData, showSign: true });
@@ -149,7 +152,7 @@ Page({
 		wx.request({
 			url: api.regDays,
 			method: 'GET',
-			header: { userId: this.data.userId },
+			header: app.globalData.header,
 			data: {},
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {

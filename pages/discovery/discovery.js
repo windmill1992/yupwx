@@ -11,10 +11,20 @@ Page({
 		infoList2: [],
   },
   onLoad: function (options) {
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
 		this.getProList();
 		this.getInfoList(0, 1);
 		this.getInfoList(1, 2);
   },
+	onShow: function () {
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
+	},
 	getProList: function () {
 		wx.showLoading({
 			title: '加载中...',

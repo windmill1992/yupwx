@@ -34,6 +34,7 @@ Page({
 			this.setData({ isLogin: false });
 		} else {
 			if (util.check('validTime')) {
+				app.header.userId = user.userId;
 				this.setData({ isLogin: true, userId: user.userId, userAvatar: user.avatarUrl });
 			} else {
 				this.setData({ isLogin: false });
@@ -52,6 +53,10 @@ Page({
 		}
 	},
 	onShow: function () {
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
 		this.getProDetail();
 		this.getHandelData();
 		this.getRecommendLNum();
@@ -79,11 +84,10 @@ Page({
 		})
 	},
 	getUserProStatus: function () {
-		const header = Object.assign({}, app.header, { userId: this.data.userId });
 		wx.request({
 			url: api.userProStatus,
 			method: 'GET',
-			header: header,
+			header: app.header,
 			data: { proId: this.data.id },
 			success: res => {
 				if (res.data.resultCode == 200) {
@@ -99,7 +103,6 @@ Page({
 		})
 	},
 	getIsApply: function () {
-		app.header.userId = this.data.userId;
 		wx.request({
 			url: api.isApply,
 			method: 'POST',
@@ -122,22 +125,6 @@ Page({
 			},
 			complete: () => {
 				app.header.userId = null;
-			}
-		})
-	},
-	getCoupons: function (e) {
-		let url = e.currentTarget.dataset.url;
-		wx.setClipboardData({
-			data: url,
-			success: res => {
-				wx.showModal({
-					title: '领取成功',
-					content: '已成功复制优惠券链接，打开手机淘宝即可查看优惠券',
-					showCancel: false
-				})
-			},
-			fail: res => {
-				console.log(res);
 			}
 		})
 	},
@@ -169,6 +156,7 @@ Page({
 					success: res1 => {
 						if (res1.data.resultCode == 200) {
 							let r = res1.data.resultData;
+							app.header.userId = r.userId;
 							this.setData({ isLogin: true, userId: r.userId });
 							this.getProDetail();
 							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
@@ -206,7 +194,7 @@ Page({
 		wx.request({
 			url: api.handel + query,
 			method: 'POST',
-			header: { userId: dd.userId },
+			header: app.header,
 			data: {},
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {
@@ -236,7 +224,7 @@ Page({
 		wx.request({
 			url: api.handel + query,
 			method: 'POST',
-			header: { userId: this.data.userId },
+			header: app.header,
 			data: {},
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {
@@ -256,7 +244,7 @@ Page({
 		wx.request({
 			url: api.handelData + query,
 			method: 'GET',
-			header: { userId: dd.userId },
+			header: app.header,
 			data: {},
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {
@@ -280,6 +268,7 @@ Page({
 		wx.request({
 			url: api.recommendList,
 			method: 'GET',
+			header: app.header,
 			data: { proId: this.data.id },
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {
@@ -317,7 +306,6 @@ Page({
 	},
 	toApply: function (e) {
 		const dd = this.data;
-		app.header.userId = wx.getStorageSync('user').userId;
 		wx.request({
 			url: api.apply,
 			method: 'POST',

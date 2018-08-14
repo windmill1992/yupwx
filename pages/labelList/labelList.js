@@ -8,6 +8,10 @@ Page({
 		list: [],
   },
   onLoad: function (options) {
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
 		if (options.labelId) {
 			this.page = 1;
 			this.getRecommendList(options.labelId, 1, 15);

@@ -36,7 +36,7 @@
 					<view class='btn' catchtap='showTip' wx:else>进入公众号查看物流</view>
 				</view>
 				<view wx:elif='{{item.trialProgressType == 3}}'>
-					<view class='btn' catchtap='getCoupons' data-url='{{item.tbCouponUrl}}'>领取优惠券购买</view>
+					<view class='btn' catchtap='getCoupons' data-url='{{item.tbCouponUrl}}'>优惠购买</view>
 				</view>
       </navigator>
     </view>

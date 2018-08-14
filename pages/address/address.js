@@ -55,6 +55,7 @@ Page({
     const dd = that.data;
     if (!that.validAddrInfo()) return;
 		let uid = wx.getStorageSync('user').userId;
+		app.header.userId = uid;
 		let addrId = dd.isEdit ? dd.id : 0;
 		wx.request({
 			url: api.saveAddr,

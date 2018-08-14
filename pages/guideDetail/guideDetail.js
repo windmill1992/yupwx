@@ -9,9 +9,13 @@ const api = {
 const WxParse = require('../../wxParse/wxParse.js');
 Page({
   data: {
-  
+		
   },
   onLoad: function (options) {
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
 		if (options.id) {
 			this.setData({ id: options.id, forwardNum: options.share, likeNum: options.like });
 			this.getDetail();
@@ -24,6 +28,7 @@ Page({
 	onShow: function () {
 		let uid = wx.getStorageSync('user').userId;
 		if (uid) {
+			app.header.userId = uid;
 			this.setData({ userId: uid, isLogin: true });
 			this.isHandel();
 		}
@@ -65,7 +70,7 @@ Page({
 		wx.request({
 			url: api.handel + query,
 			method: 'POST',
-			header: { userId: dd.userId },
+			header: app.header,
 			data: {},
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {
@@ -95,7 +100,7 @@ Page({
 		wx.request({
 			url: api.handel + query,
 			method: 'POST',
-			header: { userId: this.data.userId },
+			header: app.header,
 			data: {},
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {
@@ -136,6 +141,7 @@ Page({
 					success: res1 => {
 						if (res1.data.resultCode == 200) {
 							let r = res1.data.resultData;
+							app.header.userId = r.userId;
 							this.setData({ isLogin: true, userId: r.userId });
 							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
 							wx.setStorageSync('user', obj)

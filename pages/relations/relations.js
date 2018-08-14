@@ -8,6 +8,10 @@ Page({
 		list: [],
   },
   onLoad: function (options) {
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
 		if (options.ids) {
 			this.setData({ ids: options.ids });
 			this.getProList();

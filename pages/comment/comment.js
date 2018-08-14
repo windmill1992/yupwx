@@ -19,11 +19,12 @@ Page({
 			return;
 		}
 		this.page = 1;
-		this.getCommentList(1, 20);
 		let uid = wx.getStorageSync('user').userId;
 		if (uid) {
+			app.header.userId = uid;
 			this.setData({ userId: uid, isLogin: true });
 		}
+		this.getCommentList(1, 20);
   },
 	getCommentList: function (pn, ps) {
 		const dd = this.data;
@@ -33,6 +34,7 @@ Page({
 		wx.request({
 			url: api.commentList,
 			method: 'POST',
+			header: app.header,
 			data: {
 				pageIndex: pn,
 				pageSize: ps,
@@ -40,7 +42,6 @@ Page({
 				relatedType: dd.relatedType,
 			},
 			success: res => {
-				console.log(res.data);
 				if (res.data.resultCode == 200 && res.data.resultData) {
 					if (pn == 1) {
 						this.setData({ list: [], hasmore: -1 });
@@ -87,6 +88,7 @@ Page({
 					success: res1 => {
 						if (res1.data.resultCode == 200) {
 							let r = res1.data.resultData;
+							app.header.userId = r.userId;
 							this.setData({ isLogin: true, userId: r.userId });
 							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
 							wx.setStorageSync('user', obj)
@@ -143,6 +145,7 @@ Page({
 		wx.request({
 			url: api.comment,
 			method: 'POST',
+			header: app.header,
 			data: {
 				comment: dd.con,
 				commenteeId: dd.commenteeId ? dd.commenteeId : 0,
@@ -151,7 +154,6 @@ Page({
 				userId: dd.userId,
 			},
 			success: res => {
-				console.log(res.data);
 				if (res.data.resultCode == 200 && res.data.resultData) {
 					wx.showToast({
 						title: '评论成功',

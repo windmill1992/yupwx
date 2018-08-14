@@ -9,14 +9,6 @@
 	padding: 40rpx;
 }
 
-.login-btn {
-  display: inline-block;
-  height: 80rpx;
-  line-height: 80rpx;
-  background: #fc2441;
-  color: #fff;
-}
-
 .avatar {
   width: 144rpx;
   height: 144rpx;
@@ -38,6 +30,18 @@
   font-family: 'PingFangSC-Semibold';
   font-weight: 600;
 	letter-spacing: 1px;
+	background: none;
+	border: none;
+	outline: none;
+	line-height: 1.5;
+	text-align: left;
+	width: auto;
+	padding: 0;
+}
+
+.nick::after {
+	outline: none;
+	border: none;
 }
 
 .info .txt{

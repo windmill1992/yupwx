@@ -8,7 +8,10 @@ Page({
 
 	},
 	onLoad: function (options) {
-
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
 	},
 	getName: function (e) {
 		this.setData({ name: e.detail.value });
@@ -45,7 +48,6 @@ Page({
 		wx.showLoading({
 			title: '正在提交...'
 		});
-		app.header.userId = wx.getStorageSync('user').userId;
 		wx.request({
 			url: api.enterApply,
 			method: 'POST',

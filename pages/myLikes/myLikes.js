@@ -10,6 +10,7 @@ Page({
   onLoad: function (options) {
 		let uid = wx.getStorageSync('user').userId;
 		if (uid) {
+			app.header.userId = uid;
 			this.setData({ userId: uid });
 			this.page = 1;
 			this.getInfoList(1, 15);
@@ -25,7 +26,7 @@ Page({
 		wx.request({
 			url: api.infoList,
 			method: 'GET',
-			header: { userId: this.data.userId },
+			header: app.header,
 			data: {
 				pageIndex: pn, 
 				pageSize: ps,

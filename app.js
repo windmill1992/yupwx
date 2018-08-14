@@ -74,9 +74,9 @@ App({
 		baseUrl: 'http://apidev.yupfashion.cn',
 		header: {
 			'content-type': 'application/json',
+			'userId': 0,
 		},
 		imgHost: 'https://pic.yupfashion.cn',			//小程序码
 		imgHost2: 'https://propic.yupfashion.cn',	//封面图
-		env: 'dev'
 	}
 })

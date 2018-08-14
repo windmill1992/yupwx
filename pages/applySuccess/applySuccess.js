@@ -111,6 +111,7 @@ Page({
 		}
 		if (wx.getStorageSync('user').userId) {
 			let user = wx.getStorageSync('user');
+			app.header.userId = user.userId;
 			this.setData({ 
 				isLogin: true, 
 				userId: user.userId,
@@ -129,6 +130,7 @@ Page({
 	onShow: function(){
 		let uid = wx.getStorageSync('user').userId;
 		if (uid) {
+			app.header.userId = user.userId;
 			this.setData({ userId: uid });
 			this.getIsApply();
 		}
@@ -144,7 +146,7 @@ Page({
         proId: this.data.id
       },
       success: res => {
-        if (res.data.resultCode == 200) {
+        if (res.data.resultCode == 200 && res.data.resultData) {
           let r = res.data.resultData;
 					r.sellingPrice = Number.parseFloat(r.sellingPrice).toFixed(2);
           this.setData({ proInfo: r });
@@ -164,7 +166,6 @@ Page({
     });
   },
   getQRCode: function() {
-		app.header.userId = this.data.userId;
     wx.request({
       url: api.qrcode,
       method: 'GET',
@@ -173,29 +174,24 @@ Page({
         proId: this.data.id
       },
       success: res => {
-        if (res.data.resultCode == 200) {
-          if (res.data.resultData) {
-            this.setData({
-              qrCode: res.data.resultData
-            });
-          } else {
-            this.showToast('生成小程序码出错');
-          }
+        if (res.data.resultCode == 200 && res.data.resultData) {
+					this.setData({
+						qrCode: res.data.resultData
+					});
         } else {
-          this.showToast(res.data.resultMsg);
+          this.showToast(res.data.resultMsg ? res.data.resultMsg : '生成小程序码出错');
         }
       }
     })
   },
 	getUserProStatus: function () {
-		app.header.userId = this.data.userId;
 		wx.request({
 			url: api.userProStatus,
 			method: 'GET',
 			header: app.header,
 			data: { proId: this.data.id },
 			success: res => {
-				if (res.data.resultCode == 200) {
+				if (res.data.resultCode == 200 && res.data.resultData) {
 					this.setData({ userStatus: res.data.resultData });
 				} else {
 					if (res.data.resultMsg) {
@@ -233,7 +229,7 @@ Page({
 					header: app.header,
 					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName, userAvatar: this.data.userAvatar },
 					success: res1 => {
-						if (res1.data.resultCode == 200) {
+						if (res1.data.resultCode == 200 && res1.data.resultData) {
 							let r = res1.data.resultData;
 							let userInfo = wx.getStorageSync('userInfo');
 							this.setData({ 
@@ -242,6 +238,7 @@ Page({
 								userAvatar: userInfo.avatarUrl, 
 								nickName: userInfo.nickName,
 							});
+							app.header.userId = r.userId;
 							let obj = Object.assign({}, { userId: r.userId, token: r.token }, userInfo);
 							wx.setStorageSync('user', obj);
 							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
@@ -300,7 +297,6 @@ Page({
 		}
 	},
 	getIsApply: function () {
-		app.header.userId = this.data.userId;
 		let pid = this.data.id;
 		wx.request({
 			url: api.isApply,
@@ -308,7 +304,7 @@ Page({
 			header: app.header,
 			data: { proIdList: [pid] },
 			success: res => {
-				if (res.data.resultCode == 200) {
+				if (res.data.resultCode == 200 && res.data.resultData) {
 					if (res.data.resultData) {
 						this.setData({ isApply: res.data.resultData[pid] });
 					}
@@ -323,9 +319,6 @@ Page({
 						showCancel: false
 					})
 				}
-			},
-			complete: () => {
-				app.header.userId = null;
 			}
 		})
 	},
@@ -343,7 +336,7 @@ Page({
 				triggerUserId: tuid
 			},
 			success: res => {
-				if (res.data.resultCode == 200) {
+				if (res.data.resultCode == 200 && res.data.resultData) {
 					if (code == 'SIGN' || code == 'SHARE_FRIENDS') {
 						let num = this.data.myYup;
 						let add = res.data.resultData | 0;
@@ -368,17 +361,16 @@ Page({
 	getUserYup: function() {
 		let userId = wx.getStorageSync('user').userId;
 		let uid = (this.data.isSelf && userId) ? userId : this.data.shareUserId;
-		app.header.userId = uid;
 		wx.showLoading({
 			title: '加载中...'
 		})
 		wx.request({
 			url: api.userYup,
 			method: 'GET',
-			header: app.header,
+			header: { userId: uid },
 			data: { proId: this.data.id },
 			success: res => {
-				if (res.data.resultCode == 200) {
+				if (res.data.resultCode == 200 && res.data.resultData) {
 					let r = res.data.resultData;
 					let { myYup, maxYup, userProYupInfoList: yupList, yupListInfoVO: yupBoard } = r;
 					for (let v of yupBoard.yupList) {
@@ -409,7 +401,7 @@ Page({
 			header: { userId: uid },
 			data: { proId: this.data.id },
 			success: res => {
-				if(res.data.resultCode == 200){
+				if(res.data.resultCode == 200 && res.data.resultData){
 					let r = res.data.resultData;
 					if(r && r.length > 0){
 						for(let i of r){
@@ -434,9 +426,10 @@ Page({
 		wx.request({
 			url: api.recommendList,
 			method: 'GET',
+			header: app.header,
 			data: { proId: this.data.id },
 			success: res => {
-				if (res.data.resultCode  == 200) {
+				if (res.data.resultCode  == 200 && res.data.resultData) {
 					this.setData({ recommendList: res.data.resultData });
 				} else {
 					if (res.data.resultMsg) {
@@ -487,15 +480,6 @@ Page({
 		s = s < 10 ? '0' + s : s;
 		let time = h + ':' + m + ':' + s;
 		this.setData({ signTime: time });
-	},
-	getCoupons: function (e) {
-		let url = e.currentTarget.dataset.url;
-		wx.setClipboardData({
-			data: url,
-			success: res => {
-				this.setData({ showGet: true });
-			}
-		})
 	},
 	openSetting: function(e) {
 		const that = this;

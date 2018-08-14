@@ -12,8 +12,11 @@ Page({
 		isLogin: false,
 		endProList: []
 	},
-	onLoad: function () {
-
+	onLoad: function () {	
+		let uid = wx.getStorageSync('user').userId;
+		if (uid) {
+			app.header.userId = uid;
+		}
 	},
 	onShow: function () {
 		this.setData({ endPage: 1, endProList: [] });
@@ -23,6 +26,7 @@ Page({
 			this.setData({ isLogin: false });
 		} else {
 			if (util.check('validTime')) {
+				app.header.userId = user.userId;
 				this.setData({ isLogin: true, userId: user.userId });
 				if (this.data.ids) {
 					this.getIsApply();
@@ -64,6 +68,7 @@ Page({
 					success: res1 => {
 						if (res1.data.resultCode == 200) {
 							let r = res1.data.resultData;
+							app.header.userId = r.userId;
 							this.setData({ isLogin: true, userId: r.userId });
 							this.getIsApply();
 							let obj = Object.assign({}, { userId: r.userId, token: r.token }, wx.getStorageSync('userInfo'));
@@ -159,7 +164,6 @@ Page({
 		})
 	},
 	getIsApply: function () {
-		app.header.userId = this.data.userId;
 		wx.request({
 			url: api.isApply,
 			method: 'POST',
