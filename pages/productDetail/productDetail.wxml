@@ -17,7 +17,7 @@
 						<form report-submit='true' bindsubmit='toApply' wx:if='{{!isApply}}'>
 							<button form-type='submit' class='nav-btn'>免费申请</button>
 						</form>
-						<navigator url='/pages/applySuccess/applySuccess?id={{id}}&apply=1' class='nav-btn' style='margin: 0 auto;'>已申请</navigator>
+						<navigator url='/pages/applySuccess/applySuccess?id={{id}}&apply=1' wx:else class='nav-btn' style='margin: 0 auto;'>已申请</navigator>
 					</block>
 					<block wx:else>
 						<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='nav-btn'>免费申请</button>
