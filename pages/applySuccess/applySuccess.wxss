@@ -659,10 +659,6 @@
   left: -10000px;
 } 
 
- .canvas.cv1{
-	 left: 0;
- }
-
 /* .canvas {
   width: 750rpx;
   height: 1334rpx;

@@ -3,17 +3,19 @@
 	<view class='r-list' wx:if='{{list.length > 0}}'>
 		<view class='item flex fcen' wx:for='{{list}}' wx:key='pro'>
 			<view class='pic fshrink0'>
-				<image src='{{item.coverImg}}' mode='aspectFill'></image>
+				<image src='{{item.cover}}' mode='aspectFill'></image>
 			</view>
 			<view class='info flex1 fcol spb'>
-				<view class='title'>{{item.proName}}</view>
+				<view class='title'>{{item.productTitle}}</view>
 				<view class='price-box flex fcen spb'>
-					<view class='price'>{{item.consultPrice}}</view>
-					<view class='btn' catchtap='buy'>优惠购买</view>
-					<view class='ori-price'>{{item.sellingPrice}}</view>
+					<view class='price'>{{item.sellPrice}}</view>
+					<button class='btn' open-type='openSetting' bindopensetting='openSetting' wx:if='{{canIUse && refuseAuth}}'>优惠购买</button>
+					<view class='btn' catchtap='buy' data-idx='{{index}}' wx:else>优惠购买</view>
+					<view class='ori-price'>{{item.originalPrice}}</view>
 				</view>
 			</view>
 		</view>
 	</view>
 	<view class='no-data' wx:else>暂无相关商品~</view>
 </view>
+<view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

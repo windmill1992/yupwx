@@ -20,7 +20,8 @@
 
 .gd-hd .cover{
 	width: 100%;
-	height: 400rpx;
+	height: 422rpx;
+	vertical-align: top;
 }
 
 .gd-hd .title{
@@ -81,7 +82,7 @@
 }
 
 .gd-ft .icon{
-	margin-right: 10rpx;
+	margin-right: 6rpx;
 	padding: 0;
 	border-radius: 0;
 	background: none;
@@ -99,6 +100,10 @@
 	width: 28rpx;
 	height: 30rpx;
 	display: inline-block;
+}
+
+.gd-ft .zan image{
+	width: 32rpx;
 }
 
 .gd-ft .num{
@@ -124,6 +129,7 @@
 	height: 100%;
 	bottom: 0;
 	left: 0;
+	display: none;
 }
 
 .dialog1 .mask{
@@ -216,6 +222,11 @@
 	color: #202020;
 }
 
+.pic-d .d-head .user .nick2{
+	color: #c5c5c5;
+	font-size: 26rpx;
+}
+
 .pic-d .d-head .txts{
 	width: 144rpx;
 	height: 48rpx;
@@ -229,8 +240,8 @@
 }
 
 .pic-d .pic {
-  width: 580rpx;
-  height: 580rpx;
+  width: 610rpx;
+  height: 344rpx;
 	margin: 0 auto;
 }
 
@@ -241,7 +252,7 @@
 
 .pic-d .footer {
   margin: 30rpx auto;
-	width: 450rpx;
+	width: 100%;
 }
 
 .pic-d .footer .adv .txt {
@@ -250,9 +261,10 @@
   font-family: 'PingFangSC-Medium';
   line-height: 1.6;
   margin-bottom: 10rpx;
-	height: 114rpx;
-	text-align: center;
+	height: 120rpx;
+	text-align: justify;
 	font-weight: 600;
+	padding: 0 30rpx;
 }
 
 .pic-d .footer .tip {
@@ -262,15 +274,15 @@
 }
 
 .pic-d .footer .qrcode {
-  width: 158rpx;
-  height: 158rpx;
+  width: 176rpx;
+  height: 176rpx;
   flex-shrink: 0;
-	margin: 20rpx auto;
+	margin: 80rpx auto 40rpx;
 }
 
 .pic-d .footer .qrcode image {
   width: 100%;
-  height: 158rpx;
+  height: 176rpx;
 }
 
 .pic-d .footer .qrcode image.big {
@@ -315,3 +327,11 @@
 	outline: none;
 	border: none;
 }
+
+ .canvas {
+  width: 1500rpx;
+  height: 2668rpx;
+  position: fixed;
+  top: 0;
+  left: -10000px;
+} 

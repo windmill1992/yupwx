@@ -16,8 +16,7 @@ Page({
 	data: {
 		state: true,
 		height: 500,
-		isShare: false,
-		isApply: false
+		isApply: false,
 	},
 	onLoad: function (options) {
 		const that = this;
@@ -26,7 +25,7 @@ Page({
 				options.state = 1;
 				this.setData({ isShare2: true });
 			}
-			this.setData({ state: options.state, id: options.id });
+			this.setData({ state: options.state, id: options.id, canIUse: app.canIUse  });
 		}
 
 		let user = wx.getStorageSync('user');
@@ -36,21 +35,22 @@ Page({
 			if (util.check('validTime')) {
 				app.header.userId = user.userId;
 				this.setData({ isLogin: true, userId: user.userId, userAvatar: user.avatarUrl });
+				this.isHandel();
 			} else {
 				this.setData({ isLogin: false });
 				this.showToast('登录已失效');
 			}
 		}
 		this.getProDetail();
-		let shareIds = wx.getStorageSync('shareProIds');
-		if (shareIds && shareIds.length > 0) {
-			for (let i = 0; i < shareIds.length; i++) {
-				if (options.id == shareIds[i]) {
-					this.setData({ isShare: true });
-					break;
-				}
+		wx.authorize({
+			scope: 'scope.writePhotosAlbum',
+			success: () => {
+				this.setData({ refuseAuth: false });
+			},
+			fail: () => {
+				this.setData({ refuseAuth: true });
 			}
-		}
+		})
 	},
 	onShow: function () {
 		let uid = wx.getStorageSync('user').userId;
@@ -123,9 +123,6 @@ Page({
 					})
 				}
 			},
-			complete: () => {
-				app.header.userId = null;
-			}
 		})
 	},
 	getUserInfo: function (e) {
@@ -163,6 +160,7 @@ Page({
 							wx.setStorageSync('user', obj)
 							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
 							this.showToast('登录成功！');
+							this.isHandel();
 						} else {
 							this.setData({ isLogin: false });
 							wx.showModal({
@@ -202,6 +200,7 @@ Page({
 					if (t == 2) {
 						this.setData({ 'handelData.forwardNum': d.forwardNum + 1 });
 					} else if (t == 1) {
+						this.liking = false;
 						this.setData({ 'handelData.likeNum': d.likeNum + 1, isZan: true });
 					}
 				} else { }
@@ -209,7 +208,8 @@ Page({
 		})
 	},
 	like: function () {
-		if (!this.data.isZan) {
+		if (!this.data.isZan && !this.liking) {
+			this.liking = true;
 			this.handel(1);
 		}
 	},
@@ -220,7 +220,7 @@ Page({
 	},
 	isHandel: function (f) {
 		const dd = this.data;
-		let query = '?relatedId=' + dd.id + '&relatedType=1&handelType=1';
+		let query = '?relatedId=' + dd.id + '&relatedType=2&handelType=1';
 		wx.request({
 			url: api.handel + query,
 			method: 'POST',
@@ -333,42 +333,109 @@ Page({
 			fail: () => {
 				this.showToast('申请失败！');
 			},
-			complete: () => {
-				app.header.userId = null;
+		})
+	},
+	buy: function (e) {
+		let code = this.data.proInfo.tbCouponUrl;
+		code = code.replace('http://', '');
+		code = code.replace(code.split('/')[0], app.imgHost2);
+		wx.downloadFile({
+			url: code,
+			success: res => {
+				this.savePhoto(res.tempFilePath);
 			}
 		})
 	},
-	buy: function () {
-		wx.showModal({
-			title: '小提示',
-			content: '点击关注公众号：Yup新潮，即可购买',
-			showCancel: false,
+	savePhoto: function (path) {
+		const that = this;
+		wx.getSetting({
+			success: res1 => {
+				if (!res1.authSetting['scope.writePhotosAlbum']) {
+					wx.authorize({
+						scope: 'scope.writePhotosAlbum',
+						success: () => {
+							wx.saveImageToPhotosAlbum({
+								filePath: path,
+								success: () => {
+									wx.showModal({
+										title: '小提示',
+										content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
+										showCancel: false,
+									})
+								}
+							})
+						},
+						fail: () => {
+							wx.showModal({
+								title: '未授权，无法保存到相册',
+								content: '是否授权？',
+								cancelColor: '#ff6960',
+								confirmColor: '#151419',
+								confirmText: '授权',
+								success: res => {
+									if (res.confirm) {
+										wx.openSetting({
+											success: res2 => {
+												if (res2.authSetting['scope.writePhotosAlbum']) {
+													wx.showToast({
+														title: '授权成功~',
+													})
+													setTimeout(function () {
+														wx.saveImageToPhotosAlbum({
+															filePath: path,
+															success: () => {
+																wx.showModal({
+																	title: '小提示',
+																	content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
+																	showCancel: false,
+																})
+															}
+														})
+													}, 1000);
+												} else {
+													that.showToast('授权失败！')
+												}
+											}
+										})
+									}
+								}
+							})
+						}
+					})
+				} else {
+					wx.saveImageToPhotosAlbum({
+						filePath: path,
+						success: () => {
+							wx.showModal({
+								title: '小提示',
+								content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
+								showCancel: false,
+							})
+						}
+					})
+				}
+			}
 		})
+	},
+	openSetting: function (e) {
+		const that = this;
+		if (e.detail.authSetting['scope.writePhotosAlbum']) {
+			this.showToast('授权成功~');
+			this.setData({ refuseAuth: false });
+		}
 	},
 	onShareAppMessage: function () {
 		let dd = this.data;
 		const that = this;
-		setTimeout(() => {
-			that.setData({ isShare: true });
-		}, 1000);
-		let ids = wx.getStorageSync('shareProIds');
-		if (ids && ids.indexOf(dd.id) == -1) {
-			ids.push(dd.id);
-		} else {
-			ids = [dd.id];
-		}
-		wx.setStorage({
-			key: 'shareProIds',
-			data: ids
-		})
 		let title = dd.proInfo.proName;
 		if(!title || title == null){
 			title = '潮流好物';
 		}
+		this.handel(2);
 		return {
 			title: '免费领取，跟我一起来拿'+ title,
 			path: '/pages/productDetail/productDetail?id=' + dd.id,
-			imageUrl: dd.proInfo.coverImg
+			imageUrl: dd.proInfo.coverImg,
 		}
 	},
 	showToast: function (txt) {

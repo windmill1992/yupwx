@@ -17,8 +17,22 @@ Page({
 			app.header.userId = uid;
 		}
 		if (options.id) {
-			this.setData({ id: options.id, forwardNum: options.share, likeNum: options.like });
+			this.setData({ 
+				id: options.id, 
+				forwardNum: options.share, 
+				likeNum: options.like,
+				canIUse: app.canIUse,
+			});
 			this.getDetail();
+			wx.authorize({
+				scope: 'scope.writePhotosAlbum',
+				success: () => {
+					this.setData({ refuseAuth: false });
+				},
+				fail: () => {
+					this.setData({ refuseAuth: true });
+				}
+			})
 		} else {
 			wx.redirectTo({
 				url: '/pages/index/index',
@@ -26,10 +40,10 @@ Page({
 		}
   },
 	onShow: function () {
-		let uid = wx.getStorageSync('user').userId;
-		if (uid) {
-			app.header.userId = uid;
-			this.setData({ userId: uid, isLogin: true });
+		let user = wx.getStorageSync('user');
+		if (user.userId) {
+			app.header.userId = user.userId;
+			this.setData({ userId: user.userId, isLogin: true, userAvatar: user.avatarUrl, nickName: user.nickName });
 			this.isHandel();
 		}
 	},
@@ -46,6 +60,12 @@ Page({
 				if (res.data.resultCode == 200 && res.data.resultData) {
 					let r = res.data.resultData;
 					WxParse.wxParse('contents', 'html', r.content, this);
+					if (!this.data.forwardNum) {
+						this.setData({
+							forwardNum: r.forwardNum,
+							likeNum: r.likeNum,
+						})
+					}
 					this.setData({ info: r, ids: r.relatedProIdList.join(',') });
 				} else {
 					if (res.data.resultMsg) {
@@ -63,6 +83,12 @@ Page({
 				wx.hideLoading()
 			}
 		})
+	},
+	getProp: function (e) {
+		this.setData({
+			imgW: e.detail.width,
+			imgH: e.detail.height,
+		});
 	},
 	handel: function (t) {
 		const dd = this.data;
@@ -177,8 +203,13 @@ Page({
 		this.setData({ showDialog: true });
 	},
 	shareOnline: function () {
+		this.setData({ showPic: true, showDialog: false });
+	},
+	closeDialog: function () {
+		this.setData({ showPic: false });
+	},
+	cancelShare: function () {
 		this.setData({ showDialog: false });
-
 	},
 	openSetting: function (e) {
 		const that = this;
@@ -259,7 +290,7 @@ Page({
 		})
 		let dd = this.data;
 		let img = dd.info.cover;
-		let code = dd.qrCode;
+		let code = dd.info.wechatCode;
 		let avatar = dd.userAvatar;
 		img = img.replace('http://', '');
 		img = img.replace(img.split('/')[0], app.imgHost2);
@@ -310,10 +341,16 @@ Page({
 			let r = wx.getSystemInfoSync().windowWidth / 375;
 			let w = 750 * r;
 			let h = 1334 * r;
-			let imgWidth = dd.imgW / dd.imgH * 580;
-			let imgX = (w - imgWidth * r) / 2;
+			let imgWidth = 690 * r;
+			let imgHeight = 690 * 9 / 16 * r;
+			let imgX = (w - imgWidth) / 2;
 			imgX = imgX < 0 ? 0 : imgX;
 			let ctx = wx.createCanvasContext('cv', that);
+
+			ctx.beginPath();
+			ctx.setFillStyle('#ffffff');
+			ctx.fillRect(0, 0, w, h);
+			ctx.closePath();
 
 			ctx.beginPath();
 			ctx.setFillStyle('#000000');
@@ -324,39 +361,44 @@ Page({
 			ctx.beginPath();
 			ctx.setFillStyle('#c5c5c5');
 			ctx.setFontSize(26 * r);
-			ctx.fillText(dd.info.authorName, 108 * r, 75 * r, 640 * r);
+			ctx.fillText(dd.info.authorName, 108 * r, imgHeight + 350 * r, 640 * r);
 			ctx.closePath();
 
 			ctx.beginPath();
 			ctx.setFillStyle('#ffffff');
 			ctx.setFontSize(26 * r);
-			ctx.drawImage('../../img/red_bg.png', 606 * r, 40 * r, 144 * r, 48 * r);
-			ctx.fillText(proNum + '件单品', 626 * r, 75 * r);
+			ctx.drawImage('../../img/red_bg.png', 606 * r, imgHeight + 310 * r, 144 * r, 48 * r);
+			ctx.fillText(proNum + '件单品', 630 * r, imgHeight + 343 * r);
 			ctx.closePath();
 
 			ctx.beginPath();
 			ctx.setFillStyle('#F5F7F6');
-			ctx.fillRect(imgX, 108 * r, imgWidth, imgWidth);
+			ctx.fillRect(imgX, 108 * r, imgWidth, imgHeight);
 			ctx.closePath();
 
 			ctx.beginPath();
-			ctx.drawImage(img, imgX, 108 * r, imgWidth, imgWidth);
+			ctx.drawImage('../../img/share.png', imgX, 108 * r, imgWidth, imgHeight);
 			ctx.closePath();
 
 			ctx.beginPath();
 			ctx.setFontSize(44 * r);
 			ctx.setTextBaseline('top');
 			ctx.setFillStyle('#202020');
-			ctx.fillText(name.substr(0, 14), 30, imgWidth + 148 * r, imgWidth);
-			ctx.fillText(name.substr(14), 30, imgWidth + 198 * r, imgWidth);
+			ctx.setTextAlign('justify');
+			if (name.length > 14) {
+				ctx.fillText(name.substr(0, 14), 30, imgHeight + 148 * r, imgWidth);
+				ctx.fillText(name.substr(14), 30, imgHeight + 208 * r, imgWidth);
+			} else {
+				ctx.fillText(name, 30, imgWidth + 148 * r, imgWidth);
+			}
 			ctx.closePath();
 
 			ctx.beginPath();
-			ctx.drawImage(code, (w - 176 * r) / 2, h / 2 + 320, 176 * r, 176 * r);
+			ctx.drawImage('../../img/qrcode.jpg', (w - 200 * r) / 2, h / 2 + 320, 200 * r, 200 * r);
 			ctx.closePath();
 
 			ctx.beginPath();
-			ctx.setFontSize(26 * r);
+			ctx.setFontSize(28 * r);
 			ctx.setTextAlign('center');
 			ctx.setFillStyle('#000000');
 			ctx.fillText('扫码查看指南', w / 2, h - 80);
@@ -366,15 +408,15 @@ Page({
 			ctx.beginPath();
 			ctx.arc(64 * r, 64 * r, 24 * r, 0, Math.PI * 2);
 			ctx.clip();
-			ctx.drawImage(avatar, 40 * r, 40 * r, 48 * r, 48 * r);
+			ctx.drawImage('../../img/defAvatar.png', 40 * r, 40 * r, 48 * r, 48 * r);
 			ctx.closePath();
 			ctx.restore();
 
 			ctx.save();
 			ctx.beginPath();
-			ctx.arc(64 * r, 64 * r, 24 * r, 0, Math.PI * 2);
+			ctx.arc(64 * r, imgHeight + 334 * r, 24 * r, 0, Math.PI * 2);
 			ctx.clip();
-			ctx.drawImage(dd.info.authorAvatar, 40 * r, 40 * r, 48 * r, 48 * r);
+			ctx.drawImage('../../img/defAvatar.png', 40 * r, imgHeight + 310 * r, 48 * r, 48 * r);
 			ctx.closePath();
 			ctx.restore();
 

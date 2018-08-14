@@ -213,6 +213,10 @@
 	display: inline-block;
 }
 
+.pd-ft .zan .icon image{
+	width: 32rpx;
+}
+
 .pd-ft .num{
 	color: #202020;
 	font-size: 26rpx;
@@ -261,6 +265,10 @@
 	width: 28rpx;
 	height: 30rpx;
 	display: inline-block;
+}
+
+.ft .zan .icon image{
+	width: 32rpx;
 }
 
 .ft .num{

@@ -253,4 +253,4 @@
   </view>
 </view>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
-<canvas canvas-id='cv' class='canvas {{showCV ? "cv1" : ""}}'></canvas>
+<canvas canvas-id='cv' class='canvas'></canvas>

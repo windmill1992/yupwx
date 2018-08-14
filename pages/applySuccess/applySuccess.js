@@ -130,7 +130,7 @@ Page({
 	onShow: function(){
 		let uid = wx.getStorageSync('user').userId;
 		if (uid) {
-			app.header.userId = user.userId;
+			app.header.userId = uid;
 			this.setData({ userId: uid });
 			this.getIsApply();
 		}
@@ -561,7 +561,7 @@ Page({
   },
   makeShareImg: function() {
     if (this.data.making) return;
-    this.setData({ making: true, showPic: true, showCV: true });
+    this.setData({ making: true, showPic: true });
     wx.showLoading({
       title: '正在保存...'
     })
@@ -617,10 +617,15 @@ Page({
       let r = wx.getSystemInfoSync().windowWidth / 375;
       let w = 750 * r;
       let h = 1334 * r;
-      let imgWidth = dd.imgW / dd.imgH * 580;
+      let imgWidth = dd.imgW / dd.imgH * 690;
 			let imgX = (w - imgWidth * r) / 2;
       imgX = imgX < 0 ? 0 : imgX;
       let ctx = wx.createCanvasContext('cv', that);
+
+			ctx.beginPath();
+			ctx.setFillStyle('#ffffff');
+			ctx.fillRect(0, 0, w, h);
+			ctx.closePath();
 
 			ctx.beginPath();
 			ctx.setFillStyle('#000000');
@@ -631,34 +636,38 @@ Page({
 			ctx.beginPath();
 			ctx.setFillStyle('#ffffff');
 			ctx.setFontSize(26 * r);
-			ctx.drawImage('../../img/red_bg.png', 606 * r, 40 * r, 144 * r, 48 * r);
-			ctx.fillText('限时免费', 626 * r, 75 * r);
+			ctx.drawImage('../../img/red_bg.png', 610 * r, 40 * r, 144 * r, 48 * r);
+			ctx.fillText('限时免费', 630 * r, 75 * r);
 			ctx.closePath();
 
       ctx.beginPath();
       ctx.setFillStyle('#F5F7F6');
-      ctx.fillRect(imgX, 108 * r, imgWidth, imgWidth);
+      ctx.fillRect(imgX, 120 * r, imgWidth, imgWidth);
       ctx.closePath();
 
       ctx.beginPath();
-			ctx.drawImage(img, imgX, 108 * r, imgWidth, imgWidth);
+			ctx.drawImage('../../img/share.png', imgX, 120 * r, imgWidth, imgWidth);
       ctx.closePath();
 
       ctx.beginPath();
-      ctx.setFontSize(40 * r);
+      ctx.setFontSize(44 * r);
       ctx.setTextBaseline('top');
       ctx.setFillStyle('#202020');
 			ctx.setTextAlign('center');
-			ctx.fillText(name.substr(0, 10), w / 2, imgWidth + 148 * r, imgWidth);
-			ctx.fillText(name.substr(10) + '免费送', w / 2, imgWidth + 198 * r, imgWidth);
+			if (name.length > 10) {
+				ctx.fillText(name.substr(0, 10), w / 2, imgWidth + 148 * r, imgWidth);
+				ctx.fillText(name.substr(10) + '免费送', w / 2, imgWidth + 198 * r, imgWidth);
+			} else {
+				ctx.fillText(name + '免费送', w / 2, imgWidth + 198 * r, imgWidth);
+			}
       ctx.closePath();
 
       ctx.beginPath();
-      ctx.drawImage(code, (w - 176 * r) / 2, h / 2 + 320, 176 * r, 176 * r);
+      ctx.drawImage('../../img/qrcode.jpg', (w - 200 * r) / 2, h / 2 + 360, 200 * r, 200 * r);
       ctx.closePath();
 
       ctx.beginPath();
-      ctx.setFontSize(26 * r);
+      ctx.setFontSize(28 * r);
 			ctx.setTextAlign('center');
       ctx.setFillStyle('#000000');
 			ctx.fillText('扫码参与抽奖', w / 2 , h - 80);
@@ -666,9 +675,9 @@ Page({
 
 			ctx.save();
 			ctx.beginPath();
-			ctx.arc(64 * r, 64 * r, 24 * r, 0, Math.PI * 2);
+			ctx.arc(69 * r, 69 * r, 29 * r, 0, Math.PI * 2);
 			ctx.clip();
-			ctx.drawImage(avatar, 40 * r, 40 * r, 48 * r, 48 * r);
+			ctx.drawImage('../../img/defAvatar.png', 40 * r, 40 * r, 58 * r, 58 * r);
 			ctx.closePath();
 			ctx.restore();
 

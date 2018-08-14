@@ -91,7 +91,8 @@
 			</view>
 			<view class='num'>{{handelData.commentNum}}</view>
 		</view>
-		<view class='buy' bindtap='buy'>优惠购买</view>
+		<button class='btn' open-type='openSetting' bindopensetting='openSetting' wx:if='{{canIUse && refuseAuth}}'>优惠购买</button>
+		<view class='buy' bindtap='buy' wx:else>优惠购买</view>
 	</view>
 
   <!-- <view class='btn flex' wx:if='{{state >= 2}}'>

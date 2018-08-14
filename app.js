@@ -75,6 +75,7 @@ App({
 		header: {
 			'content-type': 'application/json',
 			'userId': 0,
+			'appVersion': '2.1',
 		},
 		imgHost: 'https://pic.yupfashion.cn',			//小程序码
 		imgHost2: 'https://propic.yupfashion.cn',	//封面图

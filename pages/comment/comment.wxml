@@ -6,7 +6,7 @@
 				<image src='{{item.userAvatar}}' ></image>
 			</view>
 			<view class='info flex1'>
-				<view class='nick' bindtap='reply' data-uid='{{item.userId}}' data-uname='{{item.userName}}'>{{item.userName}}</view>
+				<view class='nick' data-uid='{{item.userId}}' data-uname='{{item.userName}}'>{{item.userName}}</view>
 				<view class='time'>{{item.createTime}}</view>
 				<view class='word'><text>{{item.comment}}</text></view>
 			</view>
