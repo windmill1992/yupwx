@@ -167,11 +167,239 @@ Page({
 			}
 		})
 	},
+	showShare: function () {
+		this.setData({ showDialog: true });
+	},
+	shareOnline: function () {
+		this.setData({ showDialog: false });
+
+	},
+	openSetting: function (e) {
+		const that = this;
+		if (e.detail.authSetting['scope.writePhotosAlbum']) {
+			this.makeShareImg();
+		}
+	},
+	savePhoto: function (path) {
+		const that = this;
+		wx.getSetting({
+			success: res1 => {
+				if (!res1.authSetting['scope.writePhotosAlbum']) {
+					wx.authorize({
+						scope: 'scope.writePhotosAlbum',
+						success: () => {
+							wx.saveImageToPhotosAlbum({
+								filePath: path,
+								success: () => {
+									wx.showToast({
+										title: '保存成功~',
+									})
+								}
+							})
+						},
+						fail: () => {
+							wx.showModal({
+								title: '未授权，无法保存到相册',
+								content: '是否授权？',
+								cancelColor: '#ff6960',
+								confirmColor: '#151419',
+								confirmText: '授权',
+								success: res => {
+									if (res.confirm) {
+										wx.openSetting({
+											success: res2 => {
+												if (res2.authSetting['scope.writePhotosAlbum']) {
+													wx.showToast({
+														title: '授权成功~'
+													})
+													setTimeout(function () {
+														wx.saveImageToPhotosAlbum({
+															filePath: path,
+															success: () => {
+																wx.showToast({
+																	title: '保存成功~'
+																})
+															}
+														})
+													}, 1000);
+												} else {
+													that.showToast('授权失败！')
+												}
+											}
+										})
+									}
+								}
+							})
+						}
+					})
+				} else {
+					wx.saveImageToPhotosAlbum({
+						filePath: path,
+						success: () => {
+							wx.showToast({
+								title: '保存成功~',
+							})
+						}
+					})
+				}
+			}
+		})
+	},
+	makeShareImg: function () {
+		if (this.data.making) return;
+		this.setData({ making: true, showPic: true });
+		wx.showLoading({
+			title: '正在保存...'
+		})
+		let dd = this.data;
+		let img = dd.info.cover;
+		let code = dd.qrCode;
+		let avatar = dd.userAvatar;
+		img = img.replace('http://', '');
+		img = img.replace(img.split('/')[0], app.imgHost2);
+		code = code.replace('http://', '');
+		code = code.replace(code.split('/')[0], app.imgHost);
+		wx.downloadFile({
+			url: img,
+			success: res => {
+				img = res.tempFilePath;
+				wx.downloadFile({
+					url: code,
+					success: res1 => {
+						code = res1.tempFilePath;
+						wx.downloadFile({
+							url: avatar,
+							success: res2 => {
+								avatar = res2.tempFilePath;
+								exec();
+							}
+						})
+					},
+					fail: res1 => {
+						wx.hideLoading();
+						this.setData({ making: false });
+						wx.showModal({
+							title: '',
+							content: JSON.stringify(res1),
+							showCancel: false
+						})
+					}
+				})
+			},
+			fail: res => {
+				wx.hideLoading();
+				this.setData({ making: false });
+				wx.showModal({
+					title: '',
+					content: JSON.stringify(res),
+					showCancel: false
+				})
+			}
+		})
+		const that = this;
+
+		function exec() {
+			let name = dd.info.title;
+			let proNum = dd.ids.split(',').length;
+			let r = wx.getSystemInfoSync().windowWidth / 375;
+			let w = 750 * r;
+			let h = 1334 * r;
+			let imgWidth = dd.imgW / dd.imgH * 580;
+			let imgX = (w - imgWidth * r) / 2;
+			imgX = imgX < 0 ? 0 : imgX;
+			let ctx = wx.createCanvasContext('cv', that);
+
+			ctx.beginPath();
+			ctx.setFillStyle('#000000');
+			ctx.setFontSize(26 * r);
+			ctx.fillText(dd.nickName + '给你推荐了一篇潮流指南', 108 * r, 75 * r, 640 * r);
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.setFillStyle('#c5c5c5');
+			ctx.setFontSize(26 * r);
+			ctx.fillText(dd.info.authorName, 108 * r, 75 * r, 640 * r);
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.setFillStyle('#ffffff');
+			ctx.setFontSize(26 * r);
+			ctx.drawImage('../../img/red_bg.png', 606 * r, 40 * r, 144 * r, 48 * r);
+			ctx.fillText(proNum + '件单品', 626 * r, 75 * r);
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.setFillStyle('#F5F7F6');
+			ctx.fillRect(imgX, 108 * r, imgWidth, imgWidth);
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.drawImage(img, imgX, 108 * r, imgWidth, imgWidth);
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.setFontSize(44 * r);
+			ctx.setTextBaseline('top');
+			ctx.setFillStyle('#202020');
+			ctx.fillText(name.substr(0, 14), 30, imgWidth + 148 * r, imgWidth);
+			ctx.fillText(name.substr(14), 30, imgWidth + 198 * r, imgWidth);
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.drawImage(code, (w - 176 * r) / 2, h / 2 + 320, 176 * r, 176 * r);
+			ctx.closePath();
+
+			ctx.beginPath();
+			ctx.setFontSize(26 * r);
+			ctx.setTextAlign('center');
+			ctx.setFillStyle('#000000');
+			ctx.fillText('扫码查看指南', w / 2, h - 80);
+			ctx.closePath();
+
+			ctx.save();
+			ctx.beginPath();
+			ctx.arc(64 * r, 64 * r, 24 * r, 0, Math.PI * 2);
+			ctx.clip();
+			ctx.drawImage(avatar, 40 * r, 40 * r, 48 * r, 48 * r);
+			ctx.closePath();
+			ctx.restore();
+
+			ctx.save();
+			ctx.beginPath();
+			ctx.arc(64 * r, 64 * r, 24 * r, 0, Math.PI * 2);
+			ctx.clip();
+			ctx.drawImage(dd.info.authorAvatar, 40 * r, 40 * r, 48 * r, 48 * r);
+			ctx.closePath();
+			ctx.restore();
+
+			ctx.draw(true, setTimeout(() => {
+				wx.canvasToTempFilePath({
+					canvasId: 'cv',
+					x: 0,
+					y: 0,
+					width: w,
+					height: h,
+					destWidth: 1260,
+					destHeight: 2400,
+					success: res => {
+						wx.hideLoading();
+						that.setData({ making: false });
+						that.savePhoto(res.tempFilePath);
+					},
+					fail: res => {
+						that.setData({ making: false });
+						wx.hideLoading();
+					}
+				}, that)
+			}, 100));
+		}
+	},
   onShareAppMessage: function () {
 		let { title, cover } = this.data.info;
 		if (this.data.userId) {
 			this.handel(2);
 		}
+		this.setData({ showDialog: false });
 		return {
 			title: title,
 			path: '/pages/guideDetail/guideDetail?id='+ this.data.id,

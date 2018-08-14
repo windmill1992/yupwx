@@ -1,5 +1,6 @@
 /* pages/comment/comment.wxss */
 page{
+	height: 100%;
 	overflow: hidden;
 }
 .container{
@@ -81,6 +82,7 @@ page{
 	font-size: 30rpx;
 	background: #fc2441;
 	letter-spacing: 2rpx;
+	border-radius: 0;
 }
 
 .dialog, .dialog .mask{

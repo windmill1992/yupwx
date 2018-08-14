@@ -2,10 +2,12 @@
 <view class='container'>
 	<view class='gd-hd'>
 		<image src='{{info.cover}}' mode='widthFix' class='cover'></image>
-		<view class='title'>{{info.title}}</view>
-		<view class='user flex fcen'>
-			<image src='{{info.authorAvatar}}'></image>
-			<view class='nick'>{{info.authorName}}</view>
+		<view class='mask'>
+			<view class='title'>{{info.title}}</view>
+			<view class='user flex fcen'>
+				<image src='{{info.authorAvatar}}'></image>
+				<view class='nick'>{{info.authorName}}</view>
+			</view>
 		</view>
 	</view>
 	<view class='gd-bd'>
@@ -16,9 +18,9 @@
 	</view>
 	<view class='gd-ft flex spb'>
 		<view class='share flex fcen'>
-			<button open-type='share' class='icon'>
+			<view bindtap='showShare' class='icon'>
 				<image src='../../img/share-icon-6.png' mode='aspectFit'></image>
-			</button>
+			</view>
 			<view class='num'>{{forwardNum}}</view>
 		</view>
 		<view class='zan flex fcen'>
@@ -39,5 +41,57 @@
 		</view>
 		<navigator url='/pages/relations/relations?ids={{ids}}' class='buy'>{{info.relatedProIdList.length}}件商品</navigator>
 	</view>
+	<view class='dialog1 show'>
+		<view class='mask'></view>
+		<view class='con'>
+			<view class='txt'>分享到</view>
+			<view class='menu flex'>
+				<view class='item wx2' bindtap='shareOnline'>
+					<image src='../../img/wx0.png'></image>
+					<view>花式分享</view>
+				</view>
+				<button class='item wx1' open-type='share'>
+					<image src='../../img/wx1.png'></image>
+					<view>微信好友</view>
+				</button>
+				<view class='item wx2' bindtap='shareOnline'>
+					<image src='../../img/wx2.png'></image>
+					<view>朋友圈</view>
+				</view>
+			</view>
+			<view class='close'>取消</view>
+		</view>
+	</view>
+	<view class='dialog pic-d {{showPic ? "show":""}}'>
+    <view class='mask'></view>
+    <view class='dialog_inner'>
+			<view class='d-head flex fcen spb'>
+				<view class='user flex fcen'>
+					<image src='{{userAvatar}}'></image>
+					<view class='nick'>{{nickName}}</view>
+				</view>
+				<view class='txts'>限时免费</view>
+			</view>
+      <view class='pic'>
+        <image src='{{proInfo.coverImg}}' mode='aspectFill'></image>
+      </view>
+      <view class='footer'>
+        <view class='adv'>
+          <view class='txt'>{{proInfo.proName}}免费领</view>
+        </view>
+        <view class='qrcode'>
+          <image src='{{qrCode}}' class='{{isPreview ? "big" : ""}}' bindtap='preview'></image>
+        </view>
+				<view class='tip'>扫码参与抽奖</view>
+      </view>
+      <view class='close' bindtap='closeDialog' data-name='showPic'>
+        <image src='../../img/close.png'></image>
+      </view>
+			<view class='save-btn'>
+				<button class='btn' open-type='openSetting' bindopensetting='openSetting' wx:if='{{canIUse && refuseAuth}}'>保存图片</button>
+        <view class='btn' bindtap='makeShareImg' wx:else>保存图片到相册</view>
+			</view>
+    </view>
+  </view>
 </view>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

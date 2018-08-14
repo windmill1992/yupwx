@@ -29,7 +29,7 @@ Page({
 		showZan: false,
     preview: false,
 		isLogin: false,
-		userStatus: {}
+		userStatus: {},
   },
   onLoad: function(options) {
 		console.log(options);
@@ -498,12 +498,9 @@ Page({
 		})
 	},
 	openSetting: function(e) {
-		console.log(e);
 		const that = this;
 		if (e.detail.authSetting['scope.writePhotosAlbum']) {
 			this.makeShareImg();
-		} else {
-			this.showToast('授权失败！');
 		}
 	},
   savePhoto: function(path) {

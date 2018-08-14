@@ -95,7 +95,7 @@
             <image src='../../img/third.png' wx:elif='{{index == 2}}' class='img1'></image>
             <image src='{{item.userAvatar}}' class='img2'></image>
             <view class='nick'>{{item.userName}}</view>
-						<view class='prized'>中奖</view>
+						<view class='prized' wx:if='{{item.isWinner}}'>中奖</view>
           </view>
 					<view class='flex fcen' wx:else>
 						<view class='img1'>

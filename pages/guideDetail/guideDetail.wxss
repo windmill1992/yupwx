@@ -1,4 +1,5 @@
 /* pages/guideDetail/guideDetail.wxss */
+@import '../applySuccess/dialog.wxss';
 
 .container{
 	padding-bottom: 100rpx;
@@ -6,6 +7,15 @@
 .gd-hd{
 	position: relative;
 	background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+}
+
+.gd-hd .mask{
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	position: absolute;
+	left: 0;
+	top: 0;
 }
 
 .gd-hd .cover{
@@ -106,4 +116,202 @@
 	text-align: center;
 	border-radius: 80rpx;
 	margin-top: 14rpx;
+}
+
+.dialog1{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	bottom: 0;
+	left: 0;
+}
+
+.dialog1 .mask{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	background: rgba(0, 0, 0, 0.6);
+}
+
+.dialog1 .con{
+	position: absolute;
+	width: 100%;
+	padding: 40rpx 0 0;
+	background: #fff;
+	bottom: 0;
+	left: 0;
+	border-top-left-radius: 32rpx;
+	border-top-right-radius: 32rpx;
+}
+
+.dialog1 .con .txt{
+	color: #383838;
+	font-size: 30rpx;
+	margin-bottom: 30rpx;
+	text-align: center;
+}
+
+.dialog1 .con .item{
+	padding-bottom: 40rpx;
+	text-align: center;
+	color: #383838;
+	font-size: 24rpx;
+	width: 100%;
+	line-height: 1;
+	outline: none;
+	border: none;
+	border-radius: 0;
+	background: none;
+}
+
+.dialog1 .con .item.wx1::after{
+	outline: none;
+	border: none;
+}
+
+.dialog1 .con .item image{
+	width: 100rpx;
+	height: 100rpx;
+	margin-bottom: 30rpx;
+}
+
+.dialog1 .con .close{
+	text-align: center;
+	color: #383838;
+	font-size: 30rpx;
+	line-height: 88rpx;
+	border-top: 1px solid #f2f2f2;
+	box-shadow: 0 0 24rpx 0 rgba(0, 0, 0, 0.12);
+}
+
+.pic-d .mask{
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.pic-d .dialog_inner {
+  width: 670rpx;
+  height: 1080rpx;
+  margin: -40rpx 0 0;
+  padding: 0;
+	z-index: 99;
+	background: #fff;
+	border-radius: 20rpx;
+}
+
+.pic-d .d-head{
+	padding: 30rpx 0 30rpx 30rpx;
+}
+
+.pic-d .d-head .user image{
+	width: 48rpx;
+	height: 48rpx;
+	border-radius: 100%;
+	margin-right: 10rpx;
+}
+
+.pic-d .d-head .user .nick{
+	font-size: 26rpx;
+	color: #202020;
+}
+
+.pic-d .d-head .txts{
+	width: 144rpx;
+	height: 48rpx;
+	text-align: center;
+	color: #fff;
+	font-size: 26rpx;
+	line-height: 48rpx;
+	border-top-left-radius: 48rpx;
+	border-bottom-left-radius: 48rpx;
+	background: #fc2441;
+}
+
+.pic-d .pic {
+  width: 580rpx;
+  height: 580rpx;
+	margin: 0 auto;
+}
+
+.pic-d .pic image {
+  width: 100%;
+  height: 100%;
+}
+
+.pic-d .footer {
+  margin: 30rpx auto;
+	width: 450rpx;
+}
+
+.pic-d .footer .adv .txt {
+  color: #202020;
+  font-size: 40rpx;
+  font-family: 'PingFangSC-Medium';
+  line-height: 1.6;
+  margin-bottom: 10rpx;
+	height: 114rpx;
+	text-align: center;
+	font-weight: 600;
+}
+
+.pic-d .footer .tip {
+  color: #000;
+  font-size: 26rpx;
+	text-align: center;
+}
+
+.pic-d .footer .qrcode {
+  width: 158rpx;
+  height: 158rpx;
+  flex-shrink: 0;
+	margin: 20rpx auto;
+}
+
+.pic-d .footer .qrcode image {
+  width: 100%;
+  height: 158rpx;
+}
+
+.pic-d .footer .qrcode image.big {
+  position: fixed;
+  width: 100%;
+  height: 580rpx;
+  top: 108rpx;
+  left: 0;
+  z-index: 99;
+  transition: all 0.4s ease;
+}
+
+.pic-d .save-btn{
+	position: absolute;
+	bottom: -88rpx;
+	left: 150rpx;
+	transform: translate3d(-50%, 0, 0);
+}
+
+.pic-d .save-btn .btn{
+	display: block;
+	width: 300rpx;
+	height: 64rpx;
+	line-height: 64rpx;
+	text-align: center;
+	color: #fff;
+	font-size: 28rpx;
+	outline: none;
+	border: 1px solid #fc2441;
+	border-radius: 10rpx;
+	background: #fc2441;
+}
+
+.pic-d .close{
+	right: 0;
+	left: auto;
+	bottom: -88rpx;
+	transform: none;
+}
+
+.pic-d .save-btn .btn::after{
+	outline: none;
+	border: none;
 }
