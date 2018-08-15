@@ -3,9 +3,9 @@ App({
 	onLaunch: function () {
 		//判断运行环境
 		{
-			if (!wx.getStorageSync('prod004')) {
+			if (!wx.getStorageSync('prod005')) {
 				wx.clearStorageSync();
-				wx.setStorageSync('prod004', '1');
+				wx.setStorageSync('prod005', '1');
 			}
 		}
 		// 获取用户信息
@@ -70,8 +70,8 @@ App({
 	},
 	globalData: {
 		userInfo: null,
-		// baseUrl: 'https://api.yupfashion.cn',
-		baseUrl: 'http://apidev.yupfashion.cn',
+		baseUrl: 'https://api.yupfashion.cn',
+		// baseUrl: 'http://apidev.yupfashion.cn',
 		header: {
 			'content-type': 'application/json',
 			'userId': 0,

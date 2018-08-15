@@ -103,5 +103,8 @@
     </view>
   </view>
 </view>
+<navigator open-type='switchTab' url='/pages/index/index' class='to-index' wx:if='{{share}}'>
+	<image src='../../img/toIndex.png'></image>
+</navigator>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
 <canvas canvas-id='cv' class='canvas'></canvas>

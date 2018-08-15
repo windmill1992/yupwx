@@ -3,7 +3,7 @@
 	<view class='c-list'>
 		<view class='item flex' wx:for='{{list}}' wx:key='comment'>
 			<view class='fshrink0 avatar'>
-				<image src='{{item.userAvatar}}' ></image>
+				<image src='{{item.userAvatar}}' lazy-load></image>
 			</view>
 			<view class='info flex1'>
 				<view class='nick' data-uid='{{item.userId}}' data-uname='{{item.userName}}'>{{item.userName}}</view>

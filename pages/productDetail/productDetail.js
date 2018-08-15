@@ -68,15 +68,19 @@ Page({
 			header: app.header,
 			data: { proId: this.data.id },
 			success: res => {
-				if (res.data.resultCode == 200) {
+				if (res.data.resultCode == 200 && res.data.resultData) {
 					let r = res.data.resultData;
 					this.setData({ proInfo: r, state: r.proStatus });
 					if (this.data.isLogin) {
-						this.getUserProStatus();
+						
 						this.getIsApply();
 					}
 				} else {
-					this.showToast(res.data.resultMsg);
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('服务器错误');
+					}
 				}
 			}, fail: () => {
 				this.showToast('未知错误！');
@@ -90,7 +94,7 @@ Page({
 			header: app.header,
 			data: { proId: this.data.id },
 			success: res => {
-				if (res.data.resultCode == 200) {
+				if (res.data.resultCode == 200 && res.data.resultData) {
 					this.setData({ isPrized: res.data.resultData.trialProgressType == 2 });
 				} else {
 					if (res.data.resultMsg) {
@@ -109,18 +113,22 @@ Page({
 			header: app.header,
 			data: { proIdList: [this.data.id] },
 			success: res => {
-				if (res.data.resultCode == 200) {
-					this.setData({ isApply: res.data.resultData[this.data.id] });
+				if (res.data.resultCode == 200 && res.data.resultData) {
+					let isApply = res.data.resultData[this.data.id];
+					this.setData({ isApply: isApply });
+					if (isApply) {
+						this.getUserProStatus();
+					}
 				} else if (res.data.resultCode == 4002) {
 					this.showToast('登录已失效');
 					this.setData({ isLogin: false })
 					wx.clearStorageSync();
 				} else {
-					wx.showModal({
-						title: '',
-						content: '服务器错误',
-						showCancel: false
-					})
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('服务器错误');
+					}
 				}
 			},
 		})
@@ -132,7 +140,7 @@ Page({
 			wx.setStorageSync('userInfo', user);
 			this.setData({
 				userAvatar: user.avatarUrl,
-				nickName: user.nickName
+				nickName: user.nickName,
 			});
 			this.login()
 		} else {
@@ -151,7 +159,7 @@ Page({
 					header: app.header,
 					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName, userAvatar: this.data.userAvatar },
 					success: res1 => {
-						if (res1.data.resultCode == 200) {
+						if (res1.data.resultCode == 200 && res.data.resultData) {
 							let r = res1.data.resultData;
 							app.header.userId = r.userId;
 							this.setData({ isLogin: true, userId: r.userId });
@@ -163,11 +171,15 @@ Page({
 							this.isHandel();
 						} else {
 							this.setData({ isLogin: false });
-							wx.showModal({
-								title: '',
-								content: res1.data.resultMsg,
-								showCancel: false
-							})
+							if (res1.data.resultMsg) {
+								wx.showModal({
+									title: '',
+									content: res1.data.resultMsg,
+									showCancel: false
+								})
+							} else {
+								this.showToast('服务器错误');
+							}
 						}
 					},
 					fail: () => {
@@ -203,7 +215,13 @@ Page({
 						this.liking = false;
 						this.setData({ 'handelData.likeNum': d.likeNum + 1, isZan: true });
 					}
-				} else { }
+				} else {
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('服务器错误');
+					}
+				}
 			}
 		})
 	},
@@ -258,7 +276,7 @@ Page({
 					if (res.data.resultMsg) {
 						this.showToast(res.data.resultMsg);
 					} else {
-
+						this.showToast('服务器错误');
 					}
 				}
 			}
@@ -317,7 +335,7 @@ Page({
 				userAddressId: 0
 			},
 			success: res => {
-				if (res.data.resultCode == 200) {
+				if (res.data.resultCode == 200 && res.data.resultData) {
 					wx.showToast({
 						title: '申请成功'
 					});
@@ -327,7 +345,11 @@ Page({
 						})
 					}, 1000);
 				} else {
-					this.showToast(res.data.resultMsg);
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('服务器错误');
+					}
 				}
 			},
 			fail: () => {

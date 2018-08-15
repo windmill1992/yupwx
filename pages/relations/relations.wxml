@@ -3,7 +3,7 @@
 	<view class='r-list' wx:if='{{list.length > 0}}'>
 		<view class='item flex fcen' wx:for='{{list}}' wx:key='pro'>
 			<view class='pic fshrink0'>
-				<image src='{{item.cover}}' mode='aspectFill'></image>
+				<image src='{{item.cover}}' mode='aspectFill' lazy-load></image>
 			</view>
 			<view class='info flex1 fcol spb'>
 				<view class='title'>{{item.productTitle}}</view>

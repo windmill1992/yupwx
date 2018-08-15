@@ -5,23 +5,25 @@
 		<view class='txt'>发现更多潮流商品</view>
 	</view>
 	<view class='d-bd'>
-		<view class='title flex spb fcen'>
-			<view class='txt'>这里东西免费送</view>
-			<navigator url='/pages/index2/index2' class='more flex fcen'>更多</navigator>
-		</view>
-		<view class='wrapper'>
-			<view class='list flex fnowrap'>
-				<navigator url='/pages/productDetail/productDetail?id={{item.proId}}' class='item' wx:for='{{proList}}' wx:key='pro' wx:if='{{index < 5}}'>
-					<view class='pic'>
-						<image src='{{item.coverImg}}' mode='aspectFill'></image>
-					</view>
-					<view class='name'>{{item.proName}}</view>
-					<view class='apply'>{{item.peopleNum}}人申请</view>
-				</navigator>
+		<block wx:if='{{proList.length > 0}}'>
+			<view class='title flex spb fcen'>
+				<view class='txt'>这里东西免费送</view>
+				<!-- <navigator url='/pages/index2/index2' class='more flex fcen'>更多</navigator> -->
 			</view>
-		</view>
+			<view class='wrapper'>
+				<view class='list flex fnowrap'>
+					<navigator url='/pages/productDetail/productDetail?id={{item.proId}}' class='item' wx:for='{{proList}}' wx:key='pro' wx:if='{{index < 5}}'>
+						<view class='pic'>
+							<image src='{{item.coverImg}}' mode='aspectFill' lazy-load></image>
+						</view>
+						<view class='name'>{{item.proName}}</view>
+						<view class='apply'>{{item.peopleNum}}人申请</view>
+					</navigator>
+				</view>
+			</view>
+		</block>
 		
-		<block wx:for='{{labelList}}' wx:key='label'>
+		<block wx:for='{{labelList}}' wx:key='label' wx:if='{{infoList[index] && infoList[index].length > 0}}'>
 			<view class='title flex spb fcen'>
 				<view class='txt'>{{item.labelName}}</view>
 				<navigator url='/pages/labelList/labelList?labelId={{item.labelId}}&labelName={{item.labelName}}' class='more flex fcen'>更多</navigator>
@@ -31,7 +33,7 @@
 					<navigator url='/pages/guideDetail/guideDetail?id={{infos.infoId}}&share={{infos.forwardNum}}&like={{infos.likeNum}}' 
 						class='item item2' wx:for='{{infoList[index]}}' wx:key='info{{index}}' wx:for-item='infos'>
 						<view class='pic'>
-							<image src='{{infos.cover}}' mode='aspectFill'></image>
+							<image src='{{infos.cover}}' mode='aspectFill' lazy-load></image>
 						</view>
 						<view class='name'>{{infos.title}}</view>
 						<view class='apply'>{{infos.viewNum | 0}}人浏览</view>

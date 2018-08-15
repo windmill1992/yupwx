@@ -646,24 +646,28 @@ Page({
       ctx.closePath();
 
       ctx.beginPath();
-			ctx.drawImage('../../img/share.png', imgX, 120 * r, imgWidth, imgWidth);
+			ctx.drawImage(img, imgX, 120 * r, imgWidth, imgWidth);
       ctx.closePath();
 
       ctx.beginPath();
       ctx.setFontSize(44 * r);
       ctx.setTextBaseline('top');
       ctx.setFillStyle('#202020');
-			ctx.setTextAlign('center');
-			if (name.length > 10) {
-				ctx.fillText(name.substr(0, 10), w / 2, imgWidth + 148 * r, imgWidth);
-				ctx.fillText(name.substr(10) + '免费送', w / 2, imgWidth + 198 * r, imgWidth);
+			ctx.setTextAlign('left');
+			if (ctx.measureText) {
+				util.changeLine(name, ctx, 40, imgWidth + 148 * r, 65, imgWidth);
 			} else {
-				ctx.fillText(name + '免费送', w / 2, imgWidth + 198 * r, imgWidth);
+				if (name.length > 15) {
+					ctx.fillText(name.substr(0, 15), 40, imgWidth + 148 * r);
+					ctx.fillText(name.substr(15) + '免费送', 40, imgWidth + 198 * r);
+				} else {
+					ctx.fillText(name + '免费送', 40, imgWidth + 198 * r);
+				}
 			}
       ctx.closePath();
 
       ctx.beginPath();
-      ctx.drawImage('../../img/qrcode.jpg', (w - 200 * r) / 2, h / 2 + 360, 200 * r, 200 * r);
+      ctx.drawImage(code, (w - 200 * r) / 2, h / 2 + 360, 200 * r, 200 * r);
       ctx.closePath();
 
       ctx.beginPath();
@@ -677,7 +681,7 @@ Page({
 			ctx.beginPath();
 			ctx.arc(69 * r, 69 * r, 29 * r, 0, Math.PI * 2);
 			ctx.clip();
-			ctx.drawImage('../../img/defAvatar.png', 40 * r, 40 * r, 58 * r, 58 * r);
+			ctx.drawImage(avatar, 40 * r, 40 * r, 58 * r, 58 * r);
 			ctx.closePath();
 			ctx.restore();
 

@@ -18,7 +18,7 @@
 				</view>
 				<view class='goods flex'>
 					<view class='pic'>
-						<image src='{{item.proImg}}'></image>
+						<image src='{{item.proImg}}' lazy-load></image>
 					</view>
 					<view class='infos flex1 fcol spb'>
 						<view class='title'>{{item.proName}}</view>
