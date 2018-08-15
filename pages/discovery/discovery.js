@@ -112,7 +112,10 @@ Page({
 	onPullDownRefresh: function () {
 		setTimeout(() => {
 			wx.stopPullDownRefresh();
+			this.page = 1;
 			this.getProList();
+			this.getLabelList();
+			this.setData({ infoList: [] });
 		}, 400);
 	},
 	onReachBottom: function () {
