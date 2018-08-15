@@ -146,6 +146,9 @@ Page({
 		})
 	},
 	getCoupons: function (e) {
+		wx.showLoading({
+			title: '',
+		})
 		let url = e.currentTarget.dataset.url;
 		url = url.replace('http://', '');
 		url = url.replace(url.split('/')[0], app.imgHost2);
@@ -153,6 +156,10 @@ Page({
 			url: url,
 			success: res => {
 				this.savePhoto(res.tempFilePath);
+			},
+			fail: () => {
+				this.showToast('图片下载失败');
+				wx.hideLoading()
 			}
 		})
 	},
@@ -167,15 +174,21 @@ Page({
 							wx.saveImageToPhotosAlbum({
 								filePath: path,
 								success: () => {
+									wx.hideLoading();
 									wx.showModal({
 										title: '小提示',
 										content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
 										showCancel: false,
 									})
+								},
+								fail: () => {
+									that.showToast('保存图片失败');
+									wx.hideLoading()
 								}
 							})
 						},
 						fail: () => {
+							wx.hideLoading();
 							wx.showModal({
 								title: '未授权，无法保存到相册',
 								content: '是否授权？',
@@ -187,18 +200,23 @@ Page({
 										wx.openSetting({
 											success: res2 => {
 												if (res2.authSetting['scope.writePhotosAlbum']) {
-													wx.showToast({
-														title: '授权成功~',
+													wx.showLoading({
+														title: '',
 													})
 													setTimeout(function () {
 														wx.saveImageToPhotosAlbum({
 															filePath: path,
 															success: () => {
+																wx.hideLoading();
 																wx.showModal({
 																	title: '小提示',
 																	content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
 																	showCancel: false,
 																})
+															},
+															fail: () => {
+																that.showToast('保存图片失败');
+																wx.hideLoading()
 															}
 														})
 													}, 1000);
@@ -216,14 +234,22 @@ Page({
 					wx.saveImageToPhotosAlbum({
 						filePath: path,
 						success: () => {
+							wx.hideLoading();
 							wx.showModal({
 								title: '小提示',
 								content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
 								showCancel: false,
 							})
+						},
+						fail: () => {
+							that.showToast('保存图片失败');
+							wx.hideLoading()
 						}
 					})
 				}
+			},
+			fail: () => {
+				wx.hideLoading()
 			}
 		})
 	},
