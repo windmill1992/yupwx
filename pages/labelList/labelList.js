@@ -15,6 +15,9 @@ Page({
 		if (options.labelId) {
 			this.page = 1;
 			this.getRecommendList(options.labelId, 1, 15);
+			wx.setNavigationBarTitle({
+				title: options.labelName,
+			})
 		} else {
 			wx.navigateBack();
 		}

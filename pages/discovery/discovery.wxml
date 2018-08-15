@@ -11,7 +11,7 @@
 		</view>
 		<view class='wrapper'>
 			<view class='list flex fnowrap'>
-				<navigator url='/pages/productDetail?id={{item.proId}}' class='item' wx:for='{{proList}}' wx:key='pro' wx:if='{{index < 5}}'>
+				<navigator url='/pages/productDetail/productDetail?id={{item.proId}}' class='item' wx:for='{{proList}}' wx:key='pro' wx:if='{{index < 5}}'>
 					<view class='pic'>
 						<image src='{{item.coverImg}}' mode='aspectFill'></image>
 					</view>
@@ -20,38 +20,25 @@
 				</navigator>
 			</view>
 		</view>
-
-		<view class='title flex spb fcen'>
-			<view class='txt'>新奇的玩意儿</view>
-			<navigator url='/pages/labelList/labelList?labelId=0' class='more flex fcen'>更多</navigator>
-		</view>
-		<view class='wrapper'>
-			<view class='list flex fnowrap'>
-				<navigator url='/pages/guideDetail/guideDetail?id={{item.infoId}}&share={{item.forwardNum}}&like={{item.likeNum}}' class='item item2' wx:for='{{infoList1}}' wx:key='info1'>
-					<view class='pic'>
-						<image src='{{item.cover}}' mode='aspectFill'></image>
-					</view>
-					<view class='name'>{{item.title}}</view>
-					<view class='apply'>{{item.viewNum | 0}}人浏览</view>
-				</navigator>
+		
+		<block wx:for='{{labelList}}' wx:key='label'>
+			<view class='title flex spb fcen'>
+				<view class='txt'>{{item.labelName}}</view>
+				<navigator url='/pages/labelList/labelList?labelId={{item.labelId}}&labelName={{item.labelName}}' class='more flex fcen'>更多</navigator>
 			</view>
-		</view>
-
-		<view class='title flex spb fcen'>
-			<view class='txt'>新奇的玩意儿</view>
-			<navigator url='/pages/labelList/labelList?labelId=1' class='more flex fcen'>更多</navigator>
-		</view>
-		<view class='wrapper'>
-			<view class='list flex fnowrap'>
-				<view class='item item2' wx:for='{{infoList2}}' wx:key='info2'>
-					<view class='pic'>
-						<image src='{{item.cover}}' mode='aspectFill'></image>
-					</view>
-					<view class='name'>{{item.title}}</view>
-					<view class='apply'>{{item.viewNum | 0}}人浏览</view>
+			<view class='wrapper'>
+				<view class='list flex fnowrap'>
+					<navigator url='/pages/guideDetail/guideDetail?id={{infos.infoId}}&share={{infos.forwardNum}}&like={{infos.likeNum}}' 
+						class='item item2' wx:for='{{infoList[index]}}' wx:key='info{{index}}' wx:for-item='infos'>
+						<view class='pic'>
+							<image src='{{infos.cover}}' mode='aspectFill'></image>
+						</view>
+						<view class='name'>{{infos.title}}</view>
+						<view class='apply'>{{infos.viewNum | 0}}人浏览</view>
+					</navigator>
 				</view>
 			</view>
-		</view>
+		</block>
 	</view>
 </view>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

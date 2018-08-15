@@ -24,6 +24,8 @@ Page({
 			app.header.userId = uid;
 			this.setData({ userId: uid, isLogin: true });
 		}
+		let winh = wx.getSystemInfoSync().windowHeight;
+		this.setData({ height: winh - 55 });
 		this.getCommentList(1, 20);
   },
 	getCommentList: function (pn, ps) {
@@ -172,10 +174,6 @@ Page({
 		let { uid, uname } = data;
 		this.setData({ commenteeId: uid, replyName: '@'+ uname, dialogShow: true });
 	},
-  onPullDownRefresh: function () {
-		wx.stopPullDownRefresh();
-		if (this.data.dialogShow) return;
-  },
 	loadmore: function () {
 		if (this.data.hasmore == 2) {
 			this.page++;

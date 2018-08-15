@@ -33,7 +33,7 @@
 
 .prog-list .item .times{
 	font-size: 24rpx;
-	color: #3d3bee;
+	color: #fc2441;
 }
 
 .prog-list .item .goods{
@@ -99,7 +99,7 @@
 	color: #fff;
 	line-height: 88rpx;
 	height: 88rpx;
-	background: #3d3bee;
+	background: #fc2441;
 }
 
 .loadmore {
@@ -125,7 +125,7 @@
   text-align: center;
   font-size: 28rpx;
   color: #fff;
-  background: #3d3bee; 
+  background: #fc2441; 
 }
 
 .dialog .close {

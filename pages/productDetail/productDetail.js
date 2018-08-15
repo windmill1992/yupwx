@@ -25,7 +25,7 @@ Page({
 				options.state = 1;
 				this.setData({ isShare2: true });
 			}
-			this.setData({ state: options.state, id: options.id, canIUse: app.canIUse  });
+			this.setData({ state: options.state, id: options.id, canIUse: app.canIUse });
 		}
 
 		let user = wx.getStorageSync('user');
@@ -222,7 +222,7 @@ Page({
 		const dd = this.data;
 		let query = '?relatedId=' + dd.id + '&relatedType=2&handelType=1';
 		wx.request({
-			url: api.handel + query,
+			url: api.isHandel + query,
 			method: 'POST',
 			header: app.header,
 			data: {},

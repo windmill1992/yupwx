@@ -3,9 +3,9 @@ App({
 	onLaunch: function () {
 		//判断运行环境
 		{
-			if (!wx.getStorageSync('prod002')) {
+			if (!wx.getStorageSync('prod004')) {
 				wx.clearStorageSync();
-				wx.setStorageSync('prod002', '1');
+				wx.setStorageSync('prod004', '1');
 			}
 		}
 		// 获取用户信息

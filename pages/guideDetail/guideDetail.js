@@ -44,6 +44,7 @@ Page({
 		if (user.userId) {
 			app.header.userId = user.userId;
 			this.setData({ userId: user.userId, isLogin: true, userAvatar: user.avatarUrl, nickName: user.nickName });
+			this.getDetail();
 			this.isHandel();
 		}
 	},
@@ -100,11 +101,10 @@ Page({
 			data: {},
 			success: res => {
 				if (res.data.resultCode == 200 && res.data.resultData) {
-					let d = this.data.info;
 					if (t == 2) {
-						this.setData({ 'info.forwardNum': d.forwardNum + 1 });
+						this.setData({ forwardNum: +dd.forwardNum + 1 });
 					} else if (t == 1) {
-						this.setData({ 'info.likeNum': d.likeNum + 1, isZan: true });
+						this.setData({ likeNum: +dd.likeNum + 1, isZan: true });
 					}
 				} else {}
 			}
@@ -124,8 +124,8 @@ Page({
 		const dd = this.data;
 		let query = '?relatedId=' + dd.id + '&relatedType=1&handelType=1';
 		wx.request({
-			url: api.handel + query,
-			method: 'POST',
+			url: api.isHandel + query,
+			method: 'GET',
 			header: app.header,
 			data: {},
 			success: res => {
@@ -385,9 +385,9 @@ Page({
 			ctx.setTextBaseline('top');
 			ctx.setFillStyle('#202020');
 			ctx.setTextAlign('justify');
-			if (name.length > 14) {
-				ctx.fillText(name.substr(0, 14), 30, imgHeight + 148 * r, imgWidth);
-				ctx.fillText(name.substr(14), 30, imgHeight + 208 * r, imgWidth);
+			if (name.length > 17) {
+				ctx.fillText(name.substr(0, 17), 30, imgHeight + 148 * r, imgWidth);
+				ctx.fillText(name.substr(17), 30, imgHeight + 208 * r, imgWidth);
 			} else {
 				ctx.fillText(name, 30, imgWidth + 148 * r, imgWidth);
 			}
@@ -414,9 +414,9 @@ Page({
 
 			ctx.save();
 			ctx.beginPath();
-			ctx.arc(64 * r, imgHeight + 334 * r, 24 * r, 0, Math.PI * 2);
+			ctx.arc(64 * r, 64 * r, 24 * r, 0, Math.PI * 2);
 			ctx.clip();
-			ctx.drawImage('../../img/defAvatar.png', 40 * r, imgHeight + 310 * r, 48 * r, 48 * r);
+			ctx.drawImage('../../img/defAvatar.png', 40 * r, imgHeight + 350 * r, 48 * r, 48 * r);
 			ctx.closePath();
 			ctx.restore();
 
@@ -440,6 +440,13 @@ Page({
 					}
 				}, that)
 			}, 100));
+		}
+	},
+	preview: function (e) {
+		if (this.data.isPreview) {
+			this.setData({ isPreview: false });
+		} else {
+			this.setData({ isPreview: true });
 		}
 	},
   onShareAppMessage: function () {

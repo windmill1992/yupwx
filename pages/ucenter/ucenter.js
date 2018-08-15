@@ -86,6 +86,7 @@ Page({
 							wx.setStorageSync('user', obj)
 							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
 							this.showToast('登录成功！');
+							this.getRegDays();
 						} else {
 							this.setData({ isLogin: false });
 							wx.showModal({

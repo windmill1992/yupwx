@@ -1,6 +1,10 @@
 /* pages/entryApply/entryApply.wxss */
 @import "../address/address.wxss";
 
+page {
+	height: 100%;
+	overflow: hidden;
+}
 .input-placeholder {
   color: rgba(0, 0, 0, 0.5);
 }

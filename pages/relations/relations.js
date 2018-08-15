@@ -24,8 +24,6 @@ Page({
 					this.setData({ refuseAuth: true });
 				}
 			})
-		} else {
-			wx.navigateBack()
 		}
   },
 	getProList: function () {

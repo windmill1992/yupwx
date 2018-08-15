@@ -52,7 +52,12 @@ Page({
 					let arr = [...this.data.list, ...list];
 					this.setData({ list: arr, hasmore: more });
 				} else {
-					this.showToast(res.data.resultMsg);
+					this.setData({ hasmore: 0 });
+					if (res.data.resultMsg) {
+						this.showToast(res.data.resultMsg);
+					} else {
+						this.showToast('服务器错误！');
+					}
 				}
 			},
 			complete: () => {

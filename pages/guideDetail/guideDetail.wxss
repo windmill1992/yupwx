@@ -288,7 +288,7 @@
 .pic-d .footer .qrcode image.big {
   position: fixed;
   width: 100%;
-  height: 580rpx;
+  height: 610rpx;
   top: 108rpx;
   left: 0;
   z-index: 99;

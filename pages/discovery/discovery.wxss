@@ -53,6 +53,7 @@
 .d-bd .wrapper{
 	overflow-x: auto;
 	width: 100%;
+	-webkit-overflow-scrolling: touch;
 }
 
 .d-bd .wrapper::-webkit-scrollbar{
@@ -79,6 +80,7 @@
 }
 
 .d-bd .item .name{
+	height: 96rpx;
 	font-size: 30rpx;
 	color: #202020;
 	font-family: 'PingFangSC-Medium';

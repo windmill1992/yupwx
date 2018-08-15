@@ -12,14 +12,23 @@ Page({
 		trialList: [],
 		page: 1,
 		isLogin: false,
-		showTip: false
+		showTip: false,
 	},
 	onLoad: function (options) {
-		// this.getProgress(1, 10);
 		let uid = wx.getStorageSync('user').userId;
 		if (uid) {
 			app.header.userId = uid;
 		}
+		this.setData({ canIUse: app.canIUse });
+		wx.authorize({
+			scope: 'scope.writePhotosAlbum',
+			success: () => {
+				this.setData({ refuseAuth: false });
+			},
+			fail: () => {
+				this.setData({ refuseAuth: true });
+			}
+		})
 	},
 	onShow: function () {
 		let user = wx.getStorageSync('user');
@@ -83,7 +92,7 @@ Page({
 			wx.setStorageSync('userInfo', user);
 			this.setData({
 				userAvatar: user.avatarUrl,
-				nickName: user.nickName
+				nickName: user.nickName,
 			});
 			this.login()
 		} else {
@@ -138,7 +147,92 @@ Page({
 	},
 	getCoupons: function (e) {
 		let url = e.currentTarget.dataset.url;
-		
+		url = url.replace('http://', '');
+		url = url.replace(url.split('/')[0], app.imgHost2);
+		wx.downloadFile({
+			url: url,
+			success: res => {
+				this.savePhoto(res.tempFilePath);
+			}
+		})
+	},
+	savePhoto: function (path) {
+		const that = this;
+		wx.getSetting({
+			success: res1 => {
+				if (!res1.authSetting['scope.writePhotosAlbum']) {
+					wx.authorize({
+						scope: 'scope.writePhotosAlbum',
+						success: () => {
+							wx.saveImageToPhotosAlbum({
+								filePath: path,
+								success: () => {
+									wx.showModal({
+										title: '小提示',
+										content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
+										showCancel: false,
+									})
+								}
+							})
+						},
+						fail: () => {
+							wx.showModal({
+								title: '未授权，无法保存到相册',
+								content: '是否授权？',
+								cancelColor: '#ff6960',
+								confirmColor: '#151419',
+								confirmText: '授权',
+								success: res => {
+									if (res.confirm) {
+										wx.openSetting({
+											success: res2 => {
+												if (res2.authSetting['scope.writePhotosAlbum']) {
+													wx.showToast({
+														title: '授权成功~',
+													})
+													setTimeout(function () {
+														wx.saveImageToPhotosAlbum({
+															filePath: path,
+															success: () => {
+																wx.showModal({
+																	title: '小提示',
+																	content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
+																	showCancel: false,
+																})
+															}
+														})
+													}, 1000);
+												} else {
+													that.showToast('授权失败！')
+												}
+											}
+										})
+									}
+								}
+							})
+						}
+					})
+				} else {
+					wx.saveImageToPhotosAlbum({
+						filePath: path,
+						success: () => {
+							wx.showModal({
+								title: '小提示',
+								content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
+								showCancel: false,
+							})
+						}
+					})
+				}
+			}
+		})
+	},
+	openSetting: function (e) {
+		const that = this;
+		if (e.detail.authSetting['scope.writePhotosAlbum']) {
+			this.showToast('授权成功~');
+			this.setData({ refuseAuth: false });
+		}
 	},
 	switchTab: function (e) {
 		let t = e.target.dataset.tab;
