@@ -25,7 +25,7 @@ Page({
 			app.userInfoReadyCallback = res => {
 				this.setData({
 					userAvatar: res.userInfo.avatarUrl,
-					nickName: res.userInfo.nickName
+					nickName: res.userInfo.nickName,
 				})
 				this.login()
 			}
@@ -38,7 +38,7 @@ Page({
 		} else {
 			if(util.check('validTime')){
 				app.globalData.header.userId = user.userId;
-				this.setData({ userAvatar: user.avatarUrl, nickName: user.nickName, isLogin: true, userId: user.userId });
+				this.setData({ userAvatar: user.avatarUrl, nickName: user.nickName + '111111', isLogin: true, userId: user.userId });
 				this.getRegDays();
 			}else{
 				this.setData({ isLogin: false });
@@ -170,9 +170,9 @@ Page({
 	},
 	onShareAppMessage: function () {
 		return {
-			title: '免费领取，跟我一起来拿潮流好物',
+			title: 'Yup新潮，解锁潮流高级感，点击获取宇宙潮范儿必备指南',
 			path: '/pages/index/index',
-			imageUrl: '../../img/share.png'
+			imageUrl: '../../img/share1.png',
 		}
 	},
 	showToast: function (txt) {

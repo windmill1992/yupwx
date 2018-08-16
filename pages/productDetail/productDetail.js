@@ -159,7 +159,7 @@ Page({
 					header: app.header,
 					data: { loginMethod: 2, wechatCode: res.code, authType: 0, userNickName: this.data.nickName, userAvatar: this.data.userAvatar },
 					success: res1 => {
-						if (res1.data.resultCode == 200 && res.data.resultData) {
+						if (res1.data.resultCode == 200 && res1.data.resultData) {
 							let r = res1.data.resultData;
 							app.header.userId = r.userId;
 							this.setData({ isLogin: true, userId: r.userId });
@@ -359,7 +359,7 @@ Page({
 	},
 	buy: function (e) {
 		wx.showLoading({
-			title: '',
+			title: '正在保存图片',
 		})
 		let code = this.data.proInfo.tbCouponUrl;
 		code = code.replace('http://', '');
@@ -387,10 +387,8 @@ Page({
 								filePath: path,
 								success: () => {
 									wx.hideLoading();
-									wx.showModal({
-										title: '小提示',
-										content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
-										showCancel: false,
+									wx.navigateTo({
+										url: '/pages/saveSuccess/saveSuccess?imgUrl=' + that.data.proInfo.tbCouponUrl,
 									})
 								},
 								fail: () => {
@@ -413,17 +411,15 @@ Page({
 											success: res2 => {
 												if (res2.authSetting['scope.writePhotosAlbum']) {
 													wx.showLoading({
-														title: '',
+														title: '正在保存图片',
 													})
 													setTimeout(function () {
 														wx.saveImageToPhotosAlbum({
 															filePath: path,
 															success: () => {
 																wx.hideLoading();
-																wx.showModal({
-																	title: '小提示',
-																	content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
-																	showCancel: false,
+																wx.navigateTo({
+																	url: '/pages/saveSuccess/saveSuccess?imgUrl=' + that.data.proInfo.tbCouponUrl,
 																})
 															},
 															fail: () => {
@@ -447,10 +443,8 @@ Page({
 						filePath: path,
 						success: () => {
 							wx.hideLoading();
-							wx.showModal({
-								title: '小提示',
-								content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
-								showCancel: false,
+							wx.navigateTo({
+								url: '/pages/saveSuccess/saveSuccess?imgUrl=' + that.data.proInfo.tbCouponUrl,
 							})
 						},
 						fail: () => {

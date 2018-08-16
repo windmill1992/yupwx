@@ -127,7 +127,7 @@ Page({
 	},
   onShareAppMessage: function () {
 		return {
-			title: '这里的潮流好物免费送，你不来看看嘛',
+			title: 'Yup新潮，逆袭最in基本款，点击免费领取全球潮流好物',
 			path: '/pages/discovery/discovery',
 			imageUrl: '../../img/share2.png',
 		}

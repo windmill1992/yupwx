@@ -31,7 +31,7 @@
 			<view class='wrapper'>
 				<view class='list flex fnowrap'>
 					<navigator url='/pages/guideDetail/guideDetail?id={{infos.infoId}}&share={{infos.forwardNum}}&like={{infos.likeNum}}' 
-						class='item item2' wx:for='{{infoList[index]}}' wx:key='info{{index}}' wx:for-item='infos'>
+						class='item item2' wx:for='{{infoList[index]}}' wx:key='info{{index}}' wx:for-item='infos' wx:if='{{infos.infoStatus > 0}}'>
 						<view class='pic'>
 							<image src='{{infos.cover}}' mode='aspectFill' lazy-load></image>
 						</view>

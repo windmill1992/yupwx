@@ -5,8 +5,10 @@
 	<view class='txt1'>已保存到手机相册</view>
 	<view class='txt2'>打开淘宝扫描二维码优惠购买</view>
 	<image src='../../img/print_box.png' class='print'></image>
-	<view class='pic-box {{show ? "on" : ""}}'>
-		<image src='../../img/pro_bg.png' class='pro-bg' mode='widthFix'></image>
-		<image src='{{imgUrl}}' class='pro'></image>
+	<view class='pic-wrap'>
+		<view class='pic-box {{show ? "on" : ""}}'>
+			<image src='../../img/pro_bg.png' class='pro-bg' style='height: {{height}}px'></image>
+			<image src='{{imgUrl}}' class='pro' bindload='getImg' mode='widthFix'></image>
+		</view>
 	</view>
 </view>

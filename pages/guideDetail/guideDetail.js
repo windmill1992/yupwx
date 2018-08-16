@@ -138,7 +138,7 @@ Page({
 					this.setData({ isZan: true });
 				} else {
 					this.setData({ isZan: false });
-					if (f == 1) {
+					if (f) {
 						this.handel(1);
 					}
 				}
@@ -147,6 +147,10 @@ Page({
 	},
 	getUserInfo: function (e) {
 		let user = e.detail.userInfo;
+		let isShare = e.currentTarget.dataset.share;
+		if (isShare == 1) {
+			this.isShare = true;
+		}
 		if (user) {
 			wx.setStorageSync('userInfo', user);
 			this.login(user);
@@ -179,7 +183,7 @@ Page({
 							wx.setStorageSync('user', obj)
 							wx.setStorageSync('validTime', Date.now() + r.validTime * 1000);
 							this.showToast('登录成功！');
-							this.isHandel(1);
+							this.isHandel(this.isShare);
 						} else {
 							this.setData({ isLogin: false });
 							wx.showModal({

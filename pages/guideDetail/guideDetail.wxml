@@ -21,7 +21,7 @@
 			<view bindtap='showShare' class='icon' wx:if='{{isLogin}}'>
 				<image src='../../img/share-icon-6.png' mode='aspectFit'></image>
 			</view>
-			<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' class='icon' wx:else>
+			<button open-type='getUserInfo' bindgetuserinfo='getUserInfo' data-share='1' class='icon' wx:else>
 				<image src='../../img/share-icon-6.png' mode='aspectFit'></image>
 			</button>
 			<view class='num'>{{forwardNum}}</view>
@@ -67,7 +67,7 @@
 	</view>
 	<view class='dialog pic-d {{showPic ? "show":""}}'>
     <view class='mask'></view>
-    <view class='dialog_inner'>
+    <view class='dialog_inner' catchtap='closeDialog' data-name='showPic'>
 			<view class='d-head flex fcen spb'>
 				<view class='user flex fcen'>
 					<image src='{{userAvatar}}'></image>
@@ -89,18 +89,15 @@
 					<view class='txts'>{{info.relatedProIdList.length}}件单品</view>
 				</view>
         <view class='qrcode'>
-          <image src='{{info.wechatCode}}' class='{{isPreview ? "big" : ""}}' bindtap='preview'></image>
+          <image src='{{info.wechatCode}}' class='{{isPreview ? "big" : ""}}' catchtap='preview'></image>
         </view>
 				<view class='tip'>扫码查看指南</view>
       </view>
-      <view class='close' bindtap='closeDialog'>
-        <image src='../../img/close.png'></image>
-      </view>
-			<view class='save-btn'>
-				<button class='btn' open-type='openSetting' bindopensetting='openSetting' wx:if='{{canIUse && refuseAuth}}'>保存图片到相册</button>
-        <view class='btn' bindtap='makeShareImg' wx:else>保存图片到相册</view>
-			</view>
     </view>
+		<view class='save-btn'>
+			<button class='btn' open-type='openSetting' bindopensetting='openSetting' wx:if='{{canIUse && refuseAuth}}'>保存图片到相册</button>
+			<view class='btn' bindtap='makeShareImg' wx:else>保存图片到相册</view>
+		</view>
   </view>
 </view>
 <navigator open-type='switchTab' url='/pages/index/index' class='to-index' wx:if='{{share}}'>

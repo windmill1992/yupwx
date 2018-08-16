@@ -6,7 +6,6 @@
         <image src='{{item}}' data-idx='{{index}}' data-src='{{item}}' mode='{{index == 0 ? "widthFix" : "aspectFill"}}' bindload='imgLoad' catchtap='preview' style='height: {{height}}px'></image>
       </swiper-item>
     </swiper>
-		<navigator url='/pages/index/index' open-type='switchTab' class='nav' wx:if='{{isShare2}}'>返回首页</navigator>
   </view>
   <view class='bd'>
     <view class='cloth-info'>
@@ -132,4 +131,7 @@
 		</block>
   </view> -->
 </view>
+<navigator open-type='switchTab' url='/pages/index/index' class='to-index' wx:if='{{isShare2}}'>
+	<image src='../../img/toIndex.png'></image>
+</navigator>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>

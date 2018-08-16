@@ -168,10 +168,10 @@
 					"scene": "1011"
 				},
 				{
-					"id": -1,
+					"id": 21,
 					"name": "save",
 					"pathName": "pages/saveSuccess/saveSuccess",
-					"query": "imgUrl=http://yup-product-dev.oss-cn-beijing.aliyuncs.com/1534227544902.jpg",
+					"query": "imgUrl=http://yup-product.oss-cn-beijing.aliyuncs.com/1534339064909.jpeg",
 					"scene": "1011"
 				}
 			]

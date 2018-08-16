@@ -53,7 +53,7 @@ Page({
 	},
 	buy: function (e) {
 		wx.showLoading({
-			title: '',
+			title: '正在保存图片',
 		})
 		let index = e.currentTarget.dataset.idx;
 		let code = this.data.list[index].qrCode;
@@ -107,7 +107,7 @@ Page({
 											success: res2 => {
 												if (res2.authSetting['scope.writePhotosAlbum']) {
 													wx.showLoading({
-														title: '',
+														title: '正在保存图片',
 													})
 													setTimeout(function () {
 														wx.saveImageToPhotosAlbum({

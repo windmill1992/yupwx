@@ -133,7 +133,7 @@
   </view>
   <view class='dialog pic-d {{showPic ? "show":""}}'>
     <view class='mask'></view>
-    <view class='dialog_inner'>
+    <view class='dialog_inner' catchtap='closeDialog' data-name='showPic'>
 			<view class='d-head flex fcen spb'>
 				<view class='user flex fcen'>
 					<image src='{{userAvatar}}'></image>
@@ -149,18 +149,15 @@
           <view class='txt'>{{proInfo.proName}}免费领</view>
         </view>
         <view class='qrcode'>
-          <image src='{{qrCode}}' class='{{isPreview ? "big" : ""}}' bindtap='preview'></image>
+          <image src='{{qrCode}}' class='{{isPreview ? "big" : ""}}' catchtap='preview'></image>
         </view>
 				<view class='tip'>扫码参与抽奖</view>
       </view>
-      <view class='close' bindtap='closeDialog' data-name='showPic'>
-        <image src='../../img/close.png'></image>
-      </view>
-			<view class='save-btn'>
-				<button class='btn' open-type='openSetting' bindopensetting='openSetting' wx:if='{{canIUse && refuseAuth}}'>保存图片</button>
-        <view class='btn' bindtap='makeShareImg' wx:else>保存图片到相册</view>
-			</view>
     </view>
+		<view class='save-btn'>
+			<button class='btn' open-type='openSetting' bindopensetting='openSetting' wx:if='{{canIUse && refuseAuth}}'>保存图片</button>
+			<view class='btn' bindtap='makeShareImg' wx:else>保存图片到相册</view>
+		</view>
   </view>
   <view class='preview' class='preview {{isPreview ? "show" : ""}}'></view>
 
@@ -252,5 +249,8 @@
     </view>
   </view>
 </view>
+<navigator open-type='switchTab' url='/pages/index/index' class='to-index'>
+	<image src='../../img/toIndex.png'></image>
+</navigator>
 <view class='tips' wx:if='{{toast.show}}'>{{toast.title}}</view>
 <canvas canvas-id='cv' class='canvas'></canvas>

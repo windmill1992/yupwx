@@ -1,7 +1,7 @@
 <!--pages/ucenter/ucenter.wxml-->
 <view class='container'>
   <view class='user-info flex fcen' wx:if='{{!isLogin}}'>
-		<view class='avatar'>
+		<view class='avatar fshrink0'>
 			<image src='../../img/defAvatar.png'></image>
 		</view>
 		<view class='info'>
@@ -10,7 +10,7 @@
 		</view>
 	</view>
   <view class='user-info flex fcen' wx:else>
-    <view class='avatar'>
+    <view class='avatar fshrink0'>
       <image src='{{userAvatar}}'></image>
     </view>
 		<view class='info'>

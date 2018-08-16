@@ -73,7 +73,7 @@ Page({
 	},
   onShareAppMessage: function () {
 		return {
-			title: 'Yup新潮，够潮够年轻你就点开看看',
+			title: 'Yup新潮，解锁潮流高级感，点击获取宇宙潮范儿必备指南',
 			path: '/pages/index/index',
 			imageUrl: '../../img/share1.png',
 		}

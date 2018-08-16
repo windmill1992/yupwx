@@ -147,9 +147,10 @@ Page({
 	},
 	getCoupons: function (e) {
 		wx.showLoading({
-			title: '',
+			title: '正在保存图片',
 		})
 		let url = e.currentTarget.dataset.url;
+		this.setData({ imgUrl: url });
 		url = url.replace('http://', '');
 		url = url.replace(url.split('/')[0], app.imgHost2);
 		wx.downloadFile({
@@ -175,10 +176,8 @@ Page({
 								filePath: path,
 								success: () => {
 									wx.hideLoading();
-									wx.showModal({
-										title: '小提示',
-										content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
-										showCancel: false,
+									wx.navigateTo({
+										url: '/pages/saveSuccess/saveSuccess?imgUrl=' + that.data.imgUrl,
 									})
 								},
 								fail: () => {
@@ -201,17 +200,15 @@ Page({
 											success: res2 => {
 												if (res2.authSetting['scope.writePhotosAlbum']) {
 													wx.showLoading({
-														title: '',
+														title: '正在保存图片',
 													})
 													setTimeout(function () {
 														wx.saveImageToPhotosAlbum({
 															filePath: path,
 															success: () => {
 																wx.hideLoading();
-																wx.showModal({
-																	title: '小提示',
-																	content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
-																	showCancel: false,
+																wx.navigateTo({
+																	url: '/pages/saveSuccess/saveSuccess?imgUrl=' + that.data.imgUrl,
 																})
 															},
 															fail: () => {
@@ -235,10 +232,8 @@ Page({
 						filePath: path,
 						success: () => {
 							wx.hideLoading();
-							wx.showModal({
-								title: '小提示',
-								content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
-								showCancel: false,
+							wx.navigateTo({
+								url: '/pages/saveSuccess/saveSuccess?imgUrl=' + that.data.imgUrl,
 							})
 						},
 						fail: () => {
