@@ -38,7 +38,7 @@ Page({
 		} else {
 			if(util.check('validTime')){
 				app.globalData.header.userId = user.userId;
-				this.setData({ userAvatar: user.avatarUrl, nickName: user.nickName + '111111', isLogin: true, userId: user.userId });
+				this.setData({ userAvatar: user.avatarUrl, nickName: user.nickName, isLogin: true, userId: user.userId });
 				this.getRegDays();
 			}else{
 				this.setData({ isLogin: false });
