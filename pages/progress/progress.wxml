@@ -10,7 +10,7 @@
     <view class='prog-list'>
       <navigator url='/pages/applySuccess/applySuccess?id={{item.proId}}' class='item' wx:for='{{trialList}}' wx:key='proId'>
         <view class='times' wx:if='{{item.trialProgressType == 1}}'>
-					<countdown time='{{item.proEndTime}}'>距结束还有：</countdown>
+					<countdown time='{{item.proEndTime}}' my-class=''>距结束还有：</countdown>
 				</view>
 				<view class='times' wx:else>
 					<block wx:if='{{item.trialProgressType == 2}}'>已中奖</block>

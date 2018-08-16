@@ -126,7 +126,11 @@ Page({
 		}
 	},
   onShareAppMessage: function () {
-  
+		return {
+			title: '这里的潮流好物免费送，你不来看看嘛',
+			path: '/pages/discovery/discovery',
+			imageUrl: '../../img/share2.png',
+		}
   },
 	showToast: function (txt) {
 		const that = this;

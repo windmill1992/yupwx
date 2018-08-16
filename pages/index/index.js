@@ -73,9 +73,9 @@ Page({
 	},
   onShareAppMessage: function () {
 		return {
-			title: '',
-			path: '',
-			imageUrl: '',
+			title: 'Yup新潮，够潮够年轻你就点开看看',
+			path: '/pages/index/index',
+			imageUrl: '../../img/share1.png',
 		}
   },
 	onPullDownRefresh: function () {

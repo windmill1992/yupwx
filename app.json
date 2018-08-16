@@ -21,7 +21,8 @@
     "pages/guideDetail/guideDetail",
     "pages/discovery/discovery",
     "pages/index2/index2",
-    "pages/labelList/labelList"
+    "pages/labelList/labelList",
+    "pages/saveSuccess/saveSuccess"
   ],
   "window": {
     "backgroundTextStyle": "dark",

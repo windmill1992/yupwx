@@ -57,6 +57,7 @@ Page({
 		})
 		let index = e.currentTarget.dataset.idx;
 		let code = this.data.list[index].qrCode;
+		this.setData({ imgUrl: code });
 		code = code.replace('http://', '');
 		code = code.replace(code.split('/')[0], app.imgHost2);
 		wx.downloadFile({
@@ -82,10 +83,8 @@ Page({
 								filePath: path,
 								success: () => {
 									wx.hideLoading();
-									wx.showModal({
-										title: '小提示',
-										content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
-										showCancel: false,
+									wx.navigateTo({
+										url: '/pages/saveSuccess/saveSuccess?imgUrl='+ that.data.imgUrl,
 									})
 								},
 								fail: () => {
@@ -115,10 +114,8 @@ Page({
 															filePath: path,
 															success: () => {
 																wx.hideLoading();
-																wx.showModal({
-																	title: '小提示',
-																	content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
-																	showCancel: false,
+																wx.navigateTo({
+																	url: '/pages/saveSuccess/saveSuccess?imgUrl=' + that.data.imgUrl,
 																})
 															},
 															fail: () => {
@@ -142,10 +139,8 @@ Page({
 						filePath: path,
 						success: () => {
 							wx.hideLoading();
-							wx.showModal({
-								title: '小提示',
-								content: '购买二维码已经保存到本地，打开淘宝扫码即可购买',
-								showCancel: false,
+							wx.navigateTo({
+								url: '/pages/saveSuccess/saveSuccess?imgUrl=' + that.data.imgUrl,
 							})
 						},
 						fail: () => {

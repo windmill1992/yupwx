@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 18,
+			"current": 21,
 			"list": [
 				{
 					"id": -1,
@@ -165,6 +165,13 @@
 					"name": "labelList",
 					"pathName": "pages/labelList/labelList",
 					"query": "labelId=1",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "save",
+					"pathName": "pages/saveSuccess/saveSuccess",
+					"query": "imgUrl=http://yup-product-dev.oss-cn-beijing.aliyuncs.com/1534227544902.jpg",
 					"scene": "1011"
 				}
 			]
