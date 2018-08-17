@@ -238,6 +238,7 @@ Page({
 							wx.saveImageToPhotosAlbum({
 								filePath: path,
 								success: () => {
+									that.handel(2);
 									wx.showToast({
 										title: '保存成功~',
 									})
@@ -263,6 +264,7 @@ Page({
 														wx.saveImageToPhotosAlbum({
 															filePath: path,
 															success: () => {
+																that.handel(2);
 																wx.showToast({
 																	title: '保存成功~'
 																})
@@ -283,6 +285,7 @@ Page({
 					wx.saveImageToPhotosAlbum({
 						filePath: path,
 						success: () => {
+							that.handel(2);
 							wx.showToast({
 								title: '保存成功~',
 							})
