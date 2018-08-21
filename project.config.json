@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 21,
+			"current": 14,
 			"list": [
 				{
 					"id": -1,
@@ -120,9 +120,9 @@
 					"scene": "1011"
 				},
 				{
-					"id": -1,
+					"id": 14,
 					"name": "test",
-					"pathName": "pages/test/test",
+					"pathName": "pages/add_address/add_address",
 					"query": "",
 					"scene": "1011"
 				},
