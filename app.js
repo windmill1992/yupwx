@@ -3,9 +3,9 @@ App({
 	onLaunch: function () {
 		//判断运行环境
 		{
-			if (!wx.getStorageSync('prod201')) {
+			if (!wx.getStorageSync('prod008')) {
 				wx.clearStorageSync();
-				wx.setStorageSync('prod201', '1');
+				wx.setStorageSync('prod008', '1');
 			}
 		}
 		// 获取用户信息
@@ -79,6 +79,6 @@ App({
 		},
 		imgHost: 'https://pic.yupfashion.cn',			//小程序码
 		imgHost2: 'https://propic.yupfashion.cn',	//封面图
-		prod: '007',
+		prod: '008',
 	}
 })
